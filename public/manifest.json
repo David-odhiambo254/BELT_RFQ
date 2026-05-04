@@ -1,0 +1,17 @@
+{
+  "name": "JFKL RFQ Platform",
+  "short_name": "JFKL RFQ",
+  "description": "Professional Request for Quote platform for Buyers, Suppliers, and Administrators",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/vite.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    }
+  ]
+}
