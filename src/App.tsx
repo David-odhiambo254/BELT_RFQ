@@ -804,11 +804,12 @@ function RFQPlatform() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-3xl font-black tracking-[-2.5px] text-white">
-              <span>J</span><span className="text-blue-500">F</span><span>K</span><span className="text-blue-500">L</span>
+              {/* <span>J</span><span className="text-blue-500">F</span><span>K</span><span className="text-blue-500">L</span> */}
+              <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-20 h-20" />
             </div>
             <div className="hidden sm:block">
               <div className="font-semibold tracking-tight text-lg">RFQ PLATFORM</div>
-              <div className="text-[10px] text-blue-500 -mt-1">REQUEST FOR QUOTE</div>
+              <div className="text-[10px] text-blue-500 -mt-1">DIGITIZE YOUR OPERATIONS</div>
             </div>
           </div>
 
@@ -909,7 +910,7 @@ function RFQPlatform() {
           {/* Hero Section */}
           <div className="relative h-[94vh] flex items-center justify-center bg-slate-900 overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" />
-            <img src="/images/hero.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
+            <img src="/images/AfricanBoardroom.png" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
             
             <div className="relative z-10 max-w-4xl px-6 text-center">
               <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div>
