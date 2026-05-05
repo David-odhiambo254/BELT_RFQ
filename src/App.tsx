@@ -60,7 +60,7 @@ const JFKLLoader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) =>
   };
   return (
     <div className={`jfkl-loader ${sizes[size]}`}>
-      {['J', 'F', 'K', 'L'].map((letter, index) => (
+      {['b', 'e', 'l', 't'].map((letter, index) => (
         <motion.span 
           key={index} 
           className="jfkl-letter font-black tracking-tighter text-blue-600"
@@ -287,7 +287,7 @@ function RFQPlatform() {
     setSignUpForm({ name: '', email: '', password: '', role: 'buyer' });
     
     setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
-    showToast(`Welcome to JFKL RFQ, ${newUser.name}!`, 'success');
+    showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');
   };
 
   const handleSignIn = (e: React.FormEvent) => {
@@ -1342,7 +1342,7 @@ function RFQPlatform() {
       )}
 
       {/* FOOTER */}
-      <footer className="border-t border-slate-800 py-9 text-sm text-center text-slate-500">© 2025 JFKL RFQ Platform. All Rights Reserved. Built for seamless procurement.</footer>
+      <footer className="border-t border-slate-800 py-9 text-sm text-center text-slate-500">© 2026 <strong>belt</strong> RFQ Platform. All Rights Reserved. Built for seamless procurement.</footer>
 
       {/* SIGN UP MODAL */}
       <Modal isOpen={showSignUp} onClose={() => setShowSignUp(false)} title="Create Your Account" size="md">
@@ -1368,7 +1368,7 @@ function RFQPlatform() {
       </Modal>
 
       {/* SIGN IN MODAL */}
-      <Modal isOpen={showSignIn} onClose={() => setShowSignIn(false)} title="Sign In to JFKL RFQ" size="md">
+      <Modal isOpen={showSignIn} onClose={() => setShowSignIn(false)} title="Sign In to belt RFQ" size="md">
         <form onSubmit={handleSignIn} className="space-y-5 pt-1">
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Email Address</label>
