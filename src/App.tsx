@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import { 
   Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle, 
-  XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit 
+  XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit, 
+  View
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
@@ -13,6 +14,8 @@ interface User {
   id: string;
   name: string;
   email: string;
+  phone: string;
+  password: string;
   role: Role;
   profileImage?: string; // optional base64 avatar
 }
@@ -36,6 +39,7 @@ interface Quotation {
   rfqId: string;
   supplierId: string;
   supplierName: string;
+  supplierPhone: string;
   price: number;
   deliveryTime: string;
   notes: string;
@@ -156,7 +160,7 @@ function RFQPlatform() {
   
   // Form States
   const [signInForm, setSignInForm] = useState({ email: '', password: '' });
-  const [signUpForm, setSignUpForm] = useState({ name: '', email: '', password: '', role: 'buyer' as Role });
+  const [signUpForm, setSignUpForm] = useState({ name: '', email: '', phone: '', password: '', role: 'buyer' as Role });
   const [postRFQForm, setPostRFQForm] = useState({ title: '', description: '', category: 'Electronics', deadline: '', budget: '', image: '' as string | null });
   const [submitQuoteForm, setSubmitQuoteForm] = useState({ price: '', deliveryTime: '', notes: '', image: '' as string | null });
   const [profileForm, setProfileForm] = useState({ name: '', email: '', profileImage: '' as string | null });
@@ -188,10 +192,11 @@ function RFQPlatform() {
     if (savedUsers) setUsers(JSON.parse(savedUsers));
     if (savedUser) setCurrentUser(JSON.parse(savedUser));
 
-    // Seed initial demo data if empty
+    // Seed initial demo data if empty disable when APIs are ready
     if (!savedRfqs || JSON.parse(savedRfqs).length === 0) {
-      seedDemoData();
+      seedDemoData();      
     }
+    // getAndUpdateData(); // Fetch real data from APIs enable when APIs are ready
   }, []);
 
   // Save to localStorage
@@ -220,13 +225,29 @@ function RFQPlatform() {
     }
   }, [currentUser]);
 
-  // Seed Demo Data
+  // Getting & Refreshing actual Data from APIs enable when APIs are ready
+  // const getAndUpdateData = async () => {
+  //   try {
+  //     const rfqsResponse = await fetch('https://jsonplaceholder.typicode.com/posts'); // api/rfqs
+  //     const quotationsResponse = await fetch('https://jsonplaceholder.typicode.com/posts'); // api/quotations
+  //     // const usersResponse = await fetch('https://example.com/api/users');
+  //     setRfqs((await rfqsResponse.json()));
+  //     console.log('RFQs:', rfqs); // to test if we got the rfqs right
+  //     setQuotations((await quotationsResponse.json()));
+  //     console.log('Quotations:', quotations); // to test if we got the quotations right
+  //     // setUsers((await usersResponse.json()));
+  //   } catch (error) {
+  //     console.error('Error fetching data:', error);
+  //   } 
+  // };
+
+  // Seed Demo Data. Disable when APIs are ready
   const seedDemoData = () => {
     const demoUsers: User[] = [
-      { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com', role: 'buyer', profileImage: undefined },
-      { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', role: 'supplier', profileImage: undefined },
-      { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', role: 'supplier', profileImage: undefined },
-      { id: 'u4', name: 'David Kim', email: 'david@admin.com', role: 'admin', profileImage: undefined },
+      { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com' , phone: '123456789' , password: 'password', role: 'buyer', profileImage: undefined },
+      { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', phone: '987654321', password: 'password', role: 'supplier', profileImage: undefined },
+      { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', phone: '555555555', password: 'password', role: 'supplier', profileImage: undefined },
+      { id: 'u4', name: 'David Kim', email: 'david@admin.com', phone: '111111111', password: 'password', role: 'admin', profileImage: undefined },
     ];
     setUsers(demoUsers);
 
@@ -247,9 +268,9 @@ function RFQPlatform() {
     setRfqs(demoRFQs);
 
     const demoQuotes: Quotation[] = [
-      { id: 'q1', rfqId: 'r1', supplierId: 'u2', supplierName: 'Marcus Rivera', price: 231000, deliveryTime: '10 weeks', notes: 'Full 3-year warranty included. Installation and staff training provided at no additional cost.', status: 'pending', submittedAt: '2025-01-19' },
-      { id: 'q2', rfqId: 'r1', supplierId: 'u3', supplierName: 'Elena Rodriguez', price: 219800, deliveryTime: '8 weeks', notes: 'Premium European brand. Includes 24/7 remote monitoring and free spare parts kit.', status: 'pending', submittedAt: '2025-01-20' },
-      { id: 'q3', rfqId: 'r2', supplierId: 'u2', supplierName: 'Marcus Rivera', price: 78500, deliveryTime: '6 weeks', notes: 'Comprehensive migration plan with zero downtime guarantee. All staff training included.', status: 'pending', submittedAt: '2025-01-21' },
+      { id: 'q1', rfqId: 'r1', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 231000, deliveryTime: '10 weeks', notes: 'Full 3-year warranty included. Installation and staff training provided at no additional cost.', status: 'pending', submittedAt: '2025-01-19' },
+      { id: 'q2', rfqId: 'r1', supplierId: 'u3', supplierName: 'Elena Rodriguez', supplierPhone: '555555555', price: 219800, deliveryTime: '8 weeks', notes: 'Premium European brand. Includes 24/7 remote monitoring and free spare parts kit.', status: 'pending', submittedAt: '2025-01-20' },
+      { id: 'q3', rfqId: 'r2', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 78500, deliveryTime: '6 weeks', notes: 'Comprehensive migration plan with zero downtime guarantee. All staff training included.', status: 'pending', submittedAt: '2025-01-21' },
     ];
     setQuotations(demoQuotes);
   };
@@ -266,9 +287,9 @@ function RFQPlatform() {
   };
 
   // Authentication
-  const handleSignUp = (e: React.FormEvent) => {
+  const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!signUpForm.name || !signUpForm.email) {
+    if (!signUpForm.name || !signUpForm.email || !signUpForm.phone) {
       showToast('Please fill all required fields', 'error');
       return;
     }
@@ -277,23 +298,65 @@ function RFQPlatform() {
       id: 'u' + Date.now(),
       name: signUpForm.name,
       email: signUpForm.email,
+      phone: signUpForm.phone,
+      password: signUpForm.password,
       role: signUpForm.role,
       profileImage: undefined
     };
     
+    // Posting to API enable when API is ready
+    // const responce = await fetch('https://jsonplaceholder.typicode.com/users', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(newUser)
+    // });
+    // if (responce.status === 201 || responce.status === 200) {
+    //   setCurrentUser(newUser);
+    //   setShowSignUp(false);
+    //   setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
+      
+    //   setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
+    //   showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');  
+    // } else {
+    //   showToast('Something went wrong', 'error');
+    // }
+    
+    // Local signUp without API. Dissable when API is ready
     setUsers(prev => [...prev, newUser]);
     setCurrentUser(newUser);
     setShowSignUp(false);
-    setSignUpForm({ name: '', email: '', password: '', role: 'buyer' });
+    setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
     
     setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
     showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');
   };
 
-  const handleSignIn = (e: React.FormEvent) => {
+  const handleSignIn = async(e: React.FormEvent) => {
     e.preventDefault();
-    const foundUser = users.find(u => u.email.toLowerCase() === signInForm.email.toLowerCase());
     
+    // Fetching from API enable when API is ready
+    // const responce = await fetch('https://jsonplaceholder.typicode.com/users', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify(signInForm)
+    // });
+    // const foundUser = await responce.json(); // await responce.data
+    // if (responce.status === 201 || responce.status === 200) {
+    //   setCurrentUser(foundUser);
+    //   setShowSignIn(false);
+    //   setSignInForm({ email: '', password: '' });
+    //   setCurrentPage(foundUser.role === 'buyer' ? 'buyer' : foundUser.role === 'supplier' ? 'supplier' : 'admin');
+    //   showToast(`Welcome back, ${foundUser.name}!`, 'success');
+    // } else {
+    //   showToast('Invalid email or password', 'error');
+    // }
+
+    // Local signIn without API. Dissable when API is ready
+    const foundUser = users.find(u => u.email.toLowerCase() === signInForm.email.toLowerCase());
     if (foundUser) {
       setCurrentUser(foundUser);
       setShowSignIn(false);
@@ -302,11 +365,12 @@ function RFQPlatform() {
       showToast(`Welcome back, ${foundUser.name}!`, 'success');
     } else {
       // Demo fallback: allow any email as demo buyer
-      const demoUser: User = { id: 'demo', name: 'Demo User', email: signInForm.email, role: 'buyer' };
+      const demoUser: User = { id: 'demo', name: 'Demo User', email: signInForm.email, phone: '0712345678', password: signInForm.password, role: 'buyer' };
       setCurrentUser(demoUser);
       setShowSignIn(false);
       setCurrentPage('buyer');
-      showToast('Signed in as Demo Buyer', 'success');
+      showToast('Invalid email or password', 'error');
+      setSignInForm({ email: '', password: '' });
     }
   };
 
@@ -319,7 +383,7 @@ function RFQPlatform() {
 
   const quickLogin = (role: Role) => {
     const demoUser = users.find(u => u.role === role) || 
-      { id: 'quick', name: role === 'buyer' ? 'Quick Buyer' : role === 'supplier' ? 'Quick Supplier' : 'Quick Admin', email: `${role}@jkl.com`, role };
+      { id: 'quick', name: role === 'buyer' ? 'Quick Buyer' : role === 'supplier' ? 'Quick Supplier' : 'Quick Admin', email: `${role}@belt.com`, phone: '0712345678', password: 'password', role };
     setCurrentUser(demoUser);
     setCurrentPage(role === 'buyer' ? 'buyer' : role === 'supplier' ? 'supplier' : 'admin');
     showToast(`Logged in as ${demoUser.name}`, 'success');
@@ -449,9 +513,22 @@ function RFQPlatform() {
 
     setIsLoading(true);
     
-    setTimeout(() => {
+    setTimeout(async () => {
       if (editingRFQId) {
-        // Update existing RFQ
+        // Updating to API enable when API is ready
+        // const responce = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingRFQId}`, {
+        //   method: 'PUT',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(postRFQForm)
+        // });
+        // if (responce.status === 200 || responce.status === 201) {
+        //   getAndUpdateData(); // Refresh data from API after update
+        //   showToast('RFQ updated successfully!', 'success');
+        // }
+
+        // Update existing RFQ in local rfqs. Disable when API is ready
         setRfqs(prev => prev.map(rfq => 
           rfq.id === editingRFQId 
             ? { 
@@ -481,6 +558,20 @@ function RFQPlatform() {
           createdAt: new Date().toISOString().split('T')[0],
           image: postRFQForm.image || undefined
         };
+
+        // Posting to API enable when API is ready
+        // const responce = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(newRFQ)
+        // });
+        // if (responce.status === 201 || responce.status === 200) {
+        //   getAndUpdateData(); // Refresh data from API after creation
+        //   showToast('RFQ posted successfully!', 'success');
+        // }
+        
         setRfqs(prev => [newRFQ, ...prev]);
         showToast('RFQ posted successfully!', 'success');
       }
@@ -500,9 +591,22 @@ function RFQPlatform() {
 
     setIsLoading(true);
 
-    setTimeout(() => {
+    setTimeout(async () => {
       if (editingQuotationId) {
-        // Update existing quotation
+        // Updating to API enable when API is ready
+        // const responce = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingQuotationId}`, {
+        //   method: 'PUT',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(submitQuoteForm)
+        // });
+        // if (responce.status === 200 || responce.status === 201) {
+        //   getAndUpdateData(); // Refresh data from API after update
+        //   showToast('Quotation updated successfully!', 'success');
+        // }
+
+        // Update existing quotation locally. Disable when API is ready
         setQuotations(prev => prev.map(quote => 
           quote.id === editingQuotationId 
             ? { 
@@ -522,6 +626,7 @@ function RFQPlatform() {
           rfqId: rfqForQuote.id,
           supplierId: currentUser.id,
           supplierName: currentUser.name,
+          supplierPhone: currentUser.phone,
           price: parseInt(submitQuoteForm.price),
           deliveryTime: submitQuoteForm.deliveryTime,
           notes: submitQuoteForm.notes,
@@ -529,8 +634,23 @@ function RFQPlatform() {
           submittedAt: new Date().toISOString().split('T')[0],
           image: submitQuoteForm.image || undefined
         };
-        setQuotations(prev => [...prev, newQuote]);
+
+        // Posting to API enable when API is ready
+        // const responce = await fetch('https://jsonplaceholder.typicode.com/posts', {
+        //   method: 'POST',
+        //   headers: {
+        //     'Content-Type': 'application/json',
+        //   },
+        //   body: JSON.stringify(newQuote)
+        // });
+        // if (responce.status === 201 || responce.status === 200) {
+        //   getAndUpdateData(); // Refresh data from API after submission
+        //   showToast('Quotation submitted successfully!', 'success');
+        // }
+        
+        setQuotations(prev => [...prev, newQuote]); // Posting new quotation locally. Disable when API is ready
         showToast('Quotation submitted successfully!', 'success');
+        
       }
       
       setShowSubmitQuote(false);
@@ -551,13 +671,41 @@ function RFQPlatform() {
         ? { ...q, status: q.id === quote.id ? 'accepted' as const : 'rejected' as const }
         : q
     );
+
+    // Send update to API enable when API is ready
+
+    // updatedQuotations.forEach(async q => {
+    //   await fetch(`https://jsonplaceholder.typicode.com/posts/${q.id}`, {
+    //     method: 'PUT',
+    //     headers: {
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(q)
+    //   });
+    // });
+
+    // Alrenatively, send only the accepted quotation and handle the rest of the labling('pending'->'rejected') on server side. Saves on API calls and is more efficient :) 
+
+    // updatedQuotations.forEach(async (q) => {
+    //   if (q.rfqId === quote.rfqId && q.id === quote.id) {
+    //     await fetch(`https://jsonplaceholder.typicode.com/posts/${q.id}`, {
+    //       method: 'PUT',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //       body: JSON.stringify(q)
+    //     });
+    //   }
+    // });
+
     setQuotations(updatedQuotations);
 
-    // Close the RFQ
+    // Close the RFQ. Disable when API is ready and handle it on server side
     const updatedRfqs = rfqs.map(r => 
       r.id === selectedRFQ.id ? { ...r, status: 'closed' as const } : r
     );
     setRfqs(updatedRfqs);
+    // getAndUpdateData(); // Refresh data from API after update. Enable when API is ready.
 
     setShowComparison(false);
     setShowRFQDetails(false);
@@ -727,12 +875,14 @@ function RFQPlatform() {
                   <td><div className="font-medium text-slate-700">{quote.deliveryTime}</div></td>
                   <td><div className="text-sm text-slate-600 pr-4 line-clamp-3">{quote.notes}</div></td>
                   <td className="text-center">
-                    <button 
-                      onClick={() => acceptQuotation(quote)}
-                      className="inline-flex items-center gap-2 px-7 py-2.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl transition-all"
-                    >
-                      <CheckCircle size={16} /> ACCEPT
-                    </button>
+                    {/* <a href={`https://wa.me/${quote.supplierPhone}`}> */}
+                      <button 
+                        onClick={() => acceptQuotation(quote)} 
+                        className="inline-flex items-center gap-2 px-7 py-2.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl transition-all"
+                      >
+                        <CheckCircle size={16} /> ACCEPT
+                      </button>
+                    {/* </a> */}
                   </td>
                 </tr>
               )) : (
@@ -1105,8 +1255,10 @@ function RFQPlatform() {
                         <div className="text-xs uppercase tracking-widest text-slate-400">{quote.deliveryTime}</div>
                       </div>
                       <div><span className={`status-badge ${quote.status === 'accepted' ? 'bg-emerald-500 text-white' : quote.status === 'rejected' ? 'bg-red-500 text-white' : 'bg-amber-500 text-black'}`}>{quote.status}</span></div>
-                      {quote.status === 'pending' && (
+                      {quote.status === 'pending' ? (
                         <button onClick={(e) => { e.stopPropagation(); openEditQuotation(quote); }} className="px-4 py-1.5 text-xs bg-amber-600 hover:bg-amber-500 rounded-xl flex items-center gap-1 transition ml-3"><Edit size={13} /> Edit</button>
+                      ) : (
+                        <button onClick={(e) => { e.stopPropagation(); openQuoteDetails(quote); }} className="px-4 py-1.5 text-xs bg-emerald-600 hover:bg-emerald-500 rounded-xl flex items-center gap-1 transition ml-3"><View size={13} /> View </button>
                       )}
                     </div>
                   );
@@ -1348,12 +1500,20 @@ function RFQPlatform() {
       <Modal isOpen={showSignUp} onClose={() => setShowSignUp(false)} title="Create Your Account" size="md">
         <form onSubmit={handleSignUp} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Full Name</label>
+            <label className="block text-sm font-medium mb-1.5 text-slate-300">User Name</label>
             <input type="text" value={signUpForm.name} onChange={e => setSignUpForm({...signUpForm, name: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Email Address</label>
             <input type="email" value={signUpForm.email} onChange={e => setSignUpForm({...signUpForm, email: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1.5 text-slate-300">Phone Number</label>
+            <input type="tel" value={signUpForm.phone} onChange={e => setSignUpForm({...signUpForm, phone: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+          </div>
+          <div>
+            <label className="block text-sm font-medium mb-1.5 text-slate-300">Password</label>
+            <input type="password" value={signUpForm.password} onChange={e => setSignUpForm({...signUpForm, password: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Select Your Role</label>

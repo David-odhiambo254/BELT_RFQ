@@ -1,6 +1,6 @@
 {
-  "name": "JFKL RFQ Platform",
-  "short_name": "JFKL RFQ",
+  "name": "belt RFQ Platform",
+  "short_name": "belt RFQ",
   "description": "Professional Request for Quote platform for Buyers, Suppliers, and Administrators",
   "start_url": "/",
   "display": "standalone",
