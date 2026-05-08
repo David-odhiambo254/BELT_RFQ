@@ -304,7 +304,7 @@ function RFQPlatform() {
       profileImage: undefined
     };
     
-    // Posting to API enable when API is ready
+    // Posting to API enable when APIs are ready
     // const responce = await fetch('https://jsonplaceholder.typicode.com/users', {
     //   method: 'POST',
     //   headers: {
@@ -323,7 +323,7 @@ function RFQPlatform() {
     //   showToast('Something went wrong', 'error');
     // }
     
-    // Local signUp without API. Dissable when API is ready
+    // Local signUp without API. Dissable when APIs are ready
     setUsers(prev => [...prev, newUser]);
     setCurrentUser(newUser);
     setShowSignUp(false);
@@ -336,7 +336,7 @@ function RFQPlatform() {
   const handleSignIn = async(e: React.FormEvent) => {
     e.preventDefault();
     
-    // Fetching from API enable when API is ready
+    // Fetching from API enable when APIs are ready
     // const responce = await fetch('https://jsonplaceholder.typicode.com/users', {
     //   method: 'POST',
     //   headers: {
@@ -355,7 +355,7 @@ function RFQPlatform() {
     //   showToast('Invalid email or password', 'error');
     // }
 
-    // Local signIn without API. Dissable when API is ready
+    // Local signIn without API. Dissable when APIs are ready
     const foundUser = users.find(u => u.email.toLowerCase() === signInForm.email.toLowerCase());
     if (foundUser) {
       setCurrentUser(foundUser);
@@ -515,7 +515,7 @@ function RFQPlatform() {
     
     setTimeout(async () => {
       if (editingRFQId) {
-        // Updating to API enable when API is ready
+        // Updating to API enable when APIs are ready
         // const responce = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingRFQId}`, {
         //   method: 'PUT',
         //   headers: {
@@ -528,7 +528,7 @@ function RFQPlatform() {
         //   showToast('RFQ updated successfully!', 'success');
         // }
 
-        // Update existing RFQ in local rfqs. Disable when API is ready
+        // Update existing RFQ in local rfqs. Disable when APIs are ready
         setRfqs(prev => prev.map(rfq => 
           rfq.id === editingRFQId 
             ? { 
@@ -559,7 +559,7 @@ function RFQPlatform() {
           image: postRFQForm.image || undefined
         };
 
-        // Posting to API enable when API is ready
+        // Posting to API enable when APIs are ready
         // const responce = await fetch('https://jsonplaceholder.typicode.com/posts', {
         //   method: 'POST',
         //   headers: {
@@ -593,7 +593,7 @@ function RFQPlatform() {
 
     setTimeout(async () => {
       if (editingQuotationId) {
-        // Updating to API enable when API is ready
+        // Updating to API enable when APIs are ready
         // const responce = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingQuotationId}`, {
         //   method: 'PUT',
         //   headers: {
@@ -606,7 +606,7 @@ function RFQPlatform() {
         //   showToast('Quotation updated successfully!', 'success');
         // }
 
-        // Update existing quotation locally. Disable when API is ready
+        // Update existing quotation locally. Disable when APIs are ready
         setQuotations(prev => prev.map(quote => 
           quote.id === editingQuotationId 
             ? { 
@@ -635,7 +635,7 @@ function RFQPlatform() {
           image: submitQuoteForm.image || undefined
         };
 
-        // Posting to API enable when API is ready
+        // Posting to API enable when APIs are ready
         // const responce = await fetch('https://jsonplaceholder.typicode.com/posts', {
         //   method: 'POST',
         //   headers: {
@@ -648,7 +648,7 @@ function RFQPlatform() {
         //   showToast('Quotation submitted successfully!', 'success');
         // }
         
-        setQuotations(prev => [...prev, newQuote]); // Posting new quotation locally. Disable when API is ready
+        setQuotations(prev => [...prev, newQuote]); // Posting new quotation locally. Disable when APIs are ready
         showToast('Quotation submitted successfully!', 'success');
         
       }
@@ -672,7 +672,7 @@ function RFQPlatform() {
         : q
     );
 
-    // Send update to API enable when API is ready
+    // Send update to API enable when APIs are ready
 
     // updatedQuotations.forEach(async q => {
     //   await fetch(`https://jsonplaceholder.typicode.com/posts/${q.id}`, {
@@ -700,12 +700,12 @@ function RFQPlatform() {
 
     setQuotations(updatedQuotations);
 
-    // Close the RFQ. Disable when API is ready and handle it on server side
+    // Close the RFQ. Disable when APIs are ready and handle it on server side
     const updatedRfqs = rfqs.map(r => 
       r.id === selectedRFQ.id ? { ...r, status: 'closed' as const } : r
     );
     setRfqs(updatedRfqs);
-    // getAndUpdateData(); // Refresh data from API after update. Enable when API is ready.
+    // getAndUpdateData(); // Refresh data from API after update. Enable when APIs are ready.
 
     setShowComparison(false);
     setShowRFQDetails(false);
