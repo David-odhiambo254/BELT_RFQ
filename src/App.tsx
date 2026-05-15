@@ -6,6 +6,7 @@ import {
   View
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { i } from 'framer-motion/client';
 
 // Types
 type Role = 'buyer' | 'supplier' | 'admin';
@@ -42,7 +43,7 @@ interface Quotation {
   supplierPhone: string;
   price: number;
   deliveryTime: string;
-  notes: string;
+  note: string;
   status: 'pending' | 'accepted' | 'rejected';
   submittedAt: string;
   image?: string; // optional base64 data URL
@@ -162,7 +163,7 @@ function RFQPlatform() {
   const [signInForm, setSignInForm] = useState({ email: '', password: '' });
   const [signUpForm, setSignUpForm] = useState({ name: '', email: '', phone: '', password: '', role: 'buyer' as Role });
   const [postRFQForm, setPostRFQForm] = useState({ title: '', description: '', category: 'Electronics', deadline: '', budget: '', image: '' as string | null });
-  const [submitQuoteForm, setSubmitQuoteForm] = useState({ price: '', deliveryTime: '', notes: '', image: '' as string | null });
+  const [submitQuoteForm, setSubmitQuoteForm] = useState({ price: '', deliveryTime: '', note: '', image: '' as string | null });
   const [profileForm, setProfileForm] = useState({ name: '', email: '', profileImage: '' as string | null });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [editingRFQId, setEditingRFQId] = useState<string | null>(null);
@@ -193,10 +194,10 @@ function RFQPlatform() {
     if (savedUser) setCurrentUser(JSON.parse(savedUser));
 
     // Seed initial demo data if empty disable when APIs are ready
-    if (!savedRfqs || JSON.parse(savedRfqs).length === 0) {
-      seedDemoData();      
-    }
-    // getAndUpdateData(); // Fetch real data from APIs enable when APIs are ready
+    // if (!savedRfqs || JSON.parse(savedRfqs).length === 0) {
+    //   seedDemoData();      
+    // }
+    getAndUpdateData(); // Fetch real data from APIs enable when APIs are ready
   }, []);
 
   // Save to localStorage
@@ -226,54 +227,56 @@ function RFQPlatform() {
   }, [currentUser]);
 
   // Getting & Refreshing actual Data from APIs enable when APIs are ready
-  // const getAndUpdateData = async () => {
-  //   try {
-  //     const rfqsResponse = await fetch('https://jsonplaceholder.typicode.com/posts'); // api/rfqs
-  //     const quotationsResponse = await fetch('https://jsonplaceholder.typicode.com/posts'); // api/quotations
-  //     // const usersResponse = await fetch('https://example.com/api/users');
-  //     setRfqs((await rfqsResponse.json()));
-  //     console.log('RFQs:', rfqs); // to test if we got the rfqs right
-  //     setQuotations((await quotationsResponse.json()));
-  //     console.log('Quotations:', quotations); // to test if we got the quotations right
-  //     // setUsers((await usersResponse.json()));
-  //   } catch (error) {
-  //     console.error('Error fetching data:', error);
-  //   } 
-  // };
+  const getAndUpdateData = async () => {
+    try {
+      const rfqsResponse = await fetch('http://188.245.80.22:8000/api/v1/rfqs'); // api/rfqs
+      const rfqsFound = await rfqsResponse.json();
+      const quotationsResponse = await fetch('http://188.245.80.22:8000/api/v1/quotations'); // api/quotations
+      const quotationsFound = await quotationsResponse.json();
+      // const usersResponse = await fetch('https://example.com/api/users');
+      setRfqs(rfqsFound.data);
+      console.log('RFQs:', rfqs); // to test if we got the rfqs right
+      setQuotations(quotationsFound.data);
+      console.log('Quotations:', quotations); // to test if we got the quotations right
+      // setUsers((await usersResponse.json()));
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    } 
+  };
 
   // Seed Demo Data. Disable when APIs are ready
-  const seedDemoData = () => {
-    const demoUsers: User[] = [
-      { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com' , phone: '123456789' , password: 'password', role: 'buyer', profileImage: undefined },
-      { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', phone: '987654321', password: 'password', role: 'supplier', profileImage: undefined },
-      { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', phone: '555555555', password: 'password', role: 'supplier', profileImage: undefined },
-      { id: 'u4', name: 'David Kim', email: 'david@admin.com', phone: '111111111', password: 'password', role: 'admin', profileImage: undefined },
-    ];
-    setUsers(demoUsers);
+  // const seedDemoData = () => {
+  //   const demoUsers: User[] = [
+  //     { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com' , phone: '123456789' , password: 'password', role: 'buyer', profileImage: undefined },
+  //     { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', phone: '987654321', password: 'password', role: 'supplier', profileImage: undefined },
+  //     { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', phone: '555555555', password: 'password', role: 'supplier', profileImage: undefined },
+  //     { id: 'u4', name: 'David Kim', email: 'david@admin.com', phone: '111111111', password: 'password', role: 'admin', profileImage: undefined },
+  //   ];
+  //   setUsers(demoUsers);
 
-    const demoRFQs: RFQ[] = [
-      {
-        id: 'r1', title: 'Industrial CNC Machine Procurement', description: 'We need 4 high-precision CNC milling machines for our new production line. Must support 5-axis machining and have a minimum spindle speed of 12,000 RPM.',
-        category: 'Manufacturing', deadline: '2025-02-28', budget: 245000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-15'
-      },
-      {
-        id: 'r2', title: 'Enterprise Cloud Migration Services', description: 'Complete migration of 120 servers and 40TB of data to AWS. Includes security audits, training for 18 staff members and 12-month support contract.',
-        category: 'IT Services', deadline: '2025-03-10', budget: 89000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-18'
-      },
-      {
-        id: 'r3', title: 'High-Grade Titanium Alloy Supply', description: 'Monthly supply of Grade 5 Titanium alloy bars (Ti-6Al-4V) - 2.8 tons per month for 18 months. Strict quality certifications required.',
-        category: 'Raw Materials', deadline: '2025-02-20', budget: 156000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-20'
-      },
-    ];
-    setRfqs(demoRFQs);
+  //   const demoRFQs: RFQ[] = [
+  //     {
+  //       id: 'r1', title: 'Industrial CNC Machine Procurement', description: 'We need 4 high-precision CNC milling machines for our new production line. Must support 5-axis machining and have a minimum spindle speed of 12,000 RPM.',
+  //       category: 'Manufacturing', deadline: '2025-02-28', budget: 245000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-15'
+  //     },
+  //     {
+  //       id: 'r2', title: 'Enterprise Cloud Migration Services', description: 'Complete migration of 120 servers and 40TB of data to AWS. Includes security audits, training for 18 staff members and 12-month support contract.',
+  //       category: 'IT Services', deadline: '2025-03-10', budget: 89000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-18'
+  //     },
+  //     {
+  //       id: 'r3', title: 'High-Grade Titanium Alloy Supply', description: 'Monthly supply of Grade 5 Titanium alloy bars (Ti-6Al-4V) - 2.8 tons per month for 18 months. Strict quality certifications required.',
+  //       category: 'Raw Materials', deadline: '2025-02-20', budget: 156000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-20'
+  //     },
+  //   ];
+  //   setRfqs(demoRFQs);
 
-    const demoQuotes: Quotation[] = [
-      { id: 'q1', rfqId: 'r1', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 231000, deliveryTime: '10 weeks', notes: 'Full 3-year warranty included. Installation and staff training provided at no additional cost.', status: 'pending', submittedAt: '2025-01-19' },
-      { id: 'q2', rfqId: 'r1', supplierId: 'u3', supplierName: 'Elena Rodriguez', supplierPhone: '555555555', price: 219800, deliveryTime: '8 weeks', notes: 'Premium European brand. Includes 24/7 remote monitoring and free spare parts kit.', status: 'pending', submittedAt: '2025-01-20' },
-      { id: 'q3', rfqId: 'r2', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 78500, deliveryTime: '6 weeks', notes: 'Comprehensive migration plan with zero downtime guarantee. All staff training included.', status: 'pending', submittedAt: '2025-01-21' },
-    ];
-    setQuotations(demoQuotes);
-  };
+  //   const demoQuotes: Quotation[] = [
+  //     { id: 'q1', rfqId: 'r1', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 231000, deliveryTime: '10 weeks', note: 'Full 3-year warranty included. Installation and staff training provided at no additional cost.', status: 'pending', submittedAt: '2025-01-19' },
+  //     { id: 'q2', rfqId: 'r1', supplierId: 'u3', supplierName: 'Elena Rodriguez', supplierPhone: '555555555', price: 219800, deliveryTime: '8 weeks', note: 'Premium European brand. Includes 24/7 remote monitoring and free spare parts kit.', status: 'pending', submittedAt: '2025-01-20' },
+  //     { id: 'q3', rfqId: 'r2', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 78500, deliveryTime: '6 weeks', note: 'Comprehensive migration plan with zero downtime guarantee. All staff training included.', status: 'pending', submittedAt: '2025-01-21' },
+  //   ];
+  //   setQuotations(demoQuotes);
+  // };
 
   // Toast Handler
   const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
@@ -295,7 +298,7 @@ function RFQPlatform() {
     }
     
     const newUser: User = {
-      id: 'u' + Date.now(),
+      // id: 'u' + Date.now(),  // ID will be generated by backend when posted to API dissable when APIs are ready
       name: signUpForm.name,
       email: signUpForm.email,
       phone: signUpForm.phone,
@@ -305,80 +308,97 @@ function RFQPlatform() {
     };
     
     // Posting to API enable when APIs are ready
-    // const responce = await fetch('https://jsonplaceholder.typicode.com/users', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(newUser)
-    // });
-    // if (responce.status === 201 || responce.status === 200) {
-    //   setCurrentUser(newUser);
-    //   setShowSignUp(false);
-    //   setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
+    const responce = await fetch('http://188.245.80.22:8000/api/v1/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(newUser)
+    });
+    if (responce.status === 201 || responce.status === 200) {
+      // setCurrentUser(newUser);  // We'll do direct login later
+      setShowSignUp(false);
+      setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
       
-    //   setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
-    //   showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');  
-    // } else {
-    //   showToast('Something went wrong', 'error');
-    // }
+      // setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
+      // showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');  
+      showToast(`Registration successful! Please sign in`, 'success');  
+    } else {
+      showToast('Something went wrong', 'error');
+    }
     
     // Local signUp without API. Dissable when APIs are ready
-    setUsers(prev => [...prev, newUser]);
-    setCurrentUser(newUser);
-    setShowSignUp(false);
-    setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
+    // setUsers(prev => [...prev, newUser]);
+    // setCurrentUser(newUser);
+    // setShowSignUp(false);
+    // setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
     
-    setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
-    showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');
+    // setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
+    // showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');
   };
 
   const handleSignIn = async(e: React.FormEvent) => {
     e.preventDefault();
     
     // Fetching from API enable when APIs are ready
-    // const responce = await fetch('https://jsonplaceholder.typicode.com/users', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify(signInForm)
-    // });
-    // const foundUser = await responce.json(); // await responce.data
-    // if (responce.status === 201 || responce.status === 200) {
-    //   setCurrentUser(foundUser);
-    //   setShowSignIn(false);
-    //   setSignInForm({ email: '', password: '' });
-    //   setCurrentPage(foundUser.role === 'buyer' ? 'buyer' : foundUser.role === 'supplier' ? 'supplier' : 'admin');
-    //   showToast(`Welcome back, ${foundUser.name}!`, 'success');
-    // } else {
-    //   showToast('Invalid email or password', 'error');
-    // }
-
-    // Local signIn without API. Dissable when APIs are ready
-    const foundUser = users.find(u => u.email.toLowerCase() === signInForm.email.toLowerCase());
-    if (foundUser) {
+    const responce = await fetch('http://188.245.80.22:8000/api/v1/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(signInForm)
+    });
+    const result = await responce.json(); // await responce.data
+    const foundUser = result.user;
+    if (responce.status === 201 || responce.status === 200) {
+      localStorage.setItem('token', result.token); // Save token for authenticated requests  2|BjvhN9XuTjtqPlr5wu7uMnHx7s9MGPB1fD7UtF363d68820c
+      console.log('Logged in user:', foundUser); // to test if we got the user data right
+      console.log('Token:', result.token);
       setCurrentUser(foundUser);
       setShowSignIn(false);
       setSignInForm({ email: '', password: '' });
       setCurrentPage(foundUser.role === 'buyer' ? 'buyer' : foundUser.role === 'supplier' ? 'supplier' : 'admin');
       showToast(`Welcome back, ${foundUser.name}!`, 'success');
     } else {
-      // Demo fallback: allow any email as demo buyer
-      const demoUser: User = { id: 'demo', name: 'Demo User', email: signInForm.email, phone: '0712345678', password: signInForm.password, role: 'buyer' };
-      setCurrentUser(demoUser);
-      setShowSignIn(false);
-      setCurrentPage('buyer');
       showToast('Invalid email or password', 'error');
-      setSignInForm({ email: '', password: '' });
     }
+
+    // Local signIn without API. Dissable when APIs are ready
+    // const foundUser = users.find(u => u.email.toLowerCase() === signInForm.email.toLowerCase());
+    // if (foundUser) {
+    //   setCurrentUser(foundUser);
+    //   setShowSignIn(false);
+    //   setSignInForm({ email: '', password: '' });
+    //   setCurrentPage(foundUser.role === 'buyer' ? 'buyer' : foundUser.role === 'supplier' ? 'supplier' : 'admin');
+    //   showToast(`Welcome back, ${foundUser.name}!`, 'success');
+    // } else {
+    //   // Demo fallback: allow any email as demo buyer
+    //   const demoUser: User = { id: 'demo', name: 'Demo User', email: signInForm.email, phone: '0712345678', password: signInForm.password, role: 'buyer' };
+    //   setCurrentUser(demoUser);
+    //   setShowSignIn(false);
+    //   setCurrentPage('buyer');
+    //   showToast('Invalid email or password', 'error');
+    //   setSignInForm({ email: '', password: '' });
+    // }
   };
 
-  const handleLogout = () => {
-    setCurrentUser(null);
-    setCurrentPage('home');
-    setSearchTerm('');
-    showToast('Logged out successfully', 'info');
+  const handleLogout = async () => {
+    const responce = await fetch('http://188.245.80.22:8000/api/v1/logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      },
+      body: JSON.stringify({ email: currentUser?.email })
+    });
+    if (responce.status === 200) {
+      localStorage.removeItem('token'); // Remove token on logout
+      setCurrentUser(null);
+      setCurrentPage('home');
+      setSearchTerm('');
+      showToast('Logged out successfully', 'info');
+    }
+    
   };
 
   const quickLogin = (role: Role) => {
@@ -478,7 +498,7 @@ function RFQPlatform() {
     setSubmitQuoteForm({
       price: quote.price.toString(),
       deliveryTime: quote.deliveryTime,
-      notes: quote.notes,
+      note: quote.note,
       image: quote.image || null
     });
     const relatedRFQ = rfqs.find(r => r.id === quote.rfqId);
@@ -516,37 +536,49 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingRFQId) {
         // Updating to API enable when APIs are ready
-        // const responce = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingRFQId}`, {
-        //   method: 'PUT',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(postRFQForm)
-        // });
-        // if (responce.status === 200 || responce.status === 201) {
-        //   getAndUpdateData(); // Refresh data from API after update
-        //   showToast('RFQ updated successfully!', 'success');
-        // }
+        const responce = await fetch(`http://188.245.80.22:8000/api/v1/rfqs/${editingRFQId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            id: editingRFQId,
+            title: postRFQForm.title,
+            description: postRFQForm.description,
+            category: postRFQForm.category,
+            deadline: postRFQForm.deadline,
+            budget: parseInt(postRFQForm.budget),
+            buyerId: currentUser.id,
+            buyerName: currentUser.name,
+            status: 'open',
+            image: postRFQForm.image || undefined
+          })
+        });
+        if (responce.status === 200 || responce.status === 201) {
+          getAndUpdateData(); // Refresh data from API after update
+          showToast('RFQ updated successfully!', 'success');
+        }
 
         // Update existing RFQ in local rfqs. Disable when APIs are ready
-        setRfqs(prev => prev.map(rfq => 
-          rfq.id === editingRFQId 
-            ? { 
-                ...rfq, 
-                title: postRFQForm.title,
-                description: postRFQForm.description,
-                category: postRFQForm.category,
-                deadline: postRFQForm.deadline,
-                budget: parseInt(postRFQForm.budget),
-                image: postRFQForm.image || undefined
-              } 
-            : rfq
-        ));
+        // setRfqs(prev => prev.map(rfq => 
+        //   rfq.id === editingRFQId 
+        //     ? { 
+        //         ...rfq, 
+        //         title: postRFQForm.title,
+        //         description: postRFQForm.description,
+        //         category: postRFQForm.category,
+        //         deadline: postRFQForm.deadline,
+        //         budget: parseInt(postRFQForm.budget),
+        //         image: postRFQForm.image || undefined
+        //       } 
+        //     : rfq
+        // ));
         showToast('RFQ updated successfully!', 'success');
       } else {
         // Create new RFQ
         const newRFQ: RFQ = {
-          id: 'r' + Date.now(),
+          // id: 'r' + Date.now(), ID will be generated by backend when posted to API dissable when APIs are ready
           title: postRFQForm.title,
           description: postRFQForm.description,
           category: postRFQForm.category,
@@ -555,25 +587,28 @@ function RFQPlatform() {
           buyerId: currentUser.id,
           buyerName: currentUser.name,
           status: 'open',
-          createdAt: new Date().toISOString().split('T')[0],
+          // createdAt: new Date().toISOString().split('T')[0],
           image: postRFQForm.image || undefined
         };
 
         // Posting to API enable when APIs are ready
-        // const responce = await fetch('https://jsonplaceholder.typicode.com/posts', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(newRFQ)
-        // });
-        // if (responce.status === 201 || responce.status === 200) {
-        //   getAndUpdateData(); // Refresh data from API after creation
-        //   showToast('RFQ posted successfully!', 'success');
-        // }
+        const responce = await fetch('http://188.245.80.22:8000/api/v1/rfqs', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(newRFQ)
+        });
+        if (responce.status === 201 || responce.status === 200) {
+          getAndUpdateData(); // Refresh data from API after creation 
+          showToast('RFQ posted successfully!', 'success');
+        } else {
+          showToast('Failed to post RFQ', 'error');
+        }
         
-        setRfqs(prev => [newRFQ, ...prev]);
-        showToast('RFQ posted successfully!', 'success');
+        // setRfqs(prev => [newRFQ, ...prev]);
+        // showToast('RFQ posted successfully!', 'success');
       }
       
       setShowPostRFQ(false);
@@ -594,67 +629,82 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingQuotationId) {
         // Updating to API enable when APIs are ready
-        // const responce = await fetch(`https://jsonplaceholder.typicode.com/posts/${editingQuotationId}`, {
-        //   method: 'PUT',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(submitQuoteForm)
-        // });
-        // if (responce.status === 200 || responce.status === 201) {
-        //   getAndUpdateData(); // Refresh data from API after update
-        //   showToast('Quotation updated successfully!', 'success');
-        // }
+        const responce = await fetch(`http://188.245.80.22:8000/api/v1/quotations/${editingQuotationId}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify({
+            rfqId: rfqForQuote.id,
+            supplierId: currentUser.id,
+            supplierName: currentUser.name,
+            supplierPhone: currentUser.phone,
+            price: parseInt(submitQuoteForm.price),
+            deliveryTime: submitQuoteForm.deliveryTime,
+            note: submitQuoteForm.note,
+            status: 'pending',
+            image: submitQuoteForm.image || undefined
+          })
+        });
+        if (responce.status === 200 || responce.status === 201) {
+          getAndUpdateData(); // Refresh data from API after update
+          showToast('Quotation updated successfully!', 'success');
+        }
 
         // Update existing quotation locally. Disable when APIs are ready
-        setQuotations(prev => prev.map(quote => 
-          quote.id === editingQuotationId 
-            ? { 
-                ...quote, 
-                price: parseInt(submitQuoteForm.price),
-                deliveryTime: submitQuoteForm.deliveryTime,
-                notes: submitQuoteForm.notes,
-                image: submitQuoteForm.image || undefined
-              } 
-            : quote
-        ));
+        // setQuotations(prev => prev.map(quote => 
+        //   quote.id === editingQuotationId 
+        //     ? { 
+        //         ...quote, 
+        //         price: parseInt(submitQuoteForm.price),
+        //         deliveryTime: submitQuoteForm.deliveryTime,
+        //         note: submitQuoteForm.note,
+        //         image: submitQuoteForm.image || undefined
+        //       } 
+        //     : quote
+        // ));
         showToast('Quotation updated successfully!', 'success');
       } else {
         // Create new quotation
         const newQuote: Quotation = {
-          id: 'q' + Date.now(),
+          // id: 'q' + Date.now(),
           rfqId: rfqForQuote.id,
           supplierId: currentUser.id,
           supplierName: currentUser.name,
           supplierPhone: currentUser.phone,
           price: parseInt(submitQuoteForm.price),
           deliveryTime: submitQuoteForm.deliveryTime,
-          notes: submitQuoteForm.notes,
+          note: submitQuoteForm.note,
           status: 'pending',
-          submittedAt: new Date().toISOString().split('T')[0],
+          // submittedAt: new Date().toISOString().split('T')[0],
           image: submitQuoteForm.image || undefined
         };
+        console.log('Submitting quotation:', newQuote); // to test if we created the quotation data right
 
         // Posting to API enable when APIs are ready
-        // const responce = await fetch('https://jsonplaceholder.typicode.com/posts', {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        //   body: JSON.stringify(newQuote)
-        // });
-        // if (responce.status === 201 || responce.status === 200) {
-        //   getAndUpdateData(); // Refresh data from API after submission
-        //   showToast('Quotation submitted successfully!', 'success');
-        // }
+        const responce = await fetch('http://188.245.80.22:8000/api/v1/quotations', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(newQuote)
+        });
+        if (responce.status === 201 || responce.status === 200) {
+          getAndUpdateData(); // Refresh data from API after submission. Enable when APIs are ready
+          showToast('Quotation submitted successfully!', 'success');
+        } else {
+          showToast('Failed to submit quotation', 'error');
+        }
         
-        setQuotations(prev => [...prev, newQuote]); // Posting new quotation locally. Disable when APIs are ready
-        showToast('Quotation submitted successfully!', 'success');
+        // setQuotations(prev => [...prev, newQuote]); // Posting new quotation locally. Disable when APIs are ready
+        // showToast('Quotation submitted successfully!', 'success');
         
       }
       
       setShowSubmitQuote(false);
-      setSubmitQuoteForm({ price: '', deliveryTime: '', notes: '', image: null });
+      setSubmitQuoteForm({ price: '', deliveryTime: '', note: '', image: null });
       setRfqForQuote(null);
       setEditingQuotationId(null);
       setIsLoading(false);
@@ -686,26 +736,27 @@ function RFQPlatform() {
 
     // Alrenatively, send only the accepted quotation and handle the rest of the labling('pending'->'rejected') on server side. Saves on API calls and is more efficient :) 
 
-    // updatedQuotations.forEach(async (q) => {
-    //   if (q.rfqId === quote.rfqId && q.id === quote.id) {
-    //     await fetch(`https://jsonplaceholder.typicode.com/posts/${q.id}`, {
-    //       method: 'PUT',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //       body: JSON.stringify(q)
-    //     });
-    //   }
-    // });
+    updatedQuotations.forEach(async (q) => {
+      if (q.rfqId === quote.rfqId && q.id === quote.id) {
+        await fetch(`http://188.245.80.22:8000/api/v1/quotations/${q.id}`, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          },
+          body: JSON.stringify(q)
+        });
+      }
+    });
 
     setQuotations(updatedQuotations);
 
     // Close the RFQ. Disable when APIs are ready and handle it on server side
-    const updatedRfqs = rfqs.map(r => 
-      r.id === selectedRFQ.id ? { ...r, status: 'closed' as const } : r
-    );
-    setRfqs(updatedRfqs);
-    // getAndUpdateData(); // Refresh data from API after update. Enable when APIs are ready.
+    // const updatedRfqs = rfqs.map(r => 
+    //   r.id === selectedRFQ.id ? { ...r, status: 'closed' as const } : r
+    // );
+    // setRfqs(updatedRfqs);
+    getAndUpdateData(); // Refresh data from API after update. Enable when APIs are ready.
 
     setShowComparison(false);
     setShowRFQDetails(false);
@@ -873,7 +924,7 @@ function RFQPlatform() {
                   </td>
                   <td><div className="font-bold text-2xl text-emerald-600">${quote.price.toLocaleString()}</div></td>
                   <td><div className="font-medium text-slate-700">{quote.deliveryTime}</div></td>
-                  <td><div className="text-sm text-slate-600 pr-4 line-clamp-3">{quote.notes}</div></td>
+                  <td><div className="text-sm text-slate-600 pr-4 line-clamp-3">{quote.note}</div></td>
                   <td className="text-center">
                     {/* <a href={`https://wa.me/${quote.supplierPhone}`}> */}
                       <button 
@@ -932,7 +983,7 @@ function RFQPlatform() {
 
         <div>
           <div className="text-sm font-semibold text-slate-600 mb-2">SUPPLIER NOTES</div>
-          <div className="bg-white border p-5 rounded-2xl text-slate-700 leading-relaxed">{selectedQuotation.notes}</div>
+          <div className="bg-white border p-5 rounded-2xl text-slate-700 leading-relaxed">{selectedQuotation.note}</div>
         </div>
         
         <div className="flex justify-between items-center">
@@ -969,12 +1020,19 @@ function RFQPlatform() {
             
             {currentUser && (
               <>
-                <button onClick={() => { setCurrentPage('buyer'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'buyer' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Buyers</button>
-                <button onClick={() => { setCurrentPage('supplier'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'supplier' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Suppliers</button>
-                {currentUser.role !== 'admin' && (
-                  <button onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'profile' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Profile</button>
+                {currentUser.role === 'buyer' && (
+                  <button onClick={() => { setCurrentPage('buyer'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'buyer' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Buyers
                 )}
-                <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Admin</button>
+                {currentUser.role === 'supplier' && (
+                  <button onClick={() => { setCurrentPage('supplier'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'supplier' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Suppliers 
+                )}
+                {/* {currentUser.role !== 'admin' && (
+                  <button onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'profile' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Profile</button>
+                )} */}
+                {currentUser.role === 'admin' && (
+                  <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Admin 
+                )}
+                
               </>
             )}
 
@@ -985,7 +1043,7 @@ function RFQPlatform() {
               </div>
             ) : (
               <div className="flex items-center gap-3 ml-4 pl-5 border-l border-slate-800">
-                <div className="flex items-center gap-3 pr-1">
+                <div className="flex items-center gap-3 pr-1" onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }}>
                   {currentUser.profileImage ? (
                     <img src={currentUser.profileImage} alt="Profile" className="w-9 h-9 rounded-full object-cover border border-slate-700" />
                   ) : (
@@ -1019,12 +1077,20 @@ function RFQPlatform() {
               
               {currentUser && (
                 <>
-                  <button onClick={() => { setCurrentPage('buyer'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'buyer' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Buyers</button>
-                  <button onClick={() => { setCurrentPage('supplier'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'supplier' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Suppliers</button>
-                  {currentUser.role !== 'admin' && (
-                    <button onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'profile' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Profile</button>
+
+                  {currentUser.role === 'buyer' && (
+                    <button onClick={() => { setCurrentPage('buyer'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'buyer' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button>
                   )}
-                  <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Admin</button>
+                  {currentUser.role === 'supplier' && (
+                    <button onClick={() => { setCurrentPage('supplier'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'supplier' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button>
+                  )}
+                  {/* {currentUser.role !== 'admin' && (
+                    <button onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'profile' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Profile</button>
+                  )} */}
+                  {currentUser.role === 'admin' && (
+                    <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Admin</button>
+                  )}
+                  
                 </>
               )}
 
@@ -1035,7 +1101,7 @@ function RFQPlatform() {
                 </div>
               ) : (
                 <div className="pt-3 mt-2 border-t border-slate-800">
-                  <div className="px-4 py-3 flex items-center gap-3">
+                  <div className="px-4 py-3 flex items-center gap-3" onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }}>
                     {currentUser.profileImage ? (
                       <img src={currentUser.profileImage} alt="Profile" className="w-8 h-8 rounded-full object-cover border border-slate-700" />
                     ) : (
@@ -1110,7 +1176,7 @@ function RFQPlatform() {
 
           {/* Quick Demo Access */}
           <div className="bg-slate-900 py-14 border-y border-slate-800">
-            <div className="max-w-4xl mx-auto px-6 text-center">
+            {/* <div className="max-w-4xl mx-auto px-6 text-center">
               <div className="text-blue-400 text-sm font-semibold mb-3">TRY INSTANTLY</div>
               <div className="text-3xl font-bold tracking-tight mb-6">Login instantly as a demo user</div>
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
@@ -1118,7 +1184,7 @@ function RFQPlatform() {
                 <button onClick={() => quickLogin('supplier')} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl font-semibold">Login as Supplier</button>
                 <button onClick={() => quickLogin('admin')} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl font-semibold">Login as Admin</button>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       )}
@@ -1518,7 +1584,8 @@ function RFQPlatform() {
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Select Your Role</label>
             <div className="flex gap-2">
-              {(['buyer', 'supplier', 'admin'] as Role[]).map(r => (
+              {/* , 'admin' */}
+              {(['buyer', 'supplier'] as Role[]).map(r => (
                 <button type="button" key={r} onClick={() => setSignUpForm({...signUpForm, role: r})} className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-700 hover:bg-slate-900'}`}>{r}</button>
               ))}
             </div>
@@ -1546,6 +1613,7 @@ function RFQPlatform() {
       {/* POST RFQ MODAL */}
       <Modal isOpen={showPostRFQ} onClose={() => { setShowPostRFQ(false); setEditingRFQId(null); setPostRFQForm({ title: '', description: '', category: 'Electronics', deadline: '', budget: '', image: null }); }} title={editingRFQId ? "Edit Request for Quote" : "Post New Request for Quote"} size="lg">
         <form onSubmit={postNewRFQ} className="space-y-6">
+          
           <div>
             <label className="text-sm font-medium text-slate-400">RFQ Title</label>
             <input value={postRFQForm.title} onChange={e => setPostRFQForm({...postRFQForm, title: e.target.value})} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="e.g. High-Precision Laser Cutters" />
@@ -1599,7 +1667,7 @@ function RFQPlatform() {
       </Modal>
 
       {/* SUBMIT QUOTATION MODAL */}
-      <Modal isOpen={showSubmitQuote} onClose={() => { setShowSubmitQuote(false); setRfqForQuote(null); setEditingQuotationId(null); setSubmitQuoteForm({ price: '', deliveryTime: '', notes: '', image: null }); }} title={editingQuotationId ? `Edit Quotation for: ${rfqForQuote?.title}` : rfqForQuote ? `Submit Quotation for: ${rfqForQuote.title}` : ''} size="lg">
+      <Modal isOpen={showSubmitQuote} onClose={() => { setShowSubmitQuote(false); setRfqForQuote(null); setEditingQuotationId(null); setSubmitQuoteForm({ price: '', deliveryTime: '', note: '', image: null }); }} title={editingQuotationId ? `Edit Quotation for: ${rfqForQuote?.title}` : rfqForQuote ? `Submit Quotation for: ${rfqForQuote.title}` : ''} size="lg">
         {rfqForQuote && (
           <form onSubmit={submitQuotation} className="space-y-6">
             <div className="text-sm bg-blue-950 text-blue-300 px-5 py-3.5 rounded-2xl">Budget: ${rfqForQuote.budget.toLocaleString()} • Deadline: {rfqForQuote.deadline}</div>
@@ -1617,7 +1685,7 @@ function RFQPlatform() {
 
             <div>
               <label className="font-medium text-sm text-slate-400">Additional Notes &amp; Terms</label>
-              <textarea value={submitQuoteForm.notes} onChange={e => setSubmitQuoteForm({...submitQuoteForm, notes: e.target.value})} rows={4} required className="input-field mt-2 w-full px-5 py-4 bg-slate-900 border border-slate-700 rounded-2xl" placeholder="Include warranty information, payment terms, and any value-added services..." />
+              <textarea value={submitQuoteForm.note} onChange={e => setSubmitQuoteForm({...submitQuoteForm, note: e.target.value})} rows={4} required className="input-field mt-2 w-full px-5 py-4 bg-slate-900 border border-slate-700 rounded-2xl" placeholder="Include warranty information, payment terms, and any value-added services..." />
             </div>
 
             {/* Optional Image Upload for Quotation */}

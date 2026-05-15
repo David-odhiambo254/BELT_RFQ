@@ -9,7 +9,7 @@
   "orientation": "portrait-primary",
   "icons": [
     {
-      "src": "/vite.svg",
+      "src": "/belt_favicon_blue.png",
       "sizes": "192x192",
       "type": "image/svg+xml"
     }
