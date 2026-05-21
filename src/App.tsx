@@ -229,9 +229,9 @@ function RFQPlatform() {
   // Getting & Refreshing actual Data from APIs enable when APIs are ready
   const getAndUpdateData = async () => {
     try {
-      const rfqsResponse = await fetch('http://188.245.80.22:8000/api/v1/rfqs'); // api/rfqs
+      const rfqsResponse = await fetch('http://localhost:8000/api/v1/rfqs'); // api/rfqs
       const rfqsFound = await rfqsResponse.json();
-      const quotationsResponse = await fetch('http://188.245.80.22:8000/api/v1/quotations'); // api/quotations
+      const quotationsResponse = await fetch('http://localhost:8000/api/v1/quotations'); // api/quotations
       const quotationsFound = await quotationsResponse.json();
       // const usersResponse = await fetch('https://example.com/api/users');
       setRfqs(rfqsFound.data);
@@ -308,7 +308,7 @@ function RFQPlatform() {
     };
     
     // Posting to API enable when APIs are ready
-    const responce = await fetch('http://188.245.80.22:8000/api/v1/register', {
+    const responce = await fetch('http://localhost:8000/api/v1/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -341,7 +341,7 @@ function RFQPlatform() {
     e.preventDefault();
     
     // Fetching from API enable when APIs are ready
-    const responce = await fetch('http://188.245.80.22:8000/api/v1/login', {
+    const responce = await fetch('http://localhost:8000/api/v1/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -383,7 +383,7 @@ function RFQPlatform() {
   };
 
   const handleLogout = async () => {
-    const responce = await fetch('http://188.245.80.22:8000/api/v1/logout', {
+    const responce = await fetch('http://localhost:8000/api/v1/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -536,7 +536,7 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingRFQId) {
         // Updating to API enable when APIs are ready
-        const responce = await fetch(`http://188.245.80.22:8000/api/v1/rfqs/${editingRFQId}`, {
+        const responce = await fetch(`http://localhost:8000/api/v1/rfqs/${editingRFQId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -592,7 +592,7 @@ function RFQPlatform() {
         };
 
         // Posting to API enable when APIs are ready
-        const responce = await fetch('http://188.245.80.22:8000/api/v1/rfqs', {
+        const responce = await fetch('http://localhost:8000/api/v1/rfqs', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -629,7 +629,7 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingQuotationId) {
         // Updating to API enable when APIs are ready
-        const responce = await fetch(`http://188.245.80.22:8000/api/v1/quotations/${editingQuotationId}`, {
+        const responce = await fetch(`http://localhost:8000/api/v1/quotations/${editingQuotationId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -683,7 +683,7 @@ function RFQPlatform() {
         console.log('Submitting quotation:', newQuote); // to test if we created the quotation data right
 
         // Posting to API enable when APIs are ready
-        const responce = await fetch('http://188.245.80.22:8000/api/v1/quotations', {
+        const responce = await fetch('http://localhost:8000/api/v1/quotations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -738,7 +738,7 @@ function RFQPlatform() {
 
     updatedQuotations.forEach(async (q) => {
       if (q.rfqId === quote.rfqId && q.id === quote.id) {
-        await fetch(`http://188.245.80.22:8000/api/v1/quotations/${q.id}`, {
+        await fetch(`http://localhost:8000/api/v1/quotations/${q.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -1126,12 +1126,20 @@ function RFQPlatform() {
           {/* Hero Section */}
           <div className="relative h-[94vh] flex items-center justify-center bg-slate-900 overflow-hidden">
             <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" />
-            <img src="/images/AfricanBoardroom.png" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
+            {/* <img src="/images/AfricanBoardroom.png" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" /> */}
+            <video
+              src="/images/Lagos_Day.mp4"
+              loop
+              muted
+              autoPlay
+              playsInline
+              className="absolute inset-0 w-full h-full object-cover opacity-35"
+            />
             
             <div className="relative z-10 max-w-4xl px-6 text-center">
               <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div>
               <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
-              <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, Suppliers &amp; Administrators to manage RFQs and quotations efficiently.</p>
+              <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, &amp; Suppliers to manage RFQs and quotations efficiently.<br /><br /> <strong>Africa Roles on BELT!</strong> </p>
               
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
                 {!currentUser ? (
