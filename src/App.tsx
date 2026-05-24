@@ -1129,7 +1129,7 @@ function RFQPlatform() {
             <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" />
             {/* <img src="/images/AfricanBoardroom.png" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" /> */}
             <video
-              src="/images/Lagos_Day.mp4"
+              src="/images/VideoProject.mp4"
               loop
               muted
               autoPlay
