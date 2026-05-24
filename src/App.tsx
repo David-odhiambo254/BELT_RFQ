@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
-import { 
-  Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle, 
-  XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit, 
+import {
+  Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle,
+  XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit,
   View
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { i } from 'framer-motion/client';
+
+import GoogleTranslate from "./assets/GoogleTranslate";
 
 // Types
 type Role = 'buyer' | 'supplier' | 'admin';
@@ -66,8 +68,8 @@ const JFKLLoader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) =>
   return (
     <div className={`jfkl-loader ${sizes[size]}`}>
       {['b', 'e', 'l', 't'].map((letter, index) => (
-        <motion.span 
-          key={index} 
+        <motion.span
+          key={index}
           className="jfkl-letter font-black tracking-tighter text-blue-600"
           animate={{ y: [0, -12, 0], scale: [1, 1.15, 1] }}
           transition={{ duration: 1.1, repeat: Infinity, delay: index * 0.12, ease: "easeInOut" }}
@@ -80,37 +82,37 @@ const JFKLLoader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) =>
 };
 
 // Modal Component
-const Modal: React.FC<{ isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode; size?: 'md' | 'lg' | 'xl' }> = 
+const Modal: React.FC<{ isOpen: boolean; onClose: () => void; title: string; children: React.ReactNode; size?: 'md' | 'lg' | 'xl' }> =
   ({ isOpen, onClose, title, children, size = 'lg' }) => {
-  const sizes = { md: 'max-w-md', lg: 'max-w-xl md:max-w-3xl', xl: 'max-w-xl md:max-w-6xl' };
-  
-  if (!isOpen) return null;
+    const sizes = { md: 'max-w-md', lg: 'max-w-xl md:max-w-3xl', xl: 'max-w-xl md:max-w-6xl' };
 
-  return (
-    <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
-          className={`bg-white rounded-2xl shadow-2xl w-full ${sizes[size]} overflow-hidden modal`}
-          onClick={e => e.stopPropagation()}
-        >
-          <div className="flex items-center justify-between border-b px-6 py-4 bg-slate-50">
-            <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
-            <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors p-1">
-              <XCircle size={22} />
-            </button>
-          </div>
-          <div className="p-5 md:p-6 max-h-[80vh] overflow-y-auto">
-            {children}
-          </div>
-        </motion.div>
-      </div>
-    </AnimatePresence>
-  );
-};
+    if (!isOpen) return null;
+
+    return (
+      <AnimatePresence>
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4" onClick={onClose}>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            transition={{ duration: 0.2, ease: [0.32, 0.72, 0, 1] }}
+            className={`bg-white rounded-2xl shadow-2xl w-full ${sizes[size]} overflow-hidden modal`}
+            onClick={e => e.stopPropagation()}
+          >
+            <div className="flex items-center justify-between border-b px-6 py-4 bg-slate-50">
+              <h3 className="text-xl font-semibold text-slate-900">{title}</h3>
+              <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors p-1">
+                <XCircle size={22} />
+              </button>
+            </div>
+            <div className="p-5 md:p-6 max-h-[80vh] overflow-y-auto">
+              {children}
+            </div>
+          </motion.div>
+        </div>
+      </AnimatePresence>
+    );
+  };
 
 // Toast Component
 const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => void }> = ({ toasts, removeToast }) => (
@@ -122,9 +124,8 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
           initial={{ opacity: 0, x: 80 }}
           animate={{ opacity: 1, x: 0 }}
           exit={{ opacity: 0, x: 80 }}
-          className={`toast flex items-center gap-3 px-5 py-4 rounded-xl shadow-xl text-white max-w-sm ${
-            toast.type === 'success' ? 'bg-emerald-600' : toast.type === 'error' ? 'bg-red-600' : 'bg-slate-800'
-          }`}
+          className={`toast flex items-center gap-3 px-5 py-4 rounded-xl shadow-xl text-white max-w-sm ${toast.type === 'success' ? 'bg-emerald-600' : toast.type === 'error' ? 'bg-red-600' : 'bg-slate-800'
+            }`}
         >
           <div className="flex-1 text-sm font-medium">{toast.message}</div>
           <button onClick={() => removeToast(toast.id)} className="opacity-70 hover:opacity-100">
@@ -140,12 +141,12 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
 function RFQPlatform() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [currentPage, setCurrentPage] = useState<'home' | 'buyer' | 'supplier' | 'admin' | 'profile'>('home');
-  
+
   // Data States
   const [rfqs, setRfqs] = useState<RFQ[]>([]);
   const [quotations, setQuotations] = useState<Quotation[]>([]);
   const [users, setUsers] = useState<User[]>([]);
-  
+
   // UI States
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
@@ -154,11 +155,11 @@ function RFQPlatform() {
   const [showRFQDetails, setShowRFQDetails] = useState(false);
   const [showQuoteDetails, setShowQuoteDetails] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
-  
+
   const [selectedRFQ, setSelectedRFQ] = useState<RFQ | null>(null);
   const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(null);
   const [rfqForQuote, setRfqForQuote] = useState<RFQ | null>(null);
-  
+
   // Form States
   const [signInForm, setSignInForm] = useState({ email: '', password: '' });
   const [signUpForm, setSignUpForm] = useState({ name: '', email: '', phone: '', password: '', role: 'buyer' as Role });
@@ -168,12 +169,12 @@ function RFQPlatform() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [editingRFQId, setEditingRFQId] = useState<string | null>(null);
   const [editingQuotationId, setEditingQuotationId] = useState<string | null>(null);
-  
+
   // Filters & Search
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
-  
+
   // Toasts
   const [toasts, setToasts] = useState<Toast[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -241,7 +242,7 @@ function RFQPlatform() {
       // setUsers((await usersResponse.json()));
     } catch (error) {
       console.error('Error fetching data:', error);
-    } 
+    }
   };
 
   // Seed Demo Data. Disable when APIs are ready
@@ -296,7 +297,7 @@ function RFQPlatform() {
       showToast('Please fill all required fields', 'error');
       return;
     }
-    
+
     const newUser: User = {
       // id: 'u' + Date.now(),  // ID will be generated by backend when posted to API dissable when APIs are ready
       name: signUpForm.name,
@@ -306,7 +307,7 @@ function RFQPlatform() {
       role: signUpForm.role,
       profileImage: undefined
     };
-    
+
     // Posting to API enable when APIs are ready
     const responce = await fetch('http://188.245.80.22:8000/api/v1/register', {
       method: 'POST',
@@ -319,27 +320,27 @@ function RFQPlatform() {
       // setCurrentUser(newUser);  // We'll do direct login later
       setShowSignUp(false);
       setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
-      
+
       // setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
       // showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');  
-      showToast(`Registration successful! Please sign in`, 'success');  
+      showToast(`Registration successful! Please sign in`, 'success');
     } else {
       showToast('Something went wrong', 'error');
     }
-    
+
     // Local signUp without API. Dissable when APIs are ready
     // setUsers(prev => [...prev, newUser]);
     // setCurrentUser(newUser);
     // setShowSignUp(false);
     // setSignUpForm({ name: '', email: '', phone: '', password: '', role: 'buyer' });
-    
+
     // setCurrentPage(newUser.role === 'buyer' ? 'buyer' : newUser.role === 'supplier' ? 'supplier' : 'admin');
     // showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');
   };
 
-  const handleSignIn = async(e: React.FormEvent) => {
+  const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Fetching from API enable when APIs are ready
     const responce = await fetch('http://188.245.80.22:8000/api/v1/login', {
       method: 'POST',
@@ -398,11 +399,11 @@ function RFQPlatform() {
       setSearchTerm('');
       showToast('Logged out successfully', 'info');
     }
-    
+
   };
 
   const quickLogin = (role: Role) => {
-    const demoUser = users.find(u => u.role === role) || 
+    const demoUser = users.find(u => u.role === role) ||
       { id: 'quick', name: role === 'buyer' ? 'Quick Buyer' : role === 'supplier' ? 'Quick Supplier' : 'Quick Admin', email: `${role}@belt.com`, phone: '0712345678', password: 'password', role };
     setCurrentUser(demoUser);
     setCurrentPage(role === 'buyer' ? 'buyer' : role === 'supplier' ? 'supplier' : 'admin');
@@ -532,7 +533,7 @@ function RFQPlatform() {
     if (!currentUser || currentUser.role !== 'buyer') return;
 
     setIsLoading(true);
-    
+
     setTimeout(async () => {
       if (editingRFQId) {
         // Updating to API enable when APIs are ready
@@ -606,11 +607,11 @@ function RFQPlatform() {
         } else {
           showToast('Failed to post RFQ', 'error');
         }
-        
+
         // setRfqs(prev => [newRFQ, ...prev]);
         // showToast('RFQ posted successfully!', 'success');
       }
-      
+
       setShowPostRFQ(false);
       setPostRFQForm({ title: '', description: '', category: 'Electronics', deadline: '', budget: '', image: null });
       setEditingRFQId(null);
@@ -697,12 +698,12 @@ function RFQPlatform() {
         } else {
           showToast('Failed to submit quotation', 'error');
         }
-        
+
         // setQuotations(prev => [...prev, newQuote]); // Posting new quotation locally. Disable when APIs are ready
         // showToast('Quotation submitted successfully!', 'success');
-        
+
       }
-      
+
       setShowSubmitQuote(false);
       setSubmitQuoteForm({ price: '', deliveryTime: '', note: '', image: null });
       setRfqForQuote(null);
@@ -716,8 +717,8 @@ function RFQPlatform() {
     if (!currentUser || !selectedRFQ) return;
 
     // Update quotation status
-    const updatedQuotations = quotations.map(q => 
-      q.rfqId === quote.rfqId 
+    const updatedQuotations = quotations.map(q =>
+      q.rfqId === quote.rfqId
         ? { ...q, status: q.id === quote.id ? 'accepted' as const : 'rejected' as const }
         : q
     );
@@ -793,8 +794,8 @@ function RFQPlatform() {
 
   // Filtered Data
   const filteredRFQs = rfqs.filter(rfq => {
-    const matchesSearch = rfq.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
-                          rfq.description.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesSearch = rfq.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      rfq.description.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = categoryFilter === 'All' || rfq.category === categoryFilter;
     const matchesStatus = statusFilter === 'All' || rfq.status === statusFilter.toLowerCase();
     return matchesSearch && matchesCategory && matchesStatus;
@@ -927,12 +928,12 @@ function RFQPlatform() {
                   <td><div className="text-sm text-slate-600 pr-4 line-clamp-3">{quote.note}</div></td>
                   <td className="text-center">
                     {/* <a href={`https://wa.me/${quote.supplierPhone}`}> */}
-                      <button 
-                        onClick={() => acceptQuotation(quote)} 
-                        className="inline-flex items-center gap-2 px-7 py-2.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl transition-all"
-                      >
-                        <CheckCircle size={16} /> ACCEPT
-                      </button>
+                    <button
+                      onClick={() => acceptQuotation(quote)}
+                      className="inline-flex items-center gap-2 px-7 py-2.5 text-sm font-semibold bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 text-white rounded-xl transition-all"
+                    >
+                      <CheckCircle size={16} /> ACCEPT
+                    </button>
                     {/* </a> */}
                   </td>
                 </tr>
@@ -956,7 +957,7 @@ function RFQPlatform() {
     return (
       <div className="space-y-7">
         {relatedRFQ && <div className="px-5 py-3 bg-blue-50 text-blue-700 rounded-2xl text-sm font-medium">For RFQ: {relatedRFQ.title}</div>}
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           <div className="bg-slate-50 rounded-2xl p-5">
             <div className="uppercase tracking-[1px] text-xs text-slate-500 mb-1">PRICE</div>
@@ -985,7 +986,7 @@ function RFQPlatform() {
           <div className="text-sm font-semibold text-slate-600 mb-2">SUPPLIER NOTES</div>
           <div className="bg-white border p-5 rounded-2xl text-slate-700 leading-relaxed">{selectedQuotation.note}</div>
         </div>
-        
+
         <div className="flex justify-between items-center">
           <div className="text-xs text-slate-500">Submitted on {selectedQuotation.submittedAt} by {selectedQuotation.supplierName}</div>
           {currentUser?.role === 'supplier' && selectedQuotation.status === 'pending' && (
@@ -1005,7 +1006,6 @@ function RFQPlatform() {
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-3xl font-black tracking-[-2.5px] text-white">
-              {/* <span>J</span><span className="text-blue-500">F</span><span>K</span><span className="text-blue-500">L</span> */}
               <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-20 h-20" />
             </div>
             <div className="hidden sm:block">
@@ -1017,7 +1017,7 @@ function RFQPlatform() {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2 text-sm font-medium">
             <button onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'home' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Home</button>
-            
+
             {currentUser && (
               <>
                 {currentUser.role === 'buyer' && (
@@ -1032,7 +1032,7 @@ function RFQPlatform() {
                 {currentUser.role === 'admin' && (
                   <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Admin 
                 )}
-                
+
               </>
             )}
 
@@ -1057,11 +1057,12 @@ function RFQPlatform() {
                 <button onClick={handleLogout} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 transition"><LogOut size={15} /> Logout</button>
               </div>
             )}
+            <GoogleTranslate />
           </div>
 
           {/* Mobile Hamburger */}
-          <button 
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)} 
+          <button
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             className="md:hidden p-2 text-white"
             aria-label="Toggle menu"
           >
@@ -1074,7 +1075,7 @@ function RFQPlatform() {
           <div className="md:hidden border-t border-slate-800 bg-slate-950 px-4 py-6 text-sm font-medium">
             <div className="flex flex-col gap-1">
               <button onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'home' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Home</button>
-              
+
               {currentUser && (
                 <>
 
@@ -1090,7 +1091,7 @@ function RFQPlatform() {
                   {currentUser.role === 'admin' && (
                     <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Admin</button>
                   )}
-                  
+
                 </>
               )}
 
@@ -1135,12 +1136,12 @@ function RFQPlatform() {
               playsInline
               className="absolute inset-0 w-full h-full object-cover opacity-35"
             />
-            
+
             <div className="relative z-10 max-w-4xl px-6 text-center">
               <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div>
               <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
               <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, &amp; Suppliers to manage RFQs and quotations efficiently.<br /><br /> <strong>Africa Roles on BELT!</strong> </p>
-              
+
               <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
                 {!currentUser ? (
                   <>
@@ -1166,7 +1167,7 @@ function RFQPlatform() {
               <div className="font-semibold tracking-[2px] text-xs text-blue-500 mb-3">POWERFUL FEATURES</div>
               <div className="text-5xl font-bold tracking-tight">Built for seamless RFQ workflows</div>
             </div>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {[
                 { icon: <FileText />, title: "Post & Manage RFQs", desc: "Buyers can easily create detailed RFQs with deadlines, budgets and specifications." },
@@ -1231,7 +1232,7 @@ function RFQPlatform() {
                       <h3 className="font-semibold text-xl tracking-tight mb-2 line-clamp-2">{rfq.title}</h3>
                       <div className="text-emerald-400 font-medium mb-3">${rfq.budget.toLocaleString()}</div>
                       <div className="text-sm text-slate-400 line-clamp-3 mb-auto flex-1">{rfq.description}</div>
-                      
+
                       <div className="flex items-center justify-between pt-5 mt-auto border-t border-slate-800">
                         <div>
                           <div className="text-xs text-slate-500">QUOTES RECEIVED</div>
@@ -1296,9 +1297,9 @@ function RFQPlatform() {
                   {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-slate-800" />}
                   <div className="font-semibold text-[21px] tracking-tight mb-2 pr-4">{rfq.title}</div>
                   <div className="text-sm text-slate-400 mb-4 line-clamp-3 flex-1">{rfq.description}</div>
-                  
+
                   <div className="text-xs text-slate-500 mb-5">Deadline: {rfq.deadline} • {rfq.category}</div>
-                  
+
                   <div className="flex gap-2.5">
                     <button onClick={() => openRFQDetails(rfq)} className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button>
                     <button onClick={() => openSubmitQuoteModal(rfq)} className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition">Submit Quote</button>
@@ -1459,23 +1460,23 @@ function RFQPlatform() {
               {/* Editable Info */}
               <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
                 <div className="font-semibold text-xl tracking-tight mb-6">Personal Information</div>
-                
+
                 <div className="space-y-5">
                   <div>
                     <label className="block text-sm text-slate-400 mb-1.5">Full Name</label>
-                    <input 
-                      value={profileForm.name} 
-                      onChange={e => setProfileForm({ ...profileForm, name: e.target.value })} 
-                      className="input-field w-full bg-slate-950 border border-slate-700 px-5 py-3.5 rounded-2xl text-lg" 
+                    <input
+                      value={profileForm.name}
+                      onChange={e => setProfileForm({ ...profileForm, name: e.target.value })}
+                      className="input-field w-full bg-slate-950 border border-slate-700 px-5 py-3.5 rounded-2xl text-lg"
                     />
                   </div>
                   <div>
                     <label className="block text-sm text-slate-400 mb-1.5">Email Address</label>
-                    <input 
-                      type="email" 
-                      value={profileForm.email} 
-                      onChange={e => setProfileForm({ ...profileForm, email: e.target.value })} 
-                      className="input-field w-full bg-slate-950 border border-slate-700 px-5 py-3.5 rounded-2xl text-lg" 
+                    <input
+                      type="email"
+                      value={profileForm.email}
+                      onChange={e => setProfileForm({ ...profileForm, email: e.target.value })}
+                      className="input-field w-full bg-slate-950 border border-slate-700 px-5 py-3.5 rounded-2xl text-lg"
                     />
                   </div>
                   <div>
@@ -1575,26 +1576,26 @@ function RFQPlatform() {
         <form onSubmit={handleSignUp} className="space-y-5">
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">User Name</label>
-            <input type="text" value={signUpForm.name} onChange={e => setSignUpForm({...signUpForm, name: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <input type="text" value={signUpForm.name} onChange={e => setSignUpForm({ ...signUpForm, name: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Email Address</label>
-            <input type="email" value={signUpForm.email} onChange={e => setSignUpForm({...signUpForm, email: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <input type="email" value={signUpForm.email} onChange={e => setSignUpForm({ ...signUpForm, email: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Phone Number</label>
-            <input type="tel" value={signUpForm.phone} onChange={e => setSignUpForm({...signUpForm, phone: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <input type="tel" value={signUpForm.phone} onChange={e => setSignUpForm({ ...signUpForm, phone: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Password</label>
-            <input type="password" value={signUpForm.password} onChange={e => setSignUpForm({...signUpForm, password: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <input type="password" value={signUpForm.password} onChange={e => setSignUpForm({ ...signUpForm, password: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Select Your Role</label>
             <div className="flex gap-2">
               {/* , 'admin' */}
               {(['buyer', 'supplier'] as Role[]).map(r => (
-                <button type="button" key={r} onClick={() => setSignUpForm({...signUpForm, role: r})} className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-700 hover:bg-slate-900'}`}>{r}</button>
+                <button type="button" key={r} onClick={() => setSignUpForm({ ...signUpForm, role: r })} className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-700 hover:bg-slate-900'}`}>{r}</button>
               ))}
             </div>
           </div>
@@ -1607,11 +1608,11 @@ function RFQPlatform() {
         <form onSubmit={handleSignIn} className="space-y-5 pt-1">
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Email Address</label>
-            <input type="email" value={signInForm.email} onChange={e => setSignInForm({...signInForm, email: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="demo@buyer.com" required />
+            <input type="email" value={signInForm.email} onChange={e => setSignInForm({ ...signInForm, email: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="demo@buyer.com" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Password</label>
-            <input type="password" value={signInForm.password} onChange={e => setSignInForm({...signInForm, password: e.target.value})} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="Any password works in demo" />
+            <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="Any password works in demo" />
           </div>
           <button type="submit" className="mt-4 w-full py-4 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition">Sign In</button>
           <div className="text-center text-xs text-slate-500 pt-2">Demo accounts available: Try any email or use Quick Login on homepage.</div>
@@ -1621,29 +1622,29 @@ function RFQPlatform() {
       {/* POST RFQ MODAL */}
       <Modal isOpen={showPostRFQ} onClose={() => { setShowPostRFQ(false); setEditingRFQId(null); setPostRFQForm({ title: '', description: '', category: 'Electronics', deadline: '', budget: '', image: null }); }} title={editingRFQId ? "Edit Request for Quote" : "Post New Request for Quote"} size="lg">
         <form onSubmit={postNewRFQ} className="space-y-6">
-          
+
           <div>
             <label className="text-sm font-medium text-slate-400">RFQ Title</label>
-            <input value={postRFQForm.title} onChange={e => setPostRFQForm({...postRFQForm, title: e.target.value})} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="e.g. High-Precision Laser Cutters" />
+            <input value={postRFQForm.title} onChange={e => setPostRFQForm({ ...postRFQForm, title: e.target.value })} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="e.g. High-Precision Laser Cutters" />
           </div>
           <div>
             <label className="text-sm font-medium text-slate-400">Detailed Description</label>
-            <textarea value={postRFQForm.description} onChange={e => setPostRFQForm({...postRFQForm, description: e.target.value})} required rows={4} className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700 resize-y" placeholder="Describe the product or service in detail..." />
+            <textarea value={postRFQForm.description} onChange={e => setPostRFQForm({ ...postRFQForm, description: e.target.value })} required rows={4} className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700 resize-y" placeholder="Describe the product or service in detail..." />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
               <label className="text-sm font-medium text-slate-400">Category</label>
-              <select value={postRFQForm.category} onChange={e => setPostRFQForm({...postRFQForm, category: e.target.value})} className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700">
+              <select value={postRFQForm.category} onChange={e => setPostRFQForm({ ...postRFQForm, category: e.target.value })} className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700">
                 {categories.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div>
               <label className="text-sm font-medium text-slate-400">Deadline</label>
-              <input type="date" value={postRFQForm.deadline} onChange={e => setPostRFQForm({...postRFQForm, deadline: e.target.value})} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" />
+              <input type="date" value={postRFQForm.deadline} onChange={e => setPostRFQForm({ ...postRFQForm, deadline: e.target.value })} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-400">Budget (USD)</label>
-              <input type="number" value={postRFQForm.budget} onChange={e => setPostRFQForm({...postRFQForm, budget: e.target.value})} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="185000" />
+              <input type="number" value={postRFQForm.budget} onChange={e => setPostRFQForm({ ...postRFQForm, budget: e.target.value })} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="185000" />
             </div>
           </div>
 
@@ -1679,21 +1680,21 @@ function RFQPlatform() {
         {rfqForQuote && (
           <form onSubmit={submitQuotation} className="space-y-6">
             <div className="text-sm bg-blue-950 text-blue-300 px-5 py-3.5 rounded-2xl">Budget: ${rfqForQuote.budget.toLocaleString()} • Deadline: {rfqForQuote.deadline}</div>
-            
+
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label className="font-medium text-sm text-slate-400">Your Quote Price (USD)</label>
-                <input type="number" value={submitQuoteForm.price} onChange={e => setSubmitQuoteForm({...submitQuoteForm, price: e.target.value})} required className="input-field mt-2 w-full px-5 py-3.5 bg-slate-900 border border-slate-700 rounded-2xl text-3xl font-semibold" placeholder="175000" />
+                <input type="number" value={submitQuoteForm.price} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, price: e.target.value })} required className="input-field mt-2 w-full px-5 py-3.5 bg-slate-900 border border-slate-700 rounded-2xl text-3xl font-semibold" placeholder="175000" />
               </div>
               <div>
                 <label className="font-medium text-sm text-slate-400">Delivery Time</label>
-                <input value={submitQuoteForm.deliveryTime} onChange={e => setSubmitQuoteForm({...submitQuoteForm, deliveryTime: e.target.value})} required placeholder="e.g. 6 weeks" className="input-field mt-2 w-full px-5 py-3.5 bg-slate-900 border border-slate-700 rounded-2xl" />
+                <input value={submitQuoteForm.deliveryTime} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, deliveryTime: e.target.value })} required placeholder="e.g. 6 weeks" className="input-field mt-2 w-full px-5 py-3.5 bg-slate-900 border border-slate-700 rounded-2xl" />
               </div>
             </div>
 
             <div>
               <label className="font-medium text-sm text-slate-400">Additional Notes &amp; Terms</label>
-              <textarea value={submitQuoteForm.note} onChange={e => setSubmitQuoteForm({...submitQuoteForm, note: e.target.value})} rows={4} required className="input-field mt-2 w-full px-5 py-4 bg-slate-900 border border-slate-700 rounded-2xl" placeholder="Include warranty information, payment terms, and any value-added services..." />
+              <textarea value={submitQuoteForm.note} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, note: e.target.value })} rows={4} required className="input-field mt-2 w-full px-5 py-4 bg-slate-900 border border-slate-700 rounded-2xl" placeholder="Include warranty information, payment terms, and any value-added services..." />
             </div>
 
             {/* Optional Image Upload for Quotation */}

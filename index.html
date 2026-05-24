@@ -31,6 +31,83 @@ window.addEventListener("message",function(e){if(!e.data||typeof e.data.type!=="
 loadRrweb();
 })();</script>
   <script data-arena-views="true">(function(){var isTop=false;try{isTop=window.self===window.top;}catch(e){}if(!isTop)return;window.__ARENA_META={generationId:"oracle",tournamentId:"f6ca85c2-bd7c-4fbe-94d2-4aeb6ae4fb7c"};var payload={tournamentId:"f6ca85c2-bd7c-4fbe-94d2-4aeb6ae4fb7c",modelId:"oracle"};try{var r=document.referrer;if(r){var u=new URL(r);payload.referrerDomain=u.hostname;}}catch(e){}try{var vid=null;try{vid=localStorage.getItem('arena_vid');}catch(e){}if(!vid){vid=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():(Date.now().toString(36)+Math.random().toString(36).slice(2)).slice(0,32);try{localStorage.setItem('arena_vid',vid);}catch(e){}}if(vid)payload.viewerId=vid;}catch(e){}try{fetch("https://www.designarena.ai/api/agon/page-views",{"method":"POST","headers":{"Content-Type":"application/json"},"body":JSON.stringify(payload),"keepalive":true});}catch(e){}})();</script>
+  
+  <style>
+    /* Hide Google Translate Tooltip */
+    #goog-gt-tt {
+      display: none !important;
+      visibility: hidden !important;
+    }
+
+    /* Hide the Google Translate banner */
+    .goog-te-banner-frame {
+      display: none !important;
+    }
+
+    /* Hide the floating iframe but KEEP the dropdown */
+    .skiptranslate iframe {
+      display: none !important;
+      visibility: hidden !important;
+      height: 0 !important;
+      width: 0 !important;
+    }
+
+    /* Keep the Google Translate dropdown visible */
+    #google_translate_element {
+      display: block !important;
+      visibility: visible !important;
+    }  
+
+    /* Style the Google Translate dropdown */
+    #google_translate_element {
+      display: flex !important;
+      justify-content: center;
+      align-items: center;
+      margin: 10px auto;
+      padding: 5px;
+    }
+
+    /* Make the dropdown look more modern */
+    .goog-te-gadget-simple {
+      background-color: #1B1C20 !important;
+      border: 1px solid #1B1C20 !important;
+      border-radius: 5px !important;
+      padding: 8px 12px !important;
+      font-size: 16px !important;
+      color: #333 !important;
+      display: flex !important;
+      align-items: center !important;
+      width: 200px !important;  /* Adjust width as needed */
+      overflow: hidden !important;  /* Prevent content from overflowing */
+      white-space: nowrap !important;  /* Prevent text from wrapping */
+
+      align-items: start;
+    }
+
+    /* Hide the Google Translate icon (optional) */
+    .goog-te-gadget-icon {
+      display: none !important;
+    }
+
+    /* Style the dropdown text */
+    .goog-te-gadget-simple a {
+      text-decoration: none !important;
+      color: #939393 !important;
+      font-weight: bold !important;
+    }
+
+    /* Adjust height (if needed) */
+    .goog-te-gadget-simple span {
+      line-height: 1 !important;
+      font-size: 14px !important;
+    }
+
+    /* Prevent extra margin issues caused by Google Translate */
+    body {
+      top: 0px !important;
+    }
+    
+  </style>
 </head>
   <body>
     <div id="root"></div>
