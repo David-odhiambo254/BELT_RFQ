@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import {
-  Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle,
+  Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle, 
   XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit,
-  View
+  View, Shield, Globe, Tag, Laptop, Factory, ShoppingCart, Send, Scale, Handshake, ShieldCheck, 
+  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { i } from 'framer-motion/client';
@@ -147,6 +148,11 @@ function RFQPlatform() {
   const [quotations, setQuotations] = useState<Quotation[]>([]);
   const [users, setUsers] = useState<User[]>([]);
 
+  // Demo Data States
+  const [demoRFQs, setDemoRFQs] = useState<RFQ[]>([]);
+  const [demoQuotations, setDemoQuotations] = useState<Quotation[]>([]);
+  const [demoUsers, setDemoUsers] = useState<User[]>([]);
+
   // UI States
   const [showSignIn, setShowSignIn] = useState(false);
   const [showSignUp, setShowSignUp] = useState(false);
@@ -198,6 +204,7 @@ function RFQPlatform() {
     // if (!savedRfqs || JSON.parse(savedRfqs).length === 0) {
     //   seedDemoData();      
     // }
+    seedDemoData(); // Seed initial demo data
     getAndUpdateData(); // Fetch real data from APIs enable when APIs are ready
   }, []);
 
@@ -245,39 +252,51 @@ function RFQPlatform() {
     }
   };
 
-  // Seed Demo Data. Disable when APIs are ready
-  // const seedDemoData = () => {
-  //   const demoUsers: User[] = [
-  //     { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com' , phone: '123456789' , password: 'password', role: 'buyer', profileImage: undefined },
-  //     { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', phone: '987654321', password: 'password', role: 'supplier', profileImage: undefined },
-  //     { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', phone: '555555555', password: 'password', role: 'supplier', profileImage: undefined },
-  //     { id: 'u4', name: 'David Kim', email: 'david@admin.com', phone: '111111111', password: 'password', role: 'admin', profileImage: undefined },
-  //   ];
-  //   setUsers(demoUsers);
+  // Seed Demo Data. Disable for landing page Deco
+  const seedDemoData = () => {
+    const demoUsers: User[] = [
+      { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com' , phone: '123456789' , password: 'password', role: 'buyer', profileImage: undefined },
+      { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', phone: '987654321', password: 'password', role: 'supplier', profileImage: undefined },
+      { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', phone: '555555555', password: 'password', role: 'supplier', profileImage: undefined },
+      { id: 'u4', name: 'David Kim', email: 'david@admin.com', phone: '111111111', password: 'password', role: 'admin', profileImage: undefined },
+    ];
+    setDemoUsers(demoUsers);
 
-  //   const demoRFQs: RFQ[] = [
-  //     {
-  //       id: 'r1', title: 'Industrial CNC Machine Procurement', description: 'We need 4 high-precision CNC milling machines for our new production line. Must support 5-axis machining and have a minimum spindle speed of 12,000 RPM.',
-  //       category: 'Manufacturing', deadline: '2025-02-28', budget: 245000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-15'
-  //     },
-  //     {
-  //       id: 'r2', title: 'Enterprise Cloud Migration Services', description: 'Complete migration of 120 servers and 40TB of data to AWS. Includes security audits, training for 18 staff members and 12-month support contract.',
-  //       category: 'IT Services', deadline: '2025-03-10', budget: 89000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-18'
-  //     },
-  //     {
-  //       id: 'r3', title: 'High-Grade Titanium Alloy Supply', description: 'Monthly supply of Grade 5 Titanium alloy bars (Ti-6Al-4V) - 2.8 tons per month for 18 months. Strict quality certifications required.',
-  //       category: 'Raw Materials', deadline: '2025-02-20', budget: 156000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-20'
-  //     },
-  //   ];
-  //   setRfqs(demoRFQs);
+    const demoRFQs: RFQ[] = [
+      {
+        id: 'r1', title: 'Industrial CNC Machine Procurement', description: 'We need 4 high-precision CNC milling machines for our new production line. Must support 5-axis machining and have a minimum spindle speed of 12,000 RPM.',
+        category: 'Manufacturing', deadline: '2025-02-28', budget: 245000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-15'
+      },
+      {
+        id: 'r2', title: 'Enterprise Cloud Migration Services', description: 'Complete migration of 120 servers and 40TB of data to AWS. Includes security audits, training for 18 staff members and 12-month support contract.',
+        category: 'IT Services', deadline: '2025-03-10', budget: 89000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-18'
+      },
+      {
+        id: 'r3', title: 'High-Grade Titanium Alloy Supply', description: 'Monthly supply of Grade 5 Titanium alloy bars (Ti-6Al-4V) - 2.8 tons per month for 18 months. Strict quality certifications required.',
+        category: 'Raw Materials', deadline: '2025-02-20', budget: 156000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-20'
+      },
+      {
+        id: 'r4', title: 'Customized Packaging Materials', description: 'Customized packaging materials for a new product line. Must be high-quality and durable, with a minimum thickness of 0.5mm.',
+        category: 'Manufacturing', deadline: '2025-03-15', budget: 120000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-22'
+      },
+      {
+        id: 'r5', title: 'High-Tech IoT Device Procurement', description: 'We need 10 IoT devices for our new production line. Must be energy-efficient and have a minimum battery life of 24 hours.',
+        category: 'Manufacturing', deadline: '2025-02-28', budget: 180000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-15'
+      },
+      {
+        id: 'r6', title: 'Customized Office Furniture', description: 'Customized office furniture for a new product line. Must be high-quality and durable, with a minimum thickness of 0.5mm.',
+        category: 'Manufacturing', deadline: '2025-03-15', budget: 120000, buyerId: 'u1', buyerName: 'Sarah Chen', status: 'open', createdAt: '2025-01-22'
+      }
+    ];
+    setDemoRFQs(demoRFQs);
 
-  //   const demoQuotes: Quotation[] = [
-  //     { id: 'q1', rfqId: 'r1', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 231000, deliveryTime: '10 weeks', note: 'Full 3-year warranty included. Installation and staff training provided at no additional cost.', status: 'pending', submittedAt: '2025-01-19' },
-  //     { id: 'q2', rfqId: 'r1', supplierId: 'u3', supplierName: 'Elena Rodriguez', supplierPhone: '555555555', price: 219800, deliveryTime: '8 weeks', note: 'Premium European brand. Includes 24/7 remote monitoring and free spare parts kit.', status: 'pending', submittedAt: '2025-01-20' },
-  //     { id: 'q3', rfqId: 'r2', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 78500, deliveryTime: '6 weeks', note: 'Comprehensive migration plan with zero downtime guarantee. All staff training included.', status: 'pending', submittedAt: '2025-01-21' },
-  //   ];
-  //   setQuotations(demoQuotes);
-  // };
+    const demoQuotes: Quotation[] = [
+      { id: 'q1', rfqId: 'r1', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 231000, deliveryTime: '10 weeks', note: 'Full 3-year warranty included. Installation and staff training provided at no additional cost.', status: 'pending', submittedAt: '2025-01-19' },
+      { id: 'q2', rfqId: 'r1', supplierId: 'u3', supplierName: 'Elena Rodriguez', supplierPhone: '555555555', price: 219800, deliveryTime: '8 weeks', note: 'Premium European brand. Includes 24/7 remote monitoring and free spare parts kit.', status: 'pending', submittedAt: '2025-01-20' },
+      { id: 'q3', rfqId: 'r2', supplierId: 'u2', supplierName: 'Marcus Rivera', supplierPhone: '987654321', price: 78500, deliveryTime: '6 weeks', note: 'Comprehensive migration plan with zero downtime guarantee. All staff training included.', status: 'pending', submittedAt: '2025-01-21' },
+    ];
+    setDemoQuotations(demoQuotes);
+  };
 
   // Toast Handler
   const showToast = (message: string, type: 'success' | 'error' | 'info' = 'success') => {
@@ -1002,9 +1021,10 @@ function RFQPlatform() {
   return (
     <div className="min-h-screen bg-slate-950 text-slate-200">
       {/* Navbar */}
-      <nav className="border-b border-slate-800 bg-slate-950/95 backdrop-blur-lg sticky top-0 z-40">
+      <nav className="border-b border-slate-800 bg-slate-950/15 backdrop-blur-lg sticky top-0 z-40 h-0">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
-          <div className="flex items-center gap-3">
+          <div></div>
+          {/* <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-3xl font-black tracking-[-2.5px] text-white">
               <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-20 h-20" />
             </div>
@@ -1012,7 +1032,7 @@ function RFQPlatform() {
               <div className="font-semibold tracking-tight text-lg">RFQ PLATFORM</div>
               <div className="text-[10px] text-blue-500 -mt-1">DIGITIZE YOUR OPERATIONS</div>
             </div>
-          </div>
+          </div> */}
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2 text-sm font-medium">
@@ -1057,7 +1077,7 @@ function RFQPlatform() {
                 <button onClick={handleLogout} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 transition"><LogOut size={15} /> Logout</button>
               </div>
             )}
-            <GoogleTranslate />
+            {/* <GoogleTranslate /> */}
           </div>
 
           {/* Mobile Hamburger */}
@@ -1125,44 +1145,178 @@ function RFQPlatform() {
       {currentPage === 'home' && (
         <div>
           {/* Hero Section */}
-          <div className="relative h-[94vh] flex items-center justify-center bg-slate-900 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" />
-            {/* <img src="/images/AfricanBoardroom.png" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" /> */}
-            <video
+          <div className="relative h-[94vh] flex items-center justify-center bg-slate-900 overflow-hidden"> {/* justify-center */}
+            {/* <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" /> */}
+              <img src="/images/cargo-trucks-shipping-containers-sunset-port.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
+            {/* <video
               src="/images/VideoProject.mp4"
               loop
               muted
               autoPlay
               playsInline
               className="absolute inset-0 w-full h-full object-cover opacity-35"
-            />
+            /> */}
 
-            <div className="relative z-10 max-w-4xl px-6 text-center">
-              <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div>
-              <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
-              <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, &amp; Suppliers to manage RFQs and quotations efficiently.<br /><br /> <strong>Africa Roles on BELT!</strong> </p>
+              <div className="h-20"></div>
+            <div className="relative z-10 max-w-4xl px-6 text-left">
+              {/* <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div> */}
+              {/* <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
+              <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, &amp; Suppliers to manage RFQs and quotations efficiently.<br /><br /> <strong>Africa Roles on BELT!</strong> </p> */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black text-white leading-[1.1] mb-2">
+                <span className="block">UKANDA WA</span>
+                <span className="block">BIASHARA</span>
+                <span className="block text-green-400 tracking-wider">AFRIKA MASHARIKI</span>
+              </h1>
+              <div className="w-20 h-1 bg-green-400 mt-6 mb-8"></div>
+              <p className="text-gray-300 text-base lg:text-lg leading-relaxed max-w-lg mb-10">
+                BELT connects businesses in the DRC with trusted suppliers and manufacturers across Kenya, Uganda and the wider East Africa.
+              </p>
 
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+              <div className="flex flex-row items-center justify-left gap-3 sm:gap-4"> {/* justify-center  sm:flex-col*/}
                 {!currentUser ? (
                   <>
-                    <button onClick={() => setShowSignUp(true)} className="w-full sm:w-auto group px-8 sm:px-10 py-3.5 sm:py-4 bg-white text-lg sm:text-xl font-semibold text-slate-950 rounded-3xl flex items-center justify-center gap-3 hover:bg-slate-100 transition-all active:scale-[0.985]">Get Started <ArrowRight className="group-hover:translate-x-0.5 transition" /></button>
-                    <button onClick={() => setShowSignIn(true)} className="w-full sm:w-auto px-8 sm:px-10 py-3.5 sm:py-4 border border-white/40 hover:bg-white/5 text-white text-lg sm:text-xl font-medium rounded-3xl transition-all">Sign In</button>
+                    <button onClick={() => setShowSignUp(true)} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-sm sm:text-xs">
+                      <span>
+                        <span className="block">Find what you need</span>
+                        <span className="block text-xs font-normal opacity-80 uppercase ">(Buyer)</span>
+                      </span>
+                      <ArrowRight className="group-hover:translate-x-0.5 transition" />
+                    </button>
+                    <button onClick={() => setShowSignUp(true)} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-sm sm:text-xs bg-white/5 backdrop-blur-sm">
+                      <span>
+                        <span className="block">Grow your business</span>  
+                        <span className="block text-xs font-normal opacity-80 uppercase">(Supplier)</span>
+                      </span>
+                      <ArrowRight className="group-hover:translate-x-0.5 transition" />
+                    </button>
                   </>
                 ) : (
                   <button onClick={() => setCurrentPage(currentUser.role === 'buyer' ? 'buyer' : currentUser.role === 'supplier' ? 'supplier' : 'admin')} className="w-full sm:w-auto group px-8 sm:px-10 py-3.5 sm:py-4 bg-blue-600 text-lg sm:text-xl font-semibold text-white rounded-3xl flex items-center justify-center gap-3 hover:bg-blue-500">Go to Dashboard <ArrowRight /></button>
                 )}
               </div>
 
-              <div className="mt-16 flex justify-center gap-12 text-sm text-slate-400">
-                <div className="flex items-center gap-2"><Users size={17} /> 2,840+ Users</div>
-                <div className="flex items-center gap-2"><FileText size={17} /> 19k RFQs Posted</div>
-                <div className="flex items-center gap-2"><Award size={17} /> $184M in Quotes Won</div>
+              <div className="mt-20 grid grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-0 text-xs text-slate-400">
+                <div className="flex items-center gap-2"><Shield size={30} /> <div> <strong className='text-xs'>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div>
+                <div className="flex items-center gap-2"><Globe size={30} /> <div> <strong className='text-xs'>CROSS-BORDER TRADE</strong> <br /> <p>Connecting borders</p> </div> </div>
+                <div className="flex items-center gap-2"><Tag size={30} /> <div> <strong className='text-xs'>COMPETITIVE PRICING</strong> <br /> <p>Better value, always</p> </div> </div>
+                {/* <div className="flex items-center gap-2"><Award size={30} /> <div> <strong className='text-xs'>FAST ACCESS</strong> <br /> <p>Save time. Source faster</p> </div> </div> */}
               </div>
             </div>
           </div>
 
-          {/* Features */}
+          {/* WHAT WE DO */}
           <div className="max-w-7xl mx-auto px-8 py-20">
+            {/* <div className="text-center mb-12">
+              <div className="font-semibold tracking-[2px] text-xs text-green-400 mb-3">WHAT WE DO</div>
+              <div className="text-5xl font-bold tracking-tight">One Request. Many Suppliers.</div>
+            </div> */}
+            {/* <p className="text-xl text-slate-400 text-center max-w-3xl mx-auto leading-relaxed">Streamline your procurement process with our intuitive platform designed for seamless communication between buyers and suppliers.</p> */}
+            {/* <p className="text-xl text-slate-400 text-center max-w-3xl mx-auto leading-relaxed">Send your product request and receive competitive quotes from verified suppliers across East Africa.</p> <br /> */}
+
+            {/* Demo RFQs */}
+            <div className="mb-12">
+              <div className="font-semibold text-2xl mb-5 px-1">Available RFQs:</div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {demoRFQs.filter(r => r.status === 'open').map(rfq => (
+                  <div key={rfq.id} className="rfq-card bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col">
+                    <div className="mb-2 flex items-center justify-between">
+                      <span className="status-badge bg-emerald-600 text-white">OPEN</span>
+                      <div className="font-medium text-emerald-400">${rfq.budget.toLocaleString()}</div>
+                    </div>
+                    {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-slate-800" />}
+                    <div className="font-semibold text-[21px] tracking-tight mb-2 pr-4">{rfq.title}</div>
+                    <div className="text-sm text-slate-400 mb-4 line-clamp-3 flex-1">{rfq.description}</div>
+
+                    <div className="text-xs text-slate-500 mb-5">Deadline: {rfq.deadline} • {rfq.category}</div>
+
+                    {/* <div className="flex gap-2.5">
+                      <button onClick={() => openRFQDetails(rfq)} className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button>
+                      <button onClick={() => openSubmitQuoteModal(rfq)} className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition">Submit Quote</button>
+                    </div> */}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Steps */}
+          {/* <div className="bg-slate-900 py-14 border-y border-slate-800">
+            <div className="max-w-4xl mx-auto px-6 text-center">
+              <div className="text-green-400 text-sm font-semibold mb-3">HOW IT WORKS</div>
+              <div className="text-3xl font-bold tracking-tight mb-6">Just three easy steps!</div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {[
+                  { icon: <Send />, title: "1. Send Your Request", desc: "Tell us what you need in just a few clicks." },
+                  { icon: <Scale />, title: "2. Compare Quotes", desc: "Receive and compare quotes from multiple verified suppliers" },
+                  { icon: <Handshake />, title: "3. Buy with Confidence", desc: "Connect, negotiate and purchase with trusted suppliers and logistics partners." }
+                ].map((feat, i) => (
+                  <div key={i} className="bg-slate-800 border border-slate-700 p-8 rounded-3xl">
+                    <div className="inline-block p-3 bg-green-950 text-green-400 rounded-2xl mb-6">{feat.icon}</div>
+                    <div className="font-semibold text-2xl mb-3 tracking-tight">{feat.title}</div>
+                    <p className="text-slate-400 leading-relaxed">{feat.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div> */}
+
+          {/* WHY CHOOSE BELT */}
+          {/* <div className="max-w-7xl mx-auto px-8 py-20">
+            <div className="text-center mb-12">
+              <div className="font-semibold tracking-[2px] text-xs text-green-500 mb-3">WHY CHOOSE BELT?</div>
+              <div className="text-5xl font-bold tracking-tight">We are the best in East Africa!</div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {[
+                { icon: <Handshake />, title: "Access to Regional Suppliers", desc: "Source quality products from Kenya, Uganda and across East Africa." },
+                { icon: <ShieldCheck />, title: "Verified Supplier Network", desc: "We work with reliable suppliers with proven track records." },
+                { icon: <Zap />, title: "Faster Procurement", desc: "Reduce the time and cost of finding the right products." },
+                { icon: <CircleDollarSign />, title: "Better Prices", desc: "Get competitive prices from a dynamic East African market." },
+                { icon: <Forklift />, title: "Secure Logistics", desc: "We work with reliable logistics partners with proven track records." },
+              ].map((feat, i) => (
+                <div key={i} className="bg-slate-900 border border-slate-800 p-8 rounded-3xl">
+                  <div className="inline-block p-3 bg-green-950 text-green-400 rounded-2xl mb-6">{feat.icon}</div>
+                  <div className="font-semibold text-2xl mb-3 tracking-tight">{feat.title}</div>
+                  <p className="text-slate-400 leading-relaxed">{feat.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div> */}
+
+          {/* CTA SECTION */}
+          <section id="suppliers" className="relative py-16 lg:py-20 overflow-hidden">
+          <div className="absolute inset-0 bg-belt-navy"></div>
+          <div className="absolute inset-0 opacity-10" style={{backgroundImage: "url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1200&q=80')", backgroundSize: "cover", backgroundPosition: "center"}}  ></div>
+          
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
+              
+              <div className="flex items-center gap-5 reveal">
+                <div className="w-14 h-14 rounded-xl bg-belt-green/20 flex items-center justify-center flex-shrink-0">
+                  <i className="fas fa-box-open text-belt-green text-2xl"></i>
+                </div>
+                <div>
+                  <h2 className="text-2xl lg:text-3xl font-black text-white mb-1">Start Sourcing Smarter Today</h2>
+                  <p className="text-gray-400 text-sm">Connect with trusted suppliers across East Africa through BELT.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-1">
+                <button onClick={() => setShowSignUp(true)} className="btn-primary bg-green-400 hover:bg-green-500 text-white font-semibold px-8 py-3.5 rounded-lg text-sm">
+                  SUBMIT AN RFQ
+                </button>{/*  onClick={openQuoteModal} */}
+                <button onClick={() => setShowSignIn(true)} className="btn-outline border border-white/30 text-white font-semibold px-8 py-3.5 rounded-lg text-sm hover:bg-white/10">
+                  CONTACT US
+                </button>{/*  onClick={() => scrollToSection('contact')} */}
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+          {/* Features */}
+          {/* <div className="max-w-7xl mx-auto px-8 py-20">
             <div className="text-center mb-12">
               <div className="font-semibold tracking-[2px] text-xs text-blue-500 mb-3">POWERFUL FEATURES</div>
               <div className="text-5xl font-bold tracking-tight">Built for seamless RFQ workflows</div>
@@ -1181,11 +1335,11 @@ function RFQPlatform() {
                 </div>
               ))}
             </div>
-          </div>
+          </div> */}
 
           {/* Quick Demo Access */}
-          <div className="bg-slate-900 py-14 border-y border-slate-800">
-            {/* <div className="max-w-4xl mx-auto px-6 text-center">
+          {/* <div className="bg-slate-900 py-14 border-y border-slate-800">
+            <div className="max-w-4xl mx-auto px-6 text-center">
               <div className="text-blue-400 text-sm font-semibold mb-3">TRY INSTANTLY</div>
               <div className="text-3xl font-bold tracking-tight mb-6">Login instantly as a demo user</div>
               <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-3">
@@ -1193,8 +1347,8 @@ function RFQPlatform() {
                 <button onClick={() => quickLogin('supplier')} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl font-semibold">Login as Supplier</button>
                 <button onClick={() => quickLogin('admin')} className="px-8 py-3 bg-slate-800 hover:bg-slate-700 rounded-2xl font-semibold">Login as Admin</button>
               </div>
-            </div> */}
-          </div>
+            </div>
+          </div> */}
         </div>
       )}
 
@@ -1569,7 +1723,78 @@ function RFQPlatform() {
       )}
 
       {/* FOOTER */}
-      <footer className="border-t border-slate-800 py-9 text-sm text-center text-slate-500">© 2026 <strong>belt</strong> RFQ Platform. All Rights Reserved. Built for seamless procurement.</footer>
+      <footer className="border-t border-slate-800 py-9 text-sm text-center text-slate-500">
+        {/* © 2026 <strong>belt</strong> RFQ Platform. All Rights Reserved. Built for seamless procurement. */}
+        {/* <div className="flex items-center gap-2 text-sm text-slate-400"><Shield size={17} /> <div> <strong>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div> */}
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        
+        {/* <!-- Logo & Tagline --> */}
+        {/* <div className="flex items-center gap-6">
+          <a href="#" className="flex items-center gap-2.5">
+            <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-15 h-15" />
+            <div className="leading-tight justify-left">
+              <span className="block text-xl font-black tracking-tight text-belt-navy">BELT</span>
+              <span className="block text-[9px] font-semibold tracking-widest uppercase text-belt-green">The East African Trade Belt</span>
+            </div>
+          </a>
+          <div className="hidden sm:block w-px h-10 bg-gray-200"></div>
+          <p className="hidden sm:block text-gray-500 text-sm">Connecting Businesses.<br/>Growing Africa.</p>
+        </div> */}
+
+        {/* <!-- Contact Info --> */}
+       <div className="flex flex-wrap gap-6 lg:gap-10">
+          {/* <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+              <MapPin size={17} color={'green'} />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">East Africa Corridor</p>
+              <p className="text-sm font-medium text-belt-navy">DRC • Kenya • Uganda</p>
+            </div>
+          </div>
+          
+          <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+              <Phone size={17} color={'green'} />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">Call us</p>
+              <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
+            </div>
+          </div> */}
+          
+          <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+              <MessageCircle size={17} color={'green'} />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">WhatsApp us</p>
+              <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
+            </div>
+          </div>
+          
+          {/* <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+              <Globe size={17} color={'green'} />
+            </div>
+            <div>
+              <p className="text-xs text-gray-400">Website</p>
+              <p className="text-sm font-medium text-belt-navy">www.belt.africa</p>
+            </div>
+          </div> */}
+        </div>
+
+      </div>
+
+      {/* <!-- Bottom Bar --> */}
+      <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p className="text-xs text-gray-400"> © 2026 BELT. All rights reserved.</p>
+        {/* <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> */}
+      </div>
+    </div>
+      </footer>
 
       {/* SIGN UP MODAL */}
       <Modal isOpen={showSignUp} onClose={() => setShowSignUp(false)} title="Create Your Account" size="md">
