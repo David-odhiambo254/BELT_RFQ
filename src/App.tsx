@@ -4,7 +4,7 @@ import {
   Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle, 
   XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit,
   View, Shield, Globe, Tag, Laptop, Factory, ShoppingCart, Send, Scale, Handshake, ShieldCheck, 
-  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle
+  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle, UserCircle
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { i } from 'framer-motion/client';
@@ -58,6 +58,116 @@ interface Toast {
   message: string;
   type: 'success' | 'error' | 'info';
 }
+
+// Testimonials Carousel Component
+const TestimonialsCarousel: React.FC = () => {
+  const testimonials = [
+    {
+      quote: "Ukanda has completely transformed how we source industrial equipment. We received 6 competitive quotes within 48 hours and saved 18% on our last procurement.",
+      name: "Sarah Chen",
+      role: "Procurement Director, Apex Manufacturing",
+      avatar: "/images/buyer.jpg"
+    },
+    {
+      quote: "As a supplier, this platform has been a game changer. The quality of RFQs is excellent and the ability to submit detailed quotations with images has helped us win more business.",
+      name: "Marcus Rivera",
+      role: "CEO, Rivera Precision Parts",
+      avatar: "/images/supplier.jpg"
+    },
+    {
+      quote: "The comparison tools and easy 'Accept' workflow have cut our decision time in half. Our team can now evaluate quotations side-by-side with all supporting visuals.",
+      name: "Elena Rodriguez",
+      role: "Head of Operations, Vertex Logistics",
+      avatar: "/images/supplier.jpg"
+    },
+    {
+      quote: "Managing the entire RFQ process from one dashboard is incredibly powerful. The platform gives us full visibility into supplier performance and quote history.",
+      name: "David Kim",
+      role: "VP Supply Chain, Horizon Industries",
+      avatar: "/images/admin.jpg"
+    }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  return (
+    <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 md:p-12">
+      <div className="overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+            className="text-center"
+          >
+            <div className="max-w-3xl mx-auto">
+              <div className="text-2xl md:text-3xl font-medium leading-tight text-white tracking-tight mb-10">
+                “{testimonials[currentIndex].quote}”
+              </div>
+              
+              <div className="flex items-center justify-center gap-4">
+                <img 
+                  src={testimonials[currentIndex].avatar} 
+                  alt={testimonials[currentIndex].name}
+                  className="w-14 h-14 rounded-full object-cover border-2 border-blue-600" 
+                />
+                <div className="text-left">
+                  <div className="font-semibold text-lg">{testimonials[currentIndex].name}</div>
+                  <div className="text-sm text-slate-400">{testimonials[currentIndex].role}</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation Controls */}
+      <div className="flex items-center justify-center gap-4 mt-10">
+        <button 
+          onClick={goToPrevious}
+          className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
+          aria-label="Previous testimonial"
+        >
+          <ArrowRight className="rotate-180" size={20} />
+        </button>
+
+        {/* Dots */}
+        <div className="flex gap-2 mx-4">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all ${currentIndex === index ? 'bg-blue-500 w-8' : 'bg-slate-600 hover:bg-slate-500'}`}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        <button 
+          onClick={goToNext}
+          className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
+          aria-label="Next testimonial"
+        >
+          <ArrowRight size={20} />
+        </button>
+      </div>
+    </div>
+  );
+};
 
 // JFKL Loader Component
 const JFKLLoader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) => {
@@ -1081,13 +1191,21 @@ function RFQPlatform() {
           </div>
 
           {/* Mobile Hamburger */}
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-2 text-white"
-            aria-label="Toggle menu"
-          >
-            {mobileMenuOpen ? <X size={24} /> : <div className="space-y-1.5"><span className="block w-6 h-0.5 bg-white"></span><span className="block w-6 h-0.5 bg-white"></span><span className="block w-6 h-0.5 bg-white"></span></div>}
-          </button>
+          {currentUser ? (
+            <>
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                className="md:hidden p-2 text-white"
+                aria-label="Toggle menu"
+              >
+                {mobileMenuOpen ? <X size={24} /> : <div className="space-y-1.5"><span className="block w-6 h-0.5 bg-white"></span><span className="block w-6 h-0.5 bg-white"></span><span className="block w-6 h-0.5 bg-white"></span></div>}
+              </button>
+            </>
+          ) : (
+            <UserCircle size={28} className="text-white md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}/>
+          )
+        }
+          
         </div>
 
         {/* Mobile Menu */}
@@ -1204,23 +1322,34 @@ function RFQPlatform() {
             </div>
           </div>
 
-          {/* WHAT WE DO */}
+          {/* WHAT WE DO -> Demo RFQs */}
           <div className="max-w-7xl mx-auto px-8 py-20">
-            {/* <div className="text-center mb-12">
-              <div className="font-semibold tracking-[2px] text-xs text-green-400 mb-3">WHAT WE DO</div>
-              <div className="text-5xl font-bold tracking-tight">One Request. Many Suppliers.</div>
-            </div> */}
-            {/* <p className="text-xl text-slate-400 text-center max-w-3xl mx-auto leading-relaxed">Streamline your procurement process with our intuitive platform designed for seamless communication between buyers and suppliers.</p> */}
-            {/* <p className="text-xl text-slate-400 text-center max-w-3xl mx-auto leading-relaxed">Send your product request and receive competitive quotes from verified suppliers across East Africa.</p> <br /> */}
+          
+              {/* Search & Filters */}
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-8">
+              <div className="relative flex-1">
+                <Search className="absolute left-5 top-4 text-slate-400" size={19} />
+                <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search RFQs by title or keyword..." className="input-field w-full pl-12 py-3.5 bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-2xl placeholder:text-slate-500" />
+              </div>
+              <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="input-field bg-slate-900 border border-slate-700 px-6 py-3.5 rounded-2xl">
+                <option value="All">All Categories</option>
+                {categories.map(c => <option key={c} value={c}>{c}</option>)}
+              </select>
+              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="input-field bg-slate-900 border border-slate-700 px-6 py-3.5 rounded-2xl">
+                <option value="All">All Status</option>
+                <option value="Open">Open</option>
+                <option value="Closed">Closed</option>
+              </select>
+            </div>
 
-            {/* Demo RFQs */}
+              {/* Available RFQs */}
             <div className="mb-12">
-              <div className="font-semibold text-2xl mb-5 px-1">Available RFQs:</div>
+              <div className="font-semibold text-2xl mb-5 px-1">Recently Posted:</div>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {demoRFQs.filter(r => r.status === 'open').map(rfq => (
+                {filteredRFQs.map(rfq => (
                   <div key={rfq.id} className="rfq-card bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col">
                     <div className="mb-2 flex items-center justify-between">
-                      <span className="status-badge bg-emerald-600 text-white">OPEN</span>
+                      <span className={`status-badge ${rfq.status === 'open' ? 'bg-emerald-600' : 'bg-slate-600'} text-white`}>{rfq.status}</span>
                       <div className="font-medium text-emerald-400">${rfq.budget.toLocaleString()}</div>
                     </div>
                     {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-slate-800" />}
@@ -1229,10 +1358,36 @@ function RFQPlatform() {
 
                     <div className="text-xs text-slate-500 mb-5">Deadline: {rfq.deadline} • {rfq.category}</div>
 
-                    {/* <div className="flex gap-2.5">
-                      <button onClick={() => openRFQDetails(rfq)} className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button>
-                      <button onClick={() => openSubmitQuoteModal(rfq)} className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition">Submit Quote</button>
-                    </div> */}
+                    <div className="flex gap-2.5">
+                      {/* <button onClick={currentUser? (currentUser.role === 'buyer'? setCurrentPage('buyer') : showToast(`You must have a buyer account to view details`)) : () => setShowSignIn(true) } className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button> */}
+                      <button className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition" onClick= {() => 
+                        {
+                        if(currentUser){
+                          if (currentUser.role === 'buyer') {
+                            setCurrentPage('buyer');
+                          } else {
+                            showToast('You must have a buyer account to view details')
+                          }
+                        } else {
+                          setShowSignIn(true)
+                        }
+                      }
+                      }
+                      >View Details</button>
+                      <button className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition" onClick={() => 
+                        {
+                        if(currentUser){
+                          if (currentUser.role === 'supplier') {
+                            setCurrentPage('supplier');
+                          } else {
+                            showToast('You must have a supplier account to submit a quote')
+                          }
+                        } else {
+                          setShowSignIn(true)
+                        }
+                      }
+                      }>Submit Quote</button>
+                    </div>
                   </div>
                 ))}
               </div>
@@ -1284,36 +1439,17 @@ function RFQPlatform() {
             </div>
           </div> */}
 
-          {/* CTA SECTION */}
-          <section id="suppliers" className="relative py-16 lg:py-20 overflow-hidden">
-          <div className="absolute inset-0 bg-belt-navy"></div>
-          <div className="absolute inset-0 opacity-10" style={{backgroundImage: "url('https://images.unsplash.com/photo-1494412574643-ff11b0a5c1c3?w=1200&q=80')", backgroundSize: "cover", backgroundPosition: "center"}}  ></div>
-          
-          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
-              
-              <div className="flex items-center gap-5 reveal">
-                <div className="w-14 h-14 rounded-xl bg-belt-green/20 flex items-center justify-center flex-shrink-0">
-                  <i className="fas fa-box-open text-belt-green text-2xl"></i>
-                </div>
-                <div>
-                  <h2 className="text-2xl lg:text-3xl font-black text-white mb-1">Start Sourcing Smarter Today</h2>
-                  <p className="text-gray-400 text-sm">Connect with trusted suppliers across East Africa through BELT.</p>
-                </div>
+          {/* Testimonials Carousel */}
+          <div className="bg-slate-900 py-14 border-y border-slate-800">
+            <div className="max-w-5xl mx-auto px-6 pb-20">
+              <div className="text-center mb-10">
+                <div className="font-semibold tracking-[2px] text-xs text-green-500 mb-3">TRUSTED WORLDWIDE</div>
+                <div className="text-5xl font-bold tracking-tight">What Our Users Say</div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4 reveal reveal-delay-1">
-                <button onClick={() => setShowSignUp(true)} className="btn-primary bg-green-400 hover:bg-green-500 text-white font-semibold px-8 py-3.5 rounded-lg text-sm">
-                  SUBMIT AN RFQ
-                </button>{/*  onClick={openQuoteModal} */}
-                <button onClick={() => setShowSignIn(true)} className="btn-outline border border-white/30 text-white font-semibold px-8 py-3.5 rounded-lg text-sm hover:bg-white/10">
-                  CONTACT US
-                </button>{/*  onClick={() => scrollToSection('contact')} */}
-              </div>
-
+              <TestimonialsCarousel />
             </div>
-          </div>
-        </section>
+          </div>          
 
           {/* Features */}
           {/* <div className="max-w-7xl mx-auto px-8 py-20">
