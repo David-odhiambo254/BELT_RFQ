@@ -11,6 +11,8 @@ import { i } from 'framer-motion/client';
 
 import GoogleTranslate from "./assets/GoogleTranslate";
 
+import { GoogleLogin } from '@react-oauth/google';
+
 // Types
 type Role = 'buyer' | 'supplier' | 'admin';
 
@@ -347,9 +349,9 @@ function RFQPlatform() {
   // Getting & Refreshing actual Data from APIs enable when APIs are ready
   const getAndUpdateData = async () => {
     try {
-      const rfqsResponse = await fetch('https://admin.beltprocure.com/api/v1/rfqs'); // api/rfqs
+      const rfqsResponse = await fetch('http://localhost:8000/api/v1/rfqs'); // api/rfqs
       const rfqsFound = await rfqsResponse.json();
-      const quotationsResponse = await fetch('https://admin.beltprocure.com/api/v1/quotations'); // api/quotations
+      const quotationsResponse = await fetch('http://localhost:8000/api/v1/quotations'); // api/quotations
       const quotationsFound = await quotationsResponse.json();
       // const usersResponse = await fetch('https://example.com/api/users');
       setRfqs(rfqsFound.data);
@@ -438,7 +440,7 @@ function RFQPlatform() {
     };
 
     // Posting to API enable when APIs are ready
-    const responce = await fetch('https://admin.beltprocure.com/api/v1/register', {
+    const responce = await fetch('http://localhost:8000/api/v1/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -471,7 +473,7 @@ function RFQPlatform() {
     e.preventDefault();
 
     // Fetching from API enable when APIs are ready
-    const responce = await fetch('https://admin.beltprocure.com/api/v1/login', {
+    const responce = await fetch('http://localhost:8000/api/v1/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -513,7 +515,7 @@ function RFQPlatform() {
   };
 
   const handleLogout = async () => {
-    const responce = await fetch('https://admin.beltprocure.com/api/v1/logout', {
+    const responce = await fetch('http://localhost:8000/api/v1/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -666,7 +668,7 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingRFQId) {
         // Updating to API enable when APIs are ready
-        const responce = await fetch(`https://admin.beltprocure.com/api/v1/rfqs/${editingRFQId}`, {
+        const responce = await fetch(`http://localhost:8000/api/v1/rfqs/${editingRFQId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -722,7 +724,7 @@ function RFQPlatform() {
         };
 
         // Posting to API enable when APIs are ready
-        const responce = await fetch('https://admin.beltprocure.com/api/v1/rfqs', {
+        const responce = await fetch('http://localhost:8000/api/v1/rfqs', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -759,7 +761,7 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingQuotationId) {
         // Updating to API enable when APIs are ready
-        const responce = await fetch(`https://admin.beltprocure.com/api/v1/quotations/${editingQuotationId}`, {
+        const responce = await fetch(`http://localhost:8000/api/v1/quotations/${editingQuotationId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -813,7 +815,7 @@ function RFQPlatform() {
         console.log('Submitting quotation:', newQuote); // to test if we created the quotation data right
 
         // Posting to API enable when APIs are ready
-        const responce = await fetch('https://admin.beltprocure.com/api/v1/quotations', {
+        const responce = await fetch('http://localhost:8000/api/v1/quotations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -868,7 +870,7 @@ function RFQPlatform() {
 
     updatedQuotations.forEach(async (q) => {
       if (q.rfqId === quote.rfqId && q.id === quote.id) {
-        await fetch(`https://admin.beltprocure.com/api/v1/quotations/${q.id}`, {
+        await fetch(`http://localhost:8000/api/v1/quotations/${q.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -1126,6 +1128,43 @@ function RFQPlatform() {
         </div>
       </div>
     );
+  };
+
+  // Handle Google Login
+  const handleGoogleSuccess = async (credentialResponse: any) => {
+    try {
+      // Send the token to your Laravel backend
+      const response = await fetch('http://localhost:8000/api/v1/auth/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+          token: credentialResponse.credential // This is the Google JWT ID token
+        })
+      });
+
+      const data = await response.json();
+
+      const foundUser = data.user;
+      if (response.ok) {
+        // Save your custom Laravel token to localStorage/state just like your normal login
+        localStorage.setItem('token', data.token);
+        console.log('Successfully logged in with Laravel token:', data.token);
+        console.log('Logged in user:', foundUser); // to test if we got the user data right
+        
+        setCurrentUser(foundUser);
+        setShowSignIn(false);
+        setSignInForm({ email: '', password: '' });
+        setCurrentPage(foundUser.role === 'buyer' ? 'buyer' : foundUser.role === 'supplier' ? 'supplier' : 'admin');
+        showToast(`Welcome, ${foundUser.name}!`, 'success');
+      } else {
+        console.error('Backend authentication failed:', data.message);
+      }
+    } catch (error) {
+      console.error('Network error during Google auth:', error);
+    }
   };
 
   return (
@@ -1975,9 +2014,15 @@ function RFQPlatform() {
             <label className="block text-sm font-medium mb-1.5 text-slate-300">Password</label>
             <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="Any password works in demo" />
           </div>
+          <GoogleLogin 
+            text="signin_with"
+            onSuccess={handleGoogleSuccess}
+            onError={() => console.log("Google Login Failed")}
+          />
           <button type="submit" className="mt-4 w-full py-4 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition">Sign In</button>
           <div className="text-center text-xs text-slate-500 pt-2">Demo accounts available: Try any email or use Quick Login on homepage.</div>
         </form>
+        
       </Modal>
 
       {/* POST RFQ MODAL */}
