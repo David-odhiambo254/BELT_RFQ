@@ -349,9 +349,9 @@ function RFQPlatform() {
   // Getting & Refreshing actual Data from APIs enable when APIs are ready
   const getAndUpdateData = async () => {
     try {
-      const rfqsResponse = await fetch('http://localhost:8000/api/v1/rfqs'); // api/rfqs
+      const rfqsResponse = await fetch('https://admin.beltprocure.com/api/v1/rfqs'); // api/rfqs
       const rfqsFound = await rfqsResponse.json();
-      const quotationsResponse = await fetch('http://localhost:8000/api/v1/quotations'); // api/quotations
+      const quotationsResponse = await fetch('https://admin.beltprocure.com/api/v1/quotations'); // api/quotations
       const quotationsFound = await quotationsResponse.json();
       // const usersResponse = await fetch('https://example.com/api/users');
       setRfqs(rfqsFound.data);
@@ -440,7 +440,7 @@ function RFQPlatform() {
     };
 
     // Posting to API enable when APIs are ready
-    const responce = await fetch('http://localhost:8000/api/v1/register', {
+    const responce = await fetch('https://admin.beltprocure.com/api/v1/register', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -473,7 +473,7 @@ function RFQPlatform() {
     e.preventDefault();
 
     // Fetching from API enable when APIs are ready
-    const responce = await fetch('http://localhost:8000/api/v1/login', {
+    const responce = await fetch('https://admin.beltprocure.com/api/v1/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -515,7 +515,7 @@ function RFQPlatform() {
   };
 
   const handleLogout = async () => {
-    const responce = await fetch('http://localhost:8000/api/v1/logout', {
+    const responce = await fetch('https://admin.beltprocure.com/api/v1/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -668,7 +668,7 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingRFQId) {
         // Updating to API enable when APIs are ready
-        const responce = await fetch(`http://localhost:8000/api/v1/rfqs/${editingRFQId}`, {
+        const responce = await fetch(`https://admin.beltprocure.com/api/v1/rfqs/${editingRFQId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -724,7 +724,7 @@ function RFQPlatform() {
         };
 
         // Posting to API enable when APIs are ready
-        const responce = await fetch('http://localhost:8000/api/v1/rfqs', {
+        const responce = await fetch('https://admin.beltprocure.com/api/v1/rfqs', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -761,7 +761,7 @@ function RFQPlatform() {
     setTimeout(async () => {
       if (editingQuotationId) {
         // Updating to API enable when APIs are ready
-        const responce = await fetch(`http://localhost:8000/api/v1/quotations/${editingQuotationId}`, {
+        const responce = await fetch(`https://admin.beltprocure.com/api/v1/quotations/${editingQuotationId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -815,7 +815,7 @@ function RFQPlatform() {
         console.log('Submitting quotation:', newQuote); // to test if we created the quotation data right
 
         // Posting to API enable when APIs are ready
-        const responce = await fetch('http://localhost:8000/api/v1/quotations', {
+        const responce = await fetch('https://admin.beltprocure.com/api/v1/quotations', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -870,7 +870,7 @@ function RFQPlatform() {
 
     updatedQuotations.forEach(async (q) => {
       if (q.rfqId === quote.rfqId && q.id === quote.id) {
-        await fetch(`http://localhost:8000/api/v1/quotations/${q.id}`, {
+        await fetch(`https://admin.beltprocure.com/api/v1/quotations/${q.id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -1134,7 +1134,7 @@ function RFQPlatform() {
   const handleGoogleSuccess = async (credentialResponse: any) => {
     try {
       // Send the token to your Laravel backend
-      const response = await fetch('http://localhost:8000/api/v1/auth/google', {
+      const response = await fetch('https://admin.beltprocure.com/api/v1/auth/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -1302,7 +1302,7 @@ function RFQPlatform() {
       {currentPage === 'home' && (
         <div>
           {/* Hero Section */}
-          <div className="relative h-[94vh] flex items-center justify-center bg-slate-900 overflow-hidden"> {/* justify-center */}
+          <div className="relative h-[80vh] flex items-center justify-center bg-slate-900 overflow-hidden"> {/* justify-center */}
             {/* <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" /> */}
               <img src="/images/cargo-trucks-shipping-containers-sunset-port.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
             {/* <video
@@ -1315,7 +1315,7 @@ function RFQPlatform() {
             /> */}
 
               <div className="h-20"></div>
-            <div className="relative z-10 max-w-4xl px-6 text-left">
+            <div className="relative z-10 max-w-4xl px-6 mt-8 text-left">
               {/* <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div> */}
               {/* <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
               <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, &amp; Suppliers to manage RFQs and quotations efficiently.<br /><br /> <strong>Africa Roles on BELT!</strong> </p> */}
@@ -1324,22 +1324,22 @@ function RFQPlatform() {
                 <span className="block">BIASHARA</span>
                 <span className="block text-green-400 tracking-wider">AFRIKA MASHARIKI</span>
               </h1>
-              <div className="w-20 h-1 bg-green-400 mt-6 mb-8"></div>
-              <p className="text-gray-300 text-base lg:text-lg leading-relaxed max-w-lg mb-10">
+              <div className="w-20 h-1 bg-green-400 mt-3 mb-5"></div>
+              <p className="text-gray-300 text-base lg:text-lg leading-relaxed max-w-lg mb-6">
                 BELT connects businesses in the DRC with trusted suppliers and manufacturers across Kenya, Uganda and the wider East Africa.
               </p>
 
               <div className="flex flex-row items-center justify-left gap-3 sm:gap-4"> {/* justify-center  sm:flex-col*/}
                 {!currentUser ? (
                   <>
-                    <button onClick={() => setShowSignUp(true)} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-sm sm:text-xs">
+                    <button onClick={() => setShowSignUp(true)} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm">
                       <span>
                         <span className="block">Find what you need</span>
                         <span className="block text-xs font-normal opacity-80 uppercase ">(Buyer)</span>
                       </span>
                       <ArrowRight className="group-hover:translate-x-0.5 transition" />
                     </button>
-                    <button onClick={() => setShowSignUp(true)} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-sm sm:text-xs bg-white/5 backdrop-blur-sm">
+                    <button onClick={() => setShowSignUp(true)} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm bg-white/5 backdrop-blur-sm">
                       <span>
                         <span className="block">Grow your business</span>  
                         <span className="block text-xs font-normal opacity-80 uppercase">(Supplier)</span>
@@ -1348,11 +1348,11 @@ function RFQPlatform() {
                     </button>
                   </>
                 ) : (
-                  <button onClick={() => setCurrentPage(currentUser.role === 'buyer' ? 'buyer' : currentUser.role === 'supplier' ? 'supplier' : 'admin')} className="w-full sm:w-auto group px-8 sm:px-10 py-3.5 sm:py-4 bg-blue-600 text-lg sm:text-xl font-semibold text-white rounded-3xl flex items-center justify-center gap-3 hover:bg-blue-500">Go to Dashboard <ArrowRight /></button>
+                  <button onClick={() => setCurrentPage(currentUser.role === 'buyer' ? 'buyer' : currentUser.role === 'supplier' ? 'supplier' : 'admin')} className="w-full sm:w-auto group px-8 sm:px-10 py-3.5 sm:py-4 bg-green-600 text-lg sm:text-xl font-semibold text-white rounded-3xl flex items-center justify-center gap-3 hover:bg-blue-500">Go to Dashboard <ArrowRight /></button>
                 )}
               </div>
 
-              <div className="mt-20 grid grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-0 text-xs text-slate-400">
+              <div className="mt-10 grid grid-cols-3 lg:grid-cols-4 gap-6 lg:gap-0 text-xs text-slate-400">
                 <div className="flex items-center gap-2"><Shield size={30} /> <div> <strong className='text-xs'>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div>
                 <div className="flex items-center gap-2"><Globe size={30} /> <div> <strong className='text-xs'>CROSS-BORDER TRADE</strong> <br /> <p>Connecting borders</p> </div> </div>
                 <div className="flex items-center gap-2"><Tag size={30} /> <div> <strong className='text-xs'>COMPETITIVE PRICING</strong> <br /> <p>Better value, always</p> </div> </div>
@@ -1362,9 +1362,10 @@ function RFQPlatform() {
           </div>
 
           {/* WHAT WE DO -> Demo RFQs */}
-          <div className="max-w-7xl mx-auto px-8 py-20">
-          
-              {/* Search & Filters */}
+          <div className="max-w-7xl mx-auto px-8 py-5">
+           
+            <div className="font-semibold text-2xl mb-5 px-1">Recently Posted:</div>
+               {/* Search & Filters */}
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-8">
               <div className="relative flex-1">
                 <Search className="absolute left-5 top-4 text-slate-400" size={19} />
@@ -1383,7 +1384,7 @@ function RFQPlatform() {
 
               {/* Available RFQs */}
             <div className="mb-12">
-              <div className="font-semibold text-2xl mb-5 px-1">Recently Posted:</div>
+              
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredRFQs.map(rfq => (
                   <div key={rfq.id} className="rfq-card bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col">
@@ -1482,8 +1483,8 @@ function RFQPlatform() {
           <div className="bg-slate-900 py-14 border-y border-slate-800">
             <div className="max-w-5xl mx-auto px-6 pb-20">
               <div className="text-center mb-10">
-                <div className="font-semibold tracking-[2px] text-xs text-green-500 mb-3">TRUSTED WORLDWIDE</div>
-                <div className="text-5xl font-bold tracking-tight">What Our Users Say</div>
+                <div className="font-semibold tracking-[2px] text-2xl text-green-500 mb-3">TESTIMONIALS:</div>
+                {/* <div className="font-semibold text-2xl mb-5 px-1">Testimonials:</div> */}
               </div>
 
               <TestimonialsCarousel />
@@ -1940,7 +1941,7 @@ function RFQPlatform() {
             </div>
           </div> */}
           
-          <div className="flex items-center gap-2.5 group cursor-pointer">
+          {/* <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
               <MessageCircle size={17} color={'green'} />
             </div>
@@ -1948,7 +1949,7 @@ function RFQPlatform() {
               <p className="text-xs text-gray-400">WhatsApp us</p>
               <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
             </div>
-          </div>
+          </div> */}
           
           {/* <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
@@ -2020,7 +2021,7 @@ function RFQPlatform() {
             onError={() => console.log("Google Login Failed")}
           />
           <button type="submit" className="mt-4 w-full py-4 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition">Sign In</button>
-          <div className="text-center text-xs text-slate-500 pt-2">Demo accounts available: Try any email or use Quick Login on homepage.</div>
+          <div className="text-center text-xs text-slate-500 pt-2">Don't have an account? <button onClick={() => { setShowSignIn(false); setShowSignUp(true); }} className="text-blue-500 hover:text-blue-400">Sign Up</button></div>
         </form>
         
       </Modal>
