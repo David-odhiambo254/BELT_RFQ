@@ -105,7 +105,7 @@ const TestimonialsCarousel: React.FC = () => {
   };
 
   return (
-    <div className="relative bg-slate-900 border border-slate-800 rounded-3xl p-8 md:p-12">
+    <div className="relative bg-white shadow-sm border border-gray-200 rounded-3xl p-8 md:p-12">
       <div className="overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div
@@ -117,7 +117,7 @@ const TestimonialsCarousel: React.FC = () => {
             className="text-center"
           >
             <div className="max-w-3xl mx-auto">
-              <div className="text-2xl md:text-3xl font-medium leading-tight text-white tracking-tight mb-10">
+              <div className="text-2xl md:text-3xl font-medium leading-tight text-gray-800 tracking-tight mb-10">
                 “{testimonials[currentIndex].quote}”
               </div>
               
@@ -125,7 +125,7 @@ const TestimonialsCarousel: React.FC = () => {
                 <img 
                   src={testimonials[currentIndex].avatar} 
                   alt={testimonials[currentIndex].name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-blue-600" 
+                  className="w-14 h-14 rounded-full object-cover border-2 border-blue-700" 
                 />
                 <div className="text-left">
                   <div className="font-semibold text-lg">{testimonials[currentIndex].name}</div>
@@ -1168,9 +1168,9 @@ function RFQPlatform() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-200">
+    <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Navbar */}
-      <nav className="border-b border-slate-800 bg-slate-950/15 backdrop-blur-lg sticky top-0 z-40 h-0">
+      <nav className="border-b border-gray-200 bg-gray-50/15 backdrop-blur-lg sticky top-0 z-40 h-0">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
           <div></div>
           {/* <div className="flex items-center gap-3">
@@ -1185,33 +1185,33 @@ function RFQPlatform() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-2 text-sm font-medium">
-            <button onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'home' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Home</button>
+            <button onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'home' ? 'bg-white text-slate-950' : 'hover:bg-gray-300'}`}>Home</button>
 
             {currentUser && (
               <>
                 {currentUser.role === 'buyer' && (
-                  <button onClick={() => { setCurrentPage('buyer'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'buyer' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Buyers
+                  <button onClick={() => { setCurrentPage('buyer'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'buyer' ? 'bg-white text-slate-950' : 'hover:bg-gray-300'}`}>Dashboard</button> // Buyers
                 )}
                 {currentUser.role === 'supplier' && (
-                  <button onClick={() => { setCurrentPage('supplier'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'supplier' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Suppliers 
+                  <button onClick={() => { setCurrentPage('supplier'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'supplier' ? 'bg-white text-slate-950' : 'hover:bg-gray-300'}`}>Dashboard</button> // Suppliers 
                 )}
                 {/* {currentUser.role !== 'admin' && (
                   <button onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'profile' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Profile</button>
                 )} */}
                 {currentUser.role === 'admin' && (
-                  <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Dashboard</button> // Admin 
+                  <button onClick={() => { setCurrentPage('admin'); setMobileMenuOpen(false); }} className={`px-5 py-2 rounded-xl transition-all ${currentPage === 'admin' ? 'bg-white text-slate-950' : 'hover:bg-gray-300'}`}>Dashboard</button> // Admin 
                 )}
 
               </>
             )}
 
             {!currentUser ? (
-              <div className="flex gap-2 ml-3 pl-4 border-l border-slate-800">
+              <div className="flex gap-2 ml-3 pl-4 border-l border-gray-200">
                 <button onClick={() => setShowSignIn(true)} className="px-6 py-2.5 bg-white text-slate-950 rounded-2xl font-semibold hover:bg-slate-100 transition">Sign In</button>
                 <button onClick={() => setShowSignUp(true)} className="px-6 py-2.5 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold transition">Sign Up</button>
               </div>
             ) : (
-              <div className="flex items-center gap-3 ml-4 pl-5 border-l border-slate-800">
+              <div className="flex items-center gap-3 ml-4 pl-5 border-l border-gray-200">
                 <div className="flex items-center gap-3 pr-1" onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }}>
                   {currentUser.profileImage ? (
                     <img src={currentUser.profileImage} alt="Profile" className="w-9 h-9 rounded-full object-cover border border-slate-700" />
@@ -1223,7 +1223,7 @@ function RFQPlatform() {
                     <div className="text-blue-400 text-xs capitalize">{currentUser.role}</div>
                   </div>
                 </div>
-                <button onClick={handleLogout} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 transition"><LogOut size={15} /> Logout</button>
+                <button onClick={handleLogout} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-200 transition"><LogOut size={15} /> Logout</button>
               </div>
             )}
             {/* <GoogleTranslate /> */}
@@ -1237,11 +1237,11 @@ function RFQPlatform() {
                 className="md:hidden p-2 text-white"
                 aria-label="Toggle menu"
               >
-                {mobileMenuOpen ? <X size={24} /> : <div className="space-y-1.5"><span className="block w-6 h-0.5 bg-white"></span><span className="block w-6 h-0.5 bg-white"></span><span className="block w-6 h-0.5 bg-white"></span></div>}
+                {mobileMenuOpen ? <X size={24} className="text-gray-300" /> : <div className="space-y-1.5"><span className="block w-6 h-0.5 bg-gray-300"></span><span className="block w-6 h-0.5 bg-gray-300"></span><span className="block w-6 h-0.5 bg-gray-300"></span></div>}
               </button>
             </>
           ) : (
-            <UserCircle size={28} className="text-white md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}/>
+            <UserCircle size={28} className="text-gray-300 md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}/>
           )
         }
           
@@ -1249,7 +1249,7 @@ function RFQPlatform() {
 
         {/* Mobile Menu */}
         {mobileMenuOpen && (
-          <div className="md:hidden border-t border-slate-800 bg-slate-950 px-4 py-6 text-sm font-medium">
+          <div className="md:hidden border-t border-gray-200 bg-gray-200 px-4 py-6 text-sm font-medium">
             <div className="flex flex-col gap-1">
               <button onClick={() => { setCurrentPage('home'); setMobileMenuOpen(false); }} className={`px-4 py-3 text-left rounded-xl ${currentPage === 'home' ? 'bg-white text-slate-950' : 'hover:bg-slate-900'}`}>Home</button>
 
@@ -1273,12 +1273,12 @@ function RFQPlatform() {
               )}
 
               {!currentUser ? (
-                <div className="pt-3 mt-2 border-t border-slate-800 flex flex-col gap-2">
+                <div className="pt-3 mt-2 border-t border-gray-200 flex flex-col gap-2">
                   <button onClick={() => { setShowSignIn(true); setMobileMenuOpen(false); }} className="px-4 py-3 bg-white text-slate-950 rounded-2xl font-semibold">Sign In</button>
                   <button onClick={() => { setShowSignUp(true); setMobileMenuOpen(false); }} className="px-4 py-3 bg-blue-600 hover:bg-blue-500 rounded-2xl font-semibold">Sign Up</button>
                 </div>
               ) : (
-                <div className="pt-3 mt-2 border-t border-slate-800">
+                <div className="pt-3 mt-2 border-t border-gray-200">
                   <div className="px-4 py-3 flex items-center gap-3" onClick={() => { setCurrentPage('profile'); setMobileMenuOpen(false); }}>
                     {currentUser.profileImage ? (
                       <img src={currentUser.profileImage} alt="Profile" className="w-8 h-8 rounded-full object-cover border border-slate-700" />
@@ -1366,16 +1366,16 @@ function RFQPlatform() {
            
             <div className="font-semibold text-2xl mb-5 px-1">Recently Posted:</div>
                {/* Search & Filters */}
-            <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-8">
+            <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-8 ">
               <div className="relative flex-1">
                 <Search className="absolute left-5 top-4 text-slate-400" size={19} />
-                <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search RFQs by title or keyword..." className="input-field w-full pl-12 py-3.5 bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-2xl placeholder:text-slate-500" />
+                <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search RFQs by title or keyword..." className="input-field w-full pl-12 py-3.5 shadow-sm border border-gray-300 focus:border-blue-600 rounded-2xl placeholder:text-slate-500" />
               </div>
-              <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="input-field bg-slate-900 border border-slate-700 px-6 py-3.5 rounded-2xl">
+              <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="input-field shadow-sm border border-gray-300 px-6 py-3.5 rounded-2xl">
                 <option value="All">All Categories</option>
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
-              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="input-field bg-slate-900 border border-slate-700 px-6 py-3.5 rounded-2xl">
+              <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="input-field shadow-sm border border-gray-300 px-6 py-3.5 rounded-2xl">
                 <option value="All">All Status</option>
                 <option value="Open">Open</option>
                 <option value="Closed">Closed</option>
@@ -1387,20 +1387,20 @@ function RFQPlatform() {
               
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredRFQs.map(rfq => (
-                  <div key={rfq.id} className="rfq-card bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col">
+                  <div key={rfq.id} className="rfq-card bg-white border border-gray-200 p-6 rounded-3xl flex flex-col">
                     <div className="mb-2 flex items-center justify-between">
                       <span className={`status-badge ${rfq.status === 'open' ? 'bg-emerald-600' : 'bg-slate-600'} text-white`}>{rfq.status}</span>
                       <div className="font-medium text-emerald-400">${rfq.budget.toLocaleString()}</div>
                     </div>
-                    {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-slate-800" />}
+                    {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-gray-200" />}
                     <div className="font-semibold text-[21px] tracking-tight mb-2 pr-4">{rfq.title}</div>
-                    <div className="text-sm text-slate-400 mb-4 line-clamp-3 flex-1">{rfq.description}</div>
+                    <div className="text-sm text-gray-500 mb-4 line-clamp-3 flex-1">{rfq.description}</div>
 
                     <div className="text-xs text-slate-500 mb-5">Deadline: {rfq.deadline} • {rfq.category}</div>
 
                     <div className="flex gap-2.5">
                       {/* <button onClick={currentUser? (currentUser.role === 'buyer'? setCurrentPage('buyer') : showToast(`You must have a buyer account to view details`)) : () => setShowSignIn(true) } className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button> */}
-                      <button className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition" onClick= {() => 
+                      <button className="flex-1 py-[13px] border border-gray-200 rounded-2xl hover:bg-gray-300 font-medium transition" onClick= {() => 
                         {
                         if(currentUser){
                           if (currentUser.role === 'buyer') {
@@ -1435,7 +1435,7 @@ function RFQPlatform() {
           </div>
 
           {/* Steps */}
-          {/* <div className="bg-slate-900 py-14 border-y border-slate-800">
+          {/* <div className="bg-slate-900 py-14 border-y border-gray-200">
             <div className="max-w-4xl mx-auto px-6 text-center">
               <div className="text-green-400 text-sm font-semibold mb-3">HOW IT WORKS</div>
               <div className="text-3xl font-bold tracking-tight mb-6">Just three easy steps!</div>
@@ -1470,7 +1470,7 @@ function RFQPlatform() {
                 { icon: <CircleDollarSign />, title: "Better Prices", desc: "Get competitive prices from a dynamic East African market." },
                 { icon: <Forklift />, title: "Secure Logistics", desc: "We work with reliable logistics partners with proven track records." },
               ].map((feat, i) => (
-                <div key={i} className="bg-slate-900 border border-slate-800 p-8 rounded-3xl">
+                <div key={i} className="bg-slate-900 border border-gray-200 p-8 rounded-3xl">
                   <div className="inline-block p-3 bg-green-950 text-green-400 rounded-2xl mb-6">{feat.icon}</div>
                   <div className="font-semibold text-2xl mb-3 tracking-tight">{feat.title}</div>
                   <p className="text-slate-400 leading-relaxed">{feat.desc}</p>
@@ -1480,7 +1480,7 @@ function RFQPlatform() {
           </div> */}
 
           {/* Testimonials Carousel */}
-          <div className="bg-slate-900 py-14 border-y border-slate-800">
+          <div className="bg-gray-100 py-14 border-y border-gray-200">
             <div className="max-w-5xl mx-auto px-6 pb-20">
               <div className="text-center mb-10">
                 <div className="font-semibold tracking-[2px] text-2xl text-green-500 mb-3">TESTIMONIALS:</div>
@@ -1504,7 +1504,7 @@ function RFQPlatform() {
                 { icon: <Award />, title: "Competitive Quotations", desc: "Suppliers submit detailed quotes. Buyers compare side-by-side and accept the best." },
                 { icon: <TrendingUp />, title: "Admin Oversight", desc: "Full visibility for administrators with analytics, user management & platform insights." }
               ].map((feat, i) => (
-                <div key={i} className="bg-slate-900 border border-slate-800 p-8 rounded-3xl">
+                <div key={i} className="bg-slate-900 border border-gray-200 p-8 rounded-3xl">
                   <div className="inline-block p-3 bg-blue-950 text-blue-400 rounded-2xl mb-6">{feat.icon}</div>
                   <div className="font-semibold text-2xl mb-3 tracking-tight">{feat.title}</div>
                   <p className="text-slate-400 leading-relaxed">{feat.desc}</p>
@@ -1514,7 +1514,7 @@ function RFQPlatform() {
           </div> */}
 
           {/* Quick Demo Access */}
-          {/* <div className="bg-slate-900 py-14 border-y border-slate-800">
+          {/* <div className="bg-slate-900 py-14 border-y border-gray-200">
             <div className="max-w-4xl mx-auto px-6 text-center">
               <div className="text-blue-400 text-sm font-semibold mb-3">TRY INSTANTLY</div>
               <div className="text-3xl font-bold tracking-tight mb-6">Login instantly as a demo user</div>
@@ -1553,23 +1553,23 @@ function RFQPlatform() {
                   const quotes = getQuotationsForRFQ(rfq.id);
                   const accepted = getAcceptedQuote(rfq.id);
                   return (
-                    <div key={rfq.id} className="rfq-card bg-slate-900 border border-slate-800 rounded-3xl p-6 flex flex-col">
+                    <div key={rfq.id} className="rfq-card shadow-sm border border-gray-200 rounded-3xl p-6 flex flex-col">
                       <div className="flex justify-between mb-4">
                         <span className={`status-badge ${rfq.status === 'open' ? 'bg-emerald-600 text-white' : 'bg-slate-700 text-white'}`}>{rfq.status}</span>
-                        <span className="text-xs text-slate-400">{rfq.createdAt}</span>
+                        <span className="text-xs text-gray-500">{rfq.createdAt}</span>
                       </div>
-                      {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-36 object-cover rounded-2xl mb-4 border border-slate-800" />}
+                      {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-36 object-cover rounded-2xl mb-4 border border-gray-200" />}
                       <h3 className="font-semibold text-xl tracking-tight mb-2 line-clamp-2">{rfq.title}</h3>
                       <div className="text-emerald-400 font-medium mb-3">${rfq.budget.toLocaleString()}</div>
-                      <div className="text-sm text-slate-400 line-clamp-3 mb-auto flex-1">{rfq.description}</div>
+                      <div className="text-sm text-gray-500 line-clamp-3 mb-auto flex-1">{rfq.description}</div>
 
-                      <div className="flex items-center justify-between pt-5 mt-auto border-t border-slate-800">
+                      <div className="flex items-center justify-between pt-5 mt-auto border-t border-gray-200">
                         <div>
                           <div className="text-xs text-slate-500">QUOTES RECEIVED</div>
                           <div className="font-semibold text-xl">{quotes.length}</div>
                         </div>
                         <div className="flex flex-wrap gap-2">
-                          <button onClick={() => openRFQDetails(rfq)} className="px-4 py-2 text-sm flex items-center gap-1.5 bg-slate-800 hover:bg-slate-700 rounded-xl transition"><Eye size={16} /> Details</button>
+                          <button onClick={() => openRFQDetails(rfq)} className="px-4 py-2 text-sm flex items-center gap-1.5 bg-gray-300 hover:bg-gray-200 rounded-xl transition"><Eye size={16} /> Details</button>
                           {quotes.length === 0 && rfq.status === 'open' && (
                             <button onClick={() => openEditRFQ(rfq)} className="px-4 py-2 text-sm flex items-center gap-1.5 bg-amber-600 hover:bg-amber-500 rounded-xl transition"><Edit size={16} /> Edit</button>
                           )}
@@ -1583,7 +1583,7 @@ function RFQPlatform() {
                 })}
               </div>
             ) : (
-              <div className="bg-slate-900 py-16 text-center rounded-3xl border border-slate-800">No RFQs posted yet. Start by posting your first request.</div>
+              <div className="bg-slate-900 py-16 text-center rounded-3xl border border-gray-200">No RFQs posted yet. Start by posting your first request.</div>
             )}
           </div>
         </div>
@@ -1601,13 +1601,13 @@ function RFQPlatform() {
           <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-8">
             <div className="relative flex-1">
               <Search className="absolute left-5 top-4 text-slate-400" size={19} />
-              <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search RFQs by title or keyword..." className="input-field w-full pl-12 py-3.5 bg-slate-900 border border-slate-700 focus:border-blue-500 rounded-2xl placeholder:text-slate-500" />
+              <input value={searchTerm} onChange={e => setSearchTerm(e.target.value)} placeholder="Search RFQs by title or keyword..." className="input-field w-full pl-12 py-3.5 shadow-sm border border-gray-300 focus:border-blue-500 rounded-2xl placeholder:text-slate-500" />
             </div>
-            <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="input-field bg-slate-900 border border-slate-700 px-6 py-3.5 rounded-2xl">
+            <select value={categoryFilter} onChange={e => setCategoryFilter(e.target.value)} className="input-field shadow-sm border border-gray-300 px-6 py-3.5 rounded-2xl">
               <option value="All">All Categories</option>
               {categories.map(c => <option key={c} value={c}>{c}</option>)}
             </select>
-            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="input-field bg-slate-900 border border-slate-700 px-6 py-3.5 rounded-2xl">
+            <select value={statusFilter} onChange={e => setStatusFilter(e.target.value)} className="input-field shadow-sm border border-gray-300 px-6 py-3.5 rounded-2xl">
               <option value="All">All Status</option>
               <option value="Open">Open</option>
               <option value="Closed">Closed</option>
@@ -1619,19 +1619,19 @@ function RFQPlatform() {
             <div className="font-semibold text-2xl mb-5 px-1">Available RFQs ({openRFQs.length})</div>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
               {filteredRFQs.filter(r => r.status === 'open').map(rfq => (
-                <div key={rfq.id} className="rfq-card bg-slate-900 border border-slate-800 p-6 rounded-3xl flex flex-col">
+                <div key={rfq.id} className="rfq-card bg-white border border-gray-200 p-6 rounded-3xl flex flex-col">
                   <div className="mb-2 flex items-center justify-between">
                     <span className="status-badge bg-emerald-600 text-white">OPEN</span>
                     <div className="font-medium text-emerald-400">${rfq.budget.toLocaleString()}</div>
                   </div>
-                  {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-slate-800" />}
+                  {rfq.image && <img src={rfq.image} alt="RFQ" className="w-full h-32 object-cover rounded-2xl mb-4 border border-gray-200" />}
                   <div className="font-semibold text-[21px] tracking-tight mb-2 pr-4">{rfq.title}</div>
                   <div className="text-sm text-slate-400 mb-4 line-clamp-3 flex-1">{rfq.description}</div>
 
                   <div className="text-xs text-slate-500 mb-5">Deadline: {rfq.deadline} • {rfq.category}</div>
 
                   <div className="flex gap-2.5">
-                    <button onClick={() => openRFQDetails(rfq)} className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button>
+                    <button onClick={() => openRFQDetails(rfq)} className="flex-1 py-[13px] border border-gray-200 rounded-2xl hover:bg-gray-300 font-medium transition">View Details</button>
                     <button onClick={() => openSubmitQuoteModal(rfq)} className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition">Submit Quote</button>
                   </div>
                 </div>
@@ -1643,13 +1643,13 @@ function RFQPlatform() {
           <div>
             <div className="font-semibold text-2xl mb-5 px-1">My Submitted Quotations ({myQuotations.length})</div>
             {myQuotations.length > 0 ? (
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden">
+              <div className="bg-gray-300 border border-gray-200 rounded-3xl overflow-hidden">
                 {myQuotations.map(quote => {
                   const rfq = rfqs.find(r => r.id === quote.rfqId);
                   return (
-                    <div key={quote.id} onClick={() => openQuoteDetails(quote)} className="flex items-center justify-between px-8 py-6 border-b border-slate-800 hover:bg-slate-800/60 cursor-pointer last:border-none group">
+                    <div key={quote.id} onClick={() => openQuoteDetails(quote)} className="flex items-center justify-between px-8 py-6 border-b border-gray-200 hover:bg-slate-800/60 cursor-pointer last:border-none group">
                       <div className="flex items-center gap-4">
-                        {quote.image && <img src={quote.image} alt="" className="w-12 h-12 rounded-xl object-cover border border-slate-700" />}
+                        {quote.image && <img src={quote.image} alt="" className="w-12 h-12 rounded-xl object-cover border border-gray-200" />}
                         <div>
                           <div className="font-semibold text-lg group-hover:text-blue-400 transition">{rfq?.title}</div>
                           <div className="text-sm text-slate-400 mt-px">Submitted {quote.submittedAt}</div>
@@ -1669,7 +1669,7 @@ function RFQPlatform() {
                   );
                 })}
               </div>
-            ) : <div className="py-12 text-center bg-slate-900 border border-slate-800 rounded-3xl">You have not submitted any quotations yet.</div>}
+            ) : <div className="py-12 text-center bg-slate-900 border border-gray-200 rounded-3xl">You have not submitted any quotations yet.</div>}
           </div>
         </div>
       )}
@@ -1690,7 +1690,7 @@ function RFQPlatform() {
               { label: "Total Quotations", value: quotations.length, icon: <Award /> },
               { label: "Registered Users", value: users.length, icon: <Users /> }
             ].map((stat, idx) => (
-              <div key={idx} className="bg-slate-900 p-6 rounded-3xl border border-slate-800">
+              <div key={idx} className="bg-slate-900 p-6 rounded-3xl border border-gray-200">
                 <div className="flex items-center justify-between">
                   <div><div className="text-sm text-slate-400 mb-px">{stat.label}</div><div className="text-5xl font-semibold tracking-tighter">{stat.value}</div></div>
                   <div className="text-blue-500/60">{stat.icon}</div>
@@ -1702,12 +1702,12 @@ function RFQPlatform() {
           {/* All RFQs Table */}
           <div className="mb-10">
             <div className="font-semibold text-2xl mb-5 px-1">All RFQs</div>
-            <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
+            <div className="bg-slate-900 rounded-3xl border border-gray-200 overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-slate-950 border-b border-slate-700"><tr className="text-left text-xs uppercase tracking-wider text-slate-400"><th className="pl-8 py-4">RFQ</th><th>BUYER</th><th>CATEGORY</th><th>BUDGET</th><th>QUOTES</th><th>STATUS</th><th></th></tr></thead>
                 <tbody>
                   {rfqs.map(rfq => (
-                    <tr key={rfq.id} className="border-b border-slate-800 hover:bg-slate-950/70 last:border-none">
+                    <tr key={rfq.id} className="border-b border-gray-200 hover:bg-slate-950/70 last:border-none">
                       <td className="pl-8 py-5 pr-2 font-semibold text-base">{rfq.title}</td>
                       <td>{rfq.buyerName}</td>
                       <td><span className="text-xs px-3 py-px bg-slate-800 rounded-full">{rfq.category}</span></td>
@@ -1725,14 +1725,14 @@ function RFQPlatform() {
           {/* All Quotations */}
           <div>
             <div className="font-semibold text-2xl mb-5 px-1">Recent Quotations</div>
-            <div className="bg-slate-900 rounded-3xl border border-slate-800 overflow-hidden">
+            <div className="bg-slate-900 rounded-3xl border border-gray-200 overflow-hidden">
               <table className="w-full text-sm">
                 <thead className="bg-slate-950 border-b border-slate-700"><tr className="text-left text-xs uppercase tracking-wider text-slate-400"><th className="pl-8 py-4">SUPPLIER</th><th>RFQ</th><th>PRICE</th><th>DELIVERY</th><th>STATUS</th><th></th></tr></thead>
                 <tbody>
                   {quotations.slice(0, 8).map(q => {
                     const r = rfqs.find(rf => rf.id === q.rfqId);
                     return (
-                      <tr key={q.id} className="border-b border-slate-800 hover:bg-slate-950/70 last:border-none">
+                      <tr key={q.id} className="border-b border-gray-200 hover:bg-slate-950/70 last:border-none">
                         <td className="pl-8 py-5 font-medium">{q.supplierName}</td>
                         <td className="text-xs pr-4 text-slate-400">{r?.title.substring(0, 42)}...</td>
                         <td className="font-semibold text-emerald-400">${q.price.toLocaleString()}</td>
@@ -1759,7 +1759,7 @@ function RFQPlatform() {
 
           <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-8">
             {/* Profile Card */}
-            <div className="md:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl p-8 h-fit">
+            <div className="md:col-span-2 shadow-sm border border-gray-200 rounded-3xl p-8 h-fit">
               <div className="flex flex-col items-center text-center">
                 {profileForm.profileImage ? (
                   <img src={profileForm.profileImage} alt="Avatar" className="w-28 h-28 rounded-full object-cover border-4 border-blue-600 mb-5" />
@@ -1776,7 +1776,7 @@ function RFQPlatform() {
                   {profileForm.profileImage ? (
                     <button onClick={removeProfileImage} className="text-sm text-red-400 hover:text-red-300 flex items-center gap-1.5 mx-auto transition">Remove Photo <X size={15} /></button>
                   ) : (
-                    <label className="inline-flex items-center gap-2 px-6 py-2.5 text-sm bg-slate-800 hover:bg-slate-700 rounded-2xl cursor-pointer transition">
+                    <label className="inline-flex items-center gap-2 px-6 py-2.5 text-sm bg-gray-300 hover:bg-slate-700 rounded-2xl cursor-pointer transition">
                       <ImageIcon size={16} /> Upload Photo
                       <input type="file" accept="image/*" onChange={handleProfileImageUpload} className="hidden" />
                     </label>
@@ -1788,7 +1788,7 @@ function RFQPlatform() {
             {/* Edit Form + Stats */}
             <div className="md:col-span-3 space-y-8">
               {/* Editable Info */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <div className="shadow-sm border border-gray-200 rounded-3xl p-8">
                 <div className="font-semibold text-xl tracking-tight mb-6">Personal Information</div>
 
                 <div className="space-y-5">
@@ -1797,7 +1797,7 @@ function RFQPlatform() {
                     <input
                       value={profileForm.name}
                       onChange={e => setProfileForm({ ...profileForm, name: e.target.value })}
-                      className="input-field w-full bg-slate-950 border border-slate-700 px-5 py-3.5 rounded-2xl text-lg"
+                      className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl text-lg"
                     />
                   </div>
                   <div>
@@ -1806,16 +1806,16 @@ function RFQPlatform() {
                       type="email"
                       value={profileForm.email}
                       onChange={e => setProfileForm({ ...profileForm, email: e.target.value })}
-                      className="input-field w-full bg-slate-950 border border-slate-700 px-5 py-3.5 rounded-2xl text-lg"
+                      className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl text-lg"
                     />
                   </div>
                   <div>
                     <label className="block text-sm text-slate-400 mb-1.5">Account Type</label>
-                    <div className="px-5 py-3.5 bg-slate-950 border border-slate-700 rounded-2xl text-lg capitalize text-blue-400 font-medium">{currentUser.role}</div>
+                    <div className="px-5 py-3.5 bg-gray-100 border border-gray-200 rounded-2xl text-lg capitalize text-blue-400 font-medium">{currentUser.role}</div>
                   </div>
                 </div>
 
-                <button onClick={saveProfile} className="mt-8 w-full py-4 bg-white text-slate-950 font-semibold rounded-2xl active:bg-slate-200 transition flex justify-center items-center gap-2">
+                <button onClick={saveProfile} className="mt-8 w-full py-4 bg-gray-300 text-slate-950 font-semibold rounded-2xl active:bg-slate-200 transition flex justify-center items-center gap-2">
                   SAVE PROFILE CHANGES
                 </button>
               </div>
@@ -1831,7 +1831,7 @@ function RFQPlatform() {
                       { label: 'Quotations Received', value: myRFQs.reduce((sum, r) => sum + getQuotationsForRFQ(r.id).length, 0) },
                       { label: 'RFQs Closed', value: myRFQs.filter(r => r.status === 'closed').length },
                     ].map((stat, index) => (
-                      <div key={index} className="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                      <div key={index} className="shadow-sm border border-gray-200 p-6 rounded-3xl">
                         <div className="text-4xl font-bold tracking-tighter">{stat.value}</div>
                         <div className="text-sm text-slate-400 mt-1">{stat.label}</div>
                       </div>
@@ -1845,7 +1845,7 @@ function RFQPlatform() {
                       { label: 'Total Quote Value', value: '$' + myQuotations.reduce((sum, q) => sum + q.price, 0).toLocaleString() },
                       { label: 'Win Rate', value: myQuotations.length > 0 ? Math.round((myQuotations.filter(q => q.status === 'accepted').length / myQuotations.length) * 100) + '%' : '0%' },
                     ].map((stat, index) => (
-                      <div key={index} className="bg-slate-900 border border-slate-800 p-6 rounded-3xl">
+                      <div key={index} className="shadow-sm border border-gray-200 p-6 rounded-3xl">
                         <div className="text-4xl font-bold tracking-tighter">{stat.value}</div>
                         <div className="text-sm text-slate-400 mt-1">{stat.label}</div>
                       </div>
@@ -1855,13 +1855,13 @@ function RFQPlatform() {
               </div>
 
               {/* Recent Activity */}
-              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8">
+              <div className="shadow-sm border border-gray-200 rounded-3xl p-8">
                 <div className="font-semibold text-xl tracking-tight mb-5">Recent Activity</div>
                 {currentUser.role === 'buyer' ? (
                   myRFQs.length > 0 ? (
                     <div className="space-y-3">
                       {myRFQs.slice(0, 4).map(rfq => (
-                        <div key={rfq.id} onClick={() => { openRFQDetails(rfq); setCurrentPage('buyer'); }} className="flex justify-between items-center p-4 bg-slate-950 hover:bg-slate-800 cursor-pointer rounded-2xl transition">
+                        <div key={rfq.id} onClick={() => { openRFQDetails(rfq); setCurrentPage('buyer'); }} className="flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-300 cursor-pointer rounded-2xl transition">
                           <div>
                             <div className="font-medium">{rfq.title}</div>
                             <div className="text-xs text-slate-500 mt-0.5">{rfq.createdAt} • {rfq.category}</div>
@@ -1877,7 +1877,7 @@ function RFQPlatform() {
                       {myQuotations.slice(0, 4).map(quote => {
                         const rfq = rfqs.find(r => r.id === quote.rfqId);
                         return (
-                          <div key={quote.id} onClick={() => { openQuoteDetails(quote); setCurrentPage('supplier'); }} className="flex justify-between items-center p-4 bg-slate-950 hover:bg-slate-800 cursor-pointer rounded-2xl transition">
+                          <div key={quote.id} onClick={() => { openQuoteDetails(quote); setCurrentPage('supplier'); }} className="flex justify-between items-center p-4 bg-gray-100 hover:bg-gray-300 cursor-pointer rounded-2xl transition">
                             <div>
                               <div className="font-medium line-clamp-1">{rfq?.title}</div>
                               <div className="text-xs text-slate-500 mt-0.5">Submitted {quote.submittedAt}</div>
@@ -1899,7 +1899,7 @@ function RFQPlatform() {
       )}
 
       {/* FOOTER */}
-      <footer className="border-t border-slate-800 py-9 text-sm text-center text-slate-500">
+      <footer className="border-t border-gray-200 py-9 text-sm text-center text-slate-500">
         {/* © 2026 <strong>belt</strong> RFQ Platform. All Rights Reserved. Built for seamless procurement. */}
         {/* <div className="flex items-center gap-2 text-sm text-slate-400"><Shield size={17} /> <div> <strong>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div> */}
         
@@ -1976,27 +1976,27 @@ function RFQPlatform() {
       <Modal isOpen={showSignUp} onClose={() => setShowSignUp(false)} title="Create Your Account" size="md">
         <form onSubmit={handleSignUp} className="space-y-5">
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">User Name</label>
-            <input type="text" value={signUpForm.name} onChange={e => setSignUpForm({ ...signUpForm, name: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">User Name</label>
+            <input type="text" value={signUpForm.name} onChange={e => setSignUpForm({ ...signUpForm, name: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Email Address</label>
-            <input type="email" value={signUpForm.email} onChange={e => setSignUpForm({ ...signUpForm, email: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Email Address</label>
+            <input type="email" value={signUpForm.email} onChange={e => setSignUpForm({ ...signUpForm, email: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Phone Number</label>
-            <input type="tel" value={signUpForm.phone} onChange={e => setSignUpForm({ ...signUpForm, phone: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Phone Number</label>
+            <input type="tel" value={signUpForm.phone} onChange={e => setSignUpForm({ ...signUpForm, phone: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Password</label>
-            <input type="password" value={signUpForm.password} onChange={e => setSignUpForm({ ...signUpForm, password: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" required />
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Password</label>
+            <input type="password" value={signUpForm.password} onChange={e => setSignUpForm({ ...signUpForm, password: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Select Your Role</label>
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Select Your Role</label>
             <div className="flex gap-2">
               {/* , 'admin' */}
               {(['buyer', 'supplier'] as Role[]).map(r => (
-                <button type="button" key={r} onClick={() => setSignUpForm({ ...signUpForm, role: r })} className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-slate-700 hover:bg-slate-900'}`}>{r}</button>
+                <button type="button" key={r} onClick={() => setSignUpForm({ ...signUpForm, role: r })} className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-200 hover:bg-gray-200'}`}>{r}</button>
               ))}
             </div>
           </div>
@@ -2008,12 +2008,12 @@ function RFQPlatform() {
       <Modal isOpen={showSignIn} onClose={() => setShowSignIn(false)} title="Sign In to belt RFQ" size="md">
         <form onSubmit={handleSignIn} className="space-y-5 pt-1">
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Email Address</label>
-            <input type="email" value={signInForm.email} onChange={e => setSignInForm({ ...signInForm, email: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="demo@buyer.com" required />
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Email Address</label>
+            <input type="email" value={signInForm.email} onChange={e => setSignInForm({ ...signInForm, email: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="demo@buyer.com" required />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1.5 text-slate-300">Password</label>
-            <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-slate-900 border border-slate-700 px-5 py-3.5 rounded-2xl" placeholder="Any password works in demo" />
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Password</label>
+            <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="Any password works in demo" />
           </div>
           <GoogleLogin 
             text="signin_with"
