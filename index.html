@@ -69,12 +69,12 @@ loadRrweb();
 
     /* Make the dropdown look more modern */
     .goog-te-gadget-simple {
-      background-color: #1B1C20 !important;
-      border: 1px solid #1B1C20 !important;
+      background-color: #45556cbb !important;
+      border: 1px solid #45556C !important;
       border-radius: 5px !important;
       padding: 8px 12px !important;
       font-size: 16px !important;
-      color: #333 !important;
+      color: #ececec !important;
       display: flex !important;
       align-items: center !important;
       width: 200px !important;  /* Adjust width as needed */
@@ -92,7 +92,7 @@ loadRrweb();
     /* Style the dropdown text */
     .goog-te-gadget-simple a {
       text-decoration: none !important;
-      color: #939393 !important;
+      color: #f3f2f2 !important;
       font-weight: bold !important;
     }
 
@@ -105,6 +105,21 @@ loadRrweb();
     /* Prevent extra margin issues caused by Google Translate */
     body {
       top: 0px !important;
+    }
+
+    .VIpgJd-ZVi9od-xl07Ob-lTBxed img {
+      display: none !important;
+    }
+
+    div:has(> #google_translate_element) {
+      overflow: hidden !important;
+      height: 50px !important;
+    }
+    #google_translate_element + select {
+      background-color: #45556cbb !important;
+      border: 1px solid #45556C !important;
+      border-radius: 5px !important;
+      color: #ececec !important;
     }
     
   </style>

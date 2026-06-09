@@ -4,7 +4,7 @@ import {
   Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle, 
   XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit,
   View, Shield, Globe, Tag, Laptop, Factory, ShoppingCart, Send, Scale, Handshake, ShieldCheck, 
-  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle, UserCircle
+  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle, UserCircle, Facebook, Twitter, Linkedin, BrandWhatsapp, Whatsapp ,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { i } from 'framer-motion/client';
@@ -12,6 +12,8 @@ import { i } from 'framer-motion/client';
 import GoogleTranslate from "./assets/GoogleTranslate";
 
 import { GoogleLogin } from '@react-oauth/google';
+
+import '@fortawesome/fontawesome-free/css/all.css';
 
 // Types
 type Role = 'buyer' | 'supplier' | 'admin';
@@ -54,6 +56,13 @@ interface Quotation {
   image?: string; // optional base64 data URL
 }
 
+interface Testimonial {
+  quote: string;
+  name: string;
+  role: string;
+  avatar: string;
+}
+
 // Toast Type
 interface Toast {
   id: number;
@@ -61,115 +70,7 @@ interface Toast {
   type: 'success' | 'error' | 'info';
 }
 
-// Testimonials Carousel Component
-const TestimonialsCarousel: React.FC = () => {
-  const testimonials = [
-    {
-      quote: "Ukanda has completely transformed how we source industrial equipment. We received 6 competitive quotes within 48 hours and saved 18% on our last procurement.",
-      name: "Sarah Chen",
-      role: "Procurement Director, Apex Manufacturing",
-      avatar: "/images/buyer.jpg"
-    },
-    {
-      quote: "As a supplier, this platform has been a game changer. The quality of RFQs is excellent and the ability to submit detailed quotations with images has helped us win more business.",
-      name: "Marcus Rivera",
-      role: "CEO, Rivera Precision Parts",
-      avatar: "/images/supplier.jpg"
-    },
-    {
-      quote: "The comparison tools and easy 'Accept' workflow have cut our decision time in half. Our team can now evaluate quotations side-by-side with all supporting visuals.",
-      name: "Elena Rodriguez",
-      role: "Head of Operations, Vertex Logistics",
-      avatar: "/images/supplier.jpg"
-    },
-    {
-      quote: "Managing the entire RFQ process from one dashboard is incredibly powerful. The platform gives us full visibility into supplier performance and quote history.",
-      name: "David Kim",
-      role: "VP Supply Chain, Horizon Industries",
-      avatar: "/images/admin.jpg"
-    }
-  ];
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  return (
-    <div className="relative bg-white shadow-sm border border-gray-200 rounded-3xl p-8 md:p-12">
-      <div className="overflow-hidden">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={{ opacity: 0, x: 40 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -40 }}
-            transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
-            className="text-center"
-          >
-            <div className="max-w-3xl mx-auto">
-              <div className="text-2xl md:text-3xl font-medium leading-tight text-gray-800 tracking-tight mb-10">
-                “{testimonials[currentIndex].quote}”
-              </div>
-              
-              <div className="flex items-center justify-center gap-4">
-                <img 
-                  src={testimonials[currentIndex].avatar} 
-                  alt={testimonials[currentIndex].name}
-                  className="w-14 h-14 rounded-full object-cover border-2 border-blue-700" 
-                />
-                <div className="text-left">
-                  <div className="font-semibold text-lg">{testimonials[currentIndex].name}</div>
-                  <div className="text-sm text-slate-400">{testimonials[currentIndex].role}</div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
-      </div>
-
-      {/* Navigation Controls */}
-      <div className="flex items-center justify-center gap-4 mt-10">
-        <button 
-          onClick={goToPrevious}
-          className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
-          aria-label="Previous testimonial"
-        >
-          <ArrowRight className="rotate-180" size={20} />
-        </button>
-
-        {/* Dots */}
-        <div className="flex gap-2 mx-4">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => goToSlide(index)}
-              className={`w-2.5 h-2.5 rounded-full transition-all ${currentIndex === index ? 'bg-blue-500 w-8' : 'bg-slate-600 hover:bg-slate-500'}`}
-              aria-label={`Go to testimonial ${index + 1}`}
-            />
-          ))}
-        </div>
-
-        <button 
-          onClick={goToNext}
-          className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
-          aria-label="Next testimonial"
-        >
-          <ArrowRight size={20} />
-        </button>
-      </div>
-    </div>
-  );
-};
 
 // JFKL Loader Component
 const JFKLLoader: React.FC<{ size?: 'sm' | 'md' | 'lg' }> = ({ size = 'md' }) => {
@@ -250,6 +151,125 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
   </div>
 );
 
+// Testimonials Carousel Component
+const TestimonialsCarousel: React.FC = () => {
+  const testimonials = [
+    {
+      quote: "Ukanda has completely transformed how we source industrial equipment. We received 6 competitive quotes within 48 hours and saved 18% on our last procurement.",
+      name: "Sarah Chen",
+      role: "Procurement Director, Apex Manufacturing",
+      avatar: "/images/buyer.jpg"
+    },
+    {
+      quote: "As a supplier, this platform has been a game changer. The quality of RFQs is excellent and the ability to submit detailed quotations with images has helped us win more business.",
+      name: "Marcus Rivera",
+      role: "CEO, Rivera Precision Parts",
+      avatar: "/images/supplier.jpg"
+    },
+    {
+      quote: "The comparison tools and easy 'Accept' workflow have cut our decision time in half. Our team can now evaluate quotations side-by-side with all supporting visuals.",
+      name: "Elena Rodriguez",
+      role: "Head of Operations, Vertex Logistics",
+      avatar: "/images/supplier.jpg"
+    },
+    {
+      quote: "Managing the entire RFQ process from one dashboard is incredibly powerful. The platform gives us full visibility into supplier performance and quote history.",
+      name: "David Kim",
+      role: "VP Supply Chain, Horizon Industries",
+      avatar: "/images/admin.jpg"
+    }
+  ];
+
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
+  };
+
+  const goToSlide = (index: number) => {
+    setCurrentIndex(index);
+  };
+
+  return (
+    <div className="relative bg-white shadow-sm border border-gray-200 rounded-2xl p-0 pb-8 md:p-12">
+      <div className="overflow-hidden">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentIndex}
+            initial={{ opacity: 0, x: 40 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -40 }}
+            transition={{ duration: 0.4, ease: [0.32, 0.72, 0, 1] }}
+            className="text-center"
+          >
+            <div className="w-full">
+              <img 
+                src={testimonials[currentIndex].avatar} 
+                alt="" 
+                className="w-full h-50 object-cover rounded-2xl mb-6 border-2 border-blue-700"
+              />
+            </div>
+            <div className="max-w-3xl mx-auto p-5">
+              
+              
+              <div className="text-2xl md:text-2xl font-medium leading-tight text-gray-800 tracking-tight mb-10">
+                “{testimonials[currentIndex].quote}”
+              </div>
+              
+              <div className="flex items-center justify-left gap-4 ">
+                {/* <img 
+                  src={testimonials[currentIndex].avatar} 
+                  alt={testimonials[currentIndex].name}
+                  className="w-14 h-14 rounded-full object-cover border-2 border-blue-700" 
+                /> */}
+                <div className="text-left">
+                  <div className="font-semibold text-lg">{testimonials[currentIndex].name}</div>
+                  <div className="text-sm text-slate-400">{testimonials[currentIndex].role}</div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Navigation Controls */}
+      <div className="flex items-center justify-center gap-4 mt-10">
+        <button 
+          onClick={goToPrevious}
+          className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
+          aria-label="Previous testimonial"
+        >
+          <ArrowRight className="rotate-180" size={20} />
+        </button>
+
+        {/* Dots */}
+        <div className="flex gap-2 mx-4">
+          {testimonials.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => goToSlide(index)}
+              className={`w-2.5 h-2.5 rounded-full transition-all ${currentIndex === index ? 'bg-blue-500 w-8' : 'bg-slate-600 hover:bg-slate-500'}`}
+              aria-label={`Go to testimonial ${index + 1}`}
+            />
+          ))}
+        </div>
+
+        <button 
+          onClick={goToNext}
+          className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
+          aria-label="Next testimonial"
+        >
+          <ArrowRight size={20} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 // Main App Component
 function RFQPlatform() {
   const [currentUser, setCurrentUser] = useState<User | null>(null);
@@ -259,6 +279,7 @@ function RFQPlatform() {
   const [rfqs, setRfqs] = useState<RFQ[]>([]);
   const [quotations, setQuotations] = useState<Quotation[]>([]);
   const [users, setUsers] = useState<User[]>([]);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
 
   // Demo Data States
   const [demoRFQs, setDemoRFQs] = useState<RFQ[]>([]);
@@ -273,6 +294,7 @@ function RFQPlatform() {
   const [showRFQDetails, setShowRFQDetails] = useState(false);
   const [showQuoteDetails, setShowQuoteDetails] = useState(false);
   const [showComparison, setShowComparison] = useState(false);
+  const [showTerms, setShowTerms] = useState(false);
 
   const [selectedRFQ, setSelectedRFQ] = useState<RFQ | null>(null);
   const [selectedQuotation, setSelectedQuotation] = useState<Quotation | null>(null);
@@ -353,12 +375,14 @@ function RFQPlatform() {
       const rfqsFound = await rfqsResponse.json();
       const quotationsResponse = await fetch('https://admin.beltprocure.com/api/v1/quotations'); // api/quotations
       const quotationsFound = await quotationsResponse.json();
-      // const usersResponse = await fetch('https://example.com/api/users');
+      const testimonialsResponse = await fetch('https://admin.beltprocure.com/api/testimonials'); // api/testimonials
+      const testimonialsFound = await testimonialsResponse.json();
       setRfqs(rfqsFound.data);
       console.log('RFQs:', rfqs); // to test if we got the rfqs right
       setQuotations(quotationsFound.data);
       console.log('Quotations:', quotations); // to test if we got the quotations right
-      // setUsers((await usersResponse.json()));
+      setTestimonials(testimonialsFound);
+      console.log('Testimonials:', testimonialsFound); // to test if we got the testimonials right
     } catch (error) {
       console.error('Error fetching data:', error);
     }
@@ -1171,8 +1195,8 @@ function RFQPlatform() {
     <div className="min-h-screen bg-gray-50 text-gray-800">
       {/* Navbar */}
       <nav className="border-b border-gray-200 bg-gray-50/15 backdrop-blur-lg sticky top-0 z-40 h-0">
-        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-20">
-          <div></div>
+        <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-10 py-0">
+          <div className="mt-0"><GoogleTranslate /></div>
           {/* <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-3xl font-black tracking-[-2.5px] text-white">
               <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-20 h-20" />
@@ -1226,9 +1250,10 @@ function RFQPlatform() {
                 <button onClick={handleLogout} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-200 transition"><LogOut size={15} /> Logout</button>
               </div>
             )}
-            {/* <GoogleTranslate /> */}
+            
           </div>
 
+          
           {/* Mobile Hamburger */}
           {currentUser ? (
             <>
@@ -1305,17 +1330,10 @@ function RFQPlatform() {
           <div className="relative h-[80vh] flex items-center justify-center bg-slate-900 overflow-hidden"> {/* justify-center */}
             {/* <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" /> */}
               <img src="/images/cargo-trucks-shipping-containers-sunset-port.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
-            {/* <video
-              src="/images/VideoProject.mp4"
-              loop
-              muted
-              autoPlay
-              playsInline
-              className="absolute inset-0 w-full h-full object-cover opacity-35"
-            /> */}
+            
 
               <div className="h-20"></div>
-            <div className="relative z-10 max-w-4xl px-6 mt-8 text-left">
+            <div className="relative z-10 max-w-4xl px-6 mt-10 text-left">
               {/* <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div> */}
               {/* <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
               <p className="max-w-md mx-auto text-lg sm:text-xl text-slate-300 mb-10">The seamless platform for Buyers, &amp; Suppliers to manage RFQs and quotations efficiently.<br /><br /> <strong>Africa Roles on BELT!</strong> </p> */}
@@ -1332,14 +1350,14 @@ function RFQPlatform() {
               <div className="flex flex-row items-center justify-left gap-3 sm:gap-4"> {/* justify-center  sm:flex-col*/}
                 {!currentUser ? (
                   <>
-                    <button onClick={() => setShowSignUp(true)} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm">
+                    <button onClick={() => {setSignUpForm({ ...signUpForm, role: 'buyer' }); setShowSignUp(true)}} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm">
                       <span>
                         <span className="block">Find what you need</span>
                         <span className="block text-xs font-normal opacity-80 uppercase ">(Buyer)</span>
                       </span>
                       <ArrowRight className="group-hover:translate-x-0.5 transition" />
                     </button>
-                    <button onClick={() => setShowSignUp(true)} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm bg-white/5 backdrop-blur-sm">
+                    <button onClick={() => {setSignUpForm({ ...signUpForm, role: 'supplier' }); setShowSignUp(true)}} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm bg-white/5 backdrop-blur-sm">
                       <span>
                         <span className="block">Grow your business</span>  
                         <span className="block text-xs font-normal opacity-80 uppercase">(Supplier)</span>
@@ -1842,7 +1860,7 @@ function RFQPlatform() {
                     {[
                       { label: 'Quotes Submitted', value: myQuotations.length },
                       { label: 'Accepted Quotes', value: myQuotations.filter(q => q.status === 'accepted').length },
-                      { label: 'Total Quote Value', value: '$' + myQuotations.reduce((sum, q) => sum + q.price, 0).toLocaleString() },
+                      // { label: 'Total Quote Value', value: '$' + myQuotations.reduce((sum, q) => sum + q.price, 0).toLocaleString() },
                       { label: 'Win Rate', value: myQuotations.length > 0 ? Math.round((myQuotations.filter(q => q.status === 'accepted').length / myQuotations.length) * 100) + '%' : '0%' },
                     ].map((stat, index) => (
                       <div key={index} className="shadow-sm border border-gray-200 p-6 rounded-3xl">
@@ -1904,7 +1922,7 @@ function RFQPlatform() {
         {/* <div className="flex items-center gap-2 text-sm text-slate-400"><Shield size={17} /> <div> <strong>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div> */}
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
-        <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-8">
+        <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-8">
         
         {/* <!-- Logo & Tagline --> */}
         {/* <div className="flex items-center gap-6">
@@ -1918,6 +1936,7 @@ function RFQPlatform() {
           <div className="hidden sm:block w-px h-10 bg-gray-200"></div>
           <p className="hidden sm:block text-gray-500 text-sm">Connecting Businesses.<br/>Growing Africa.</p>
         </div> */}
+        
 
         {/* <!-- Contact Info --> */}
        <div className="flex flex-wrap gap-6 lg:gap-10">
@@ -1940,16 +1959,33 @@ function RFQPlatform() {
               <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
             </div>
           </div> */}
-          
-          {/* <div className="flex items-center gap-2.5 group cursor-pointer">
+
+          {/* Whatsapp */}
+          <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
-              <MessageCircle size={17} color={'green'} />
+              <a href="https://wa.me/243891018285" target="_blank" rel="noopener noreferrer">
+                <i className="fab fa-lg fa-whatsapp text-green-600 "></i>
+              </a>
             </div>
-            <div>
-              <p className="text-xs text-gray-400">WhatsApp us</p>
-              <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
+          </div>
+
+          {/* Facebook */}
+          <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+              <a href="https://www.facebook.com/beltintel" target="_blank" rel="noopener noreferrer">
+                <Facebook size={17} color={'green'} />
+              </a>
             </div>
-          </div> */}
+          </div>
+
+          {/* LinkedIn */}
+          <div className="flex items-center gap-2.5 group cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+              <a href="https://www.linkedin.com/company/beltintel" target="_blank" rel="noopener noreferrer">
+                <Linkedin size={17} color={'green'} />
+              </a>
+            </div>
+          </div>
           
           {/* <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
@@ -1966,7 +2002,7 @@ function RFQPlatform() {
 
       {/* <!-- Bottom Bar --> */}
       <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-gray-400"> © 2026 BELT. All rights reserved.</p>
+        <p className="text-xs text-gray-400"> © 2026 BELT. <button onClick={() => setShowTerms(true)} className="text-blue-600 hover:underline">Terms and conditions</button> apply</p>
         {/* <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> */}
       </div>
     </div>
@@ -1991,15 +2027,14 @@ function RFQPlatform() {
             <label className="block text-sm font-medium mb-1.5 text-gray-500">Password</label>
             <input type="password" value={signUpForm.password} onChange={e => setSignUpForm({ ...signUpForm, password: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" required />
           </div>
-          <div>
-            <label className="block text-sm font-medium mb-1.5 text-gray-500">Select Your Role</label>
+          {/* <div>
+            <label className="block text-sm font-medium mb-1.5 text-gray-500">Role selected</label>
             <div className="flex gap-2">
-              {/* , 'admin' */}
               {(['buyer', 'supplier'] as Role[]).map(r => (
-                <button type="button" key={r} onClick={() => setSignUpForm({ ...signUpForm, role: r })} className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-200 hover:bg-gray-200'}`}>{r}</button>
+                <button type="button" key={r}  className={`flex-1 py-3 rounded-2xl capitalize text-sm font-semibold border ${signUpForm.role === r ? 'bg-blue-600 border-blue-600 text-white' : 'border-gray-200 hover:bg-gray-200'}`} disabled={true}>{r}</button>
               ))}
             </div>
-          </div>
+          </div> */}
           <button type="submit" className="w-full mt-3 py-4 bg-blue-600 font-semibold rounded-2xl active:bg-blue-700 transition">Create Account &amp; Continue</button>
         </form>
       </Modal>
@@ -2009,11 +2044,11 @@ function RFQPlatform() {
         <form onSubmit={handleSignIn} className="space-y-5 pt-1">
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-500">Email Address</label>
-            <input type="email" value={signInForm.email} onChange={e => setSignInForm({ ...signInForm, email: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="demo@buyer.com" required />
+            <input type="email" value={signInForm.email} onChange={e => setSignInForm({ ...signInForm, email: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="" required />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1.5 text-gray-500">Password</label>
-            <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="Any password works in demo" />
+            <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="" />
           </div>
           <GoogleLogin 
             text="signin_with"
@@ -2026,37 +2061,81 @@ function RFQPlatform() {
         
       </Modal>
 
+      {/* TERMS OF SERVICE MODAL */}
+      <Modal isOpen={showTerms} onClose={() => setShowTerms(false)} title="Terms of Service" size="lg">
+        <div className="space-y-4">
+          
+          <h2 className="text-lg font-semibold">Buyer Terms of Service</h2>
+          <p>1. Purpose of the Platform
+          UKANDA facilitates sourcing, procurement, payment coordination, and logistics coordination between buyers and suppliers across East Africa.
+          2. Buyer Eligibility
+          Buyers must be at least 18 years old, provide accurate information, and have authority to make purchases.
+          3. Order Process
+          Buyers submit sourcing requests, receive quotations, select suppliers, and confirm orders through UKANDA.
+          4. Payments
+          UKANDA may collect and process payments on behalf of suppliers and logistics partners. Payments must be made through approved UKANDA channels.
+          5. Logistics and Delivery
+          UKANDA coordinates delivery through approved logistics partners. Delivery times are estimates and may be affected by external factors.
+          6. Product Information
+          Product descriptions and quotations are supplied by suppliers. Buyers are responsible for reviewing quotations before confirming purchases.
+          7. Inspection and Acceptance
+          Buyers must inspect products upon delivery and report any issues within 48 hours.
+          8. Returns and Disputes
+          UKANDA may assist in dispute resolution. Return eligibility depends on supplier policies and product categories.
+          </p>
+
+          <br />
+
+          <h2 className="text-lg font-semibold">Supplier Terms of Service</h2>
+          <p>1. Purpose
+          UKANDA connects suppliers and manufacturers with buyers across East Africa and the DRC, and facilitates sourcing, payment coordination, and logistics coordination.
+          2. Supplier Eligibility
+          Suppliers must provide accurate company information and have legal authority to sell the products listed on the platform.
+          3. Supplier Responsibilities
+          Suppliers must provide accurate quotations, product specifications, pricing, stock availability, and delivery commitments.
+          4. Quotations
+          All quotations submitted through UKANDA must be genuine, competitive, and valid for the stated period.
+          5. Commission Structure
+          UKANDA charges a commission of seven percent (7%) of the total transaction value for every successful purchase completed through the platform. The commission may be deducted from payments processed through UKANDA or invoiced separately.
+          6. Payment Terms
+          Suppliers agree that payments related to transactions initiated through UKANDA may be coordinated through approved UKANDA payment channels. Suppliers must not request buyers to bypass UKANDA payment processes.
+          7. Non-Circumvention
+          Suppliers shall not attempt to bypass UKANDA by conducting direct transactions with buyers introduced through the platform. Transactions originating from UKANDA remain subject to the applicable commission structure.
+          </p>
+        </div>
+      </Modal>
+
       {/* POST RFQ MODAL */}
       <Modal isOpen={showPostRFQ} onClose={() => { setShowPostRFQ(false); setEditingRFQId(null); setPostRFQForm({ title: '', description: '', category: 'Electronics', deadline: '', budget: '', image: null }); }} title={editingRFQId ? "Edit Request for Quote" : "Post New Request for Quote"} size="lg">
         <form onSubmit={postNewRFQ} className="space-y-6">
 
           <div>
             <label className="text-sm font-medium text-slate-400">RFQ Title</label>
-            <input value={postRFQForm.title} onChange={e => setPostRFQForm({ ...postRFQForm, title: e.target.value })} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="e.g. High-Precision Laser Cutters" />
+            <input value={postRFQForm.title} onChange={e => setPostRFQForm({ ...postRFQForm, title: e.target.value })} required className="input-field mt-1.5 w-full bg-grey-300 px-5 py-3 rounded-2xl border border-grey-400" placeholder="e.g. High-Precision Laser Cutters" />
           </div>
           <div>
             <label className="text-sm font-medium text-slate-400">Detailed Description</label>
-            <textarea value={postRFQForm.description} onChange={e => setPostRFQForm({ ...postRFQForm, description: e.target.value })} required rows={4} className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700 resize-y" placeholder="Describe the product or service in detail..." />
+            <textarea value={postRFQForm.description} onChange={e => setPostRFQForm({ ...postRFQForm, description: e.target.value })} required rows={4} className="input-field mt-1.5 w-full bg-grey-300 px-5 py-3 rounded-2xl border border-grey-400 resize-y" placeholder="Describe the product or service in detail..." />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
             <div>
               <label className="text-sm font-medium text-slate-400">Category</label>
-              <select value={postRFQForm.category} onChange={e => setPostRFQForm({ ...postRFQForm, category: e.target.value })} className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700">
+              <select value={postRFQForm.category} onChange={e => setPostRFQForm({ ...postRFQForm, category: e.target.value })} className="input-field mt-1.5 w-full bg-grey-300 px-5 py-3 rounded-2xl border border-grey-400">
                 {categories.map(c => <option key={c}>{c}</option>)}
               </select>
             </div>
             <div>
               <label className="text-sm font-medium text-slate-400">Deadline</label>
-              <input type="date" value={postRFQForm.deadline} onChange={e => setPostRFQForm({ ...postRFQForm, deadline: e.target.value })} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" />
+              <input type="date" value={postRFQForm.deadline} onChange={e => setPostRFQForm({ ...postRFQForm, deadline: e.target.value })} required className="input-field mt-1.5 w-full bg-grey-300 px-5 py-3 rounded-2xl border border-grey-400" />
             </div>
             <div>
               <label className="text-sm font-medium text-slate-400">Budget (USD)</label>
-              <input type="number" value={postRFQForm.budget} onChange={e => setPostRFQForm({ ...postRFQForm, budget: e.target.value })} required className="input-field mt-1.5 w-full bg-slate-900 px-5 py-3 rounded-2xl border border-slate-700" placeholder="185000" />
+              <input type="number" value={postRFQForm.budget} onChange={e => setPostRFQForm({ ...postRFQForm, budget: e.target.value })} required className="input-field mt-1.5 w-full bg-grey-300 px-5 py-3 rounded-2xl border border-grey-400" placeholder="185000" />
             </div>
           </div>
 
           {/* Optional Image Upload for RFQ */}
-          <div>
+          {/* <div>
             <label className="text-sm font-medium text-slate-400 flex items-center gap-2 mb-1.5">
               <ImageIcon size={15} /> Reference Image <span className="text-xs text-slate-500">(Optional)</span>
             </label>
@@ -2074,7 +2153,7 @@ function RFQPlatform() {
                 <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'rfq')} className="hidden" />
               </label>
             )}
-          </div>
+          </div> */}
 
           <button type="submit" disabled={isLoading} className="mt-4 w-full py-[17px] font-semibold bg-emerald-600 hover:bg-emerald-700 rounded-2xl flex items-center justify-center gap-3 transition disabled:opacity-60">
             {isLoading ? <JFKLLoader size="sm" /> : <>POST RFQ TO PLATFORM</>}
@@ -2091,21 +2170,21 @@ function RFQPlatform() {
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label className="font-medium text-sm text-slate-400">Your Quote Price (USD)</label>
-                <input type="number" value={submitQuoteForm.price} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, price: e.target.value })} required className="input-field mt-2 w-full px-5 py-3.5 bg-slate-900 border border-slate-700 rounded-2xl text-3xl font-semibold" placeholder="175000" />
+                <input type="number" value={submitQuoteForm.price} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, price: e.target.value })} required className="input-field mt-2 w-full px-5 py-3.5 bg-grey-300 border border-grey-400 rounded-2xl text-3xl font-semibold" placeholder="175000" />
               </div>
               <div>
                 <label className="font-medium text-sm text-slate-400">Delivery Time</label>
-                <input value={submitQuoteForm.deliveryTime} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, deliveryTime: e.target.value })} required placeholder="e.g. 6 weeks" className="input-field mt-2 w-full px-5 py-3.5 bg-slate-900 border border-slate-700 rounded-2xl" />
+                <input value={submitQuoteForm.deliveryTime} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, deliveryTime: e.target.value })} required placeholder="e.g. 6 weeks" className="input-field mt-2 w-full px-5 py-3.5 bg-grey-300 border border-grey-400 rounded-2xl" />
               </div>
             </div>
 
             <div>
               <label className="font-medium text-sm text-slate-400">Additional Notes &amp; Terms</label>
-              <textarea value={submitQuoteForm.note} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, note: e.target.value })} rows={4} required className="input-field mt-2 w-full px-5 py-4 bg-slate-900 border border-slate-700 rounded-2xl" placeholder="Include warranty information, payment terms, and any value-added services..." />
+              <textarea value={submitQuoteForm.note} onChange={e => setSubmitQuoteForm({ ...submitQuoteForm, note: e.target.value })} rows={4} required className="input-field mt-2 w-full px-5 py-4 bg-grey-300 border border-grey-400 rounded-2xl" placeholder="Include warranty information, payment terms, and any value-added services..." />
             </div>
 
             {/* Optional Image Upload for Quotation */}
-            <div>
+            {/* <div>
               <label className="font-medium text-sm text-slate-400 flex items-center gap-2 mb-1.5">
                 <ImageIcon size={15} /> Supporting Image / Catalog Photo <span className="text-xs text-slate-500">(Optional)</span>
               </label>
@@ -2123,7 +2202,7 @@ function RFQPlatform() {
                   <input type="file" accept="image/*" onChange={(e) => handleImageUpload(e, 'quote')} className="hidden" />
                 </label>
               )}
-            </div>
+            </div> */}
 
             <button type="submit" disabled={isLoading} className="mt-2 w-full py-4 font-semibold bg-blue-600 hover:bg-blue-700 rounded-2xl flex justify-center items-center transition">
               {isLoading ? <JFKLLoader size="sm" /> : 'SUBMIT QUOTATION'}

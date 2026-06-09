@@ -8,7 +8,7 @@ declare global {
 }
 
 const GoogleTranslate: React.FC = () => {
-  const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default: Chinese
+  const [selectedLanguage, setSelectedLanguage] = useState("en"); // Default: English
 
   useEffect(() => {
     const googleTranslateElementInit = () => {
@@ -16,7 +16,7 @@ const GoogleTranslate: React.FC = () => {
         new window.google.translate.TranslateElement(
           {
             pageLanguage: "en",
-            includedLanguages: "zh-CN,zh-TW,fr,de,es,ar,hi,en",
+            includedLanguages: "fr,en",
             layout: window.google.translate.TranslateElement.InlineLayout.SIMPLE,
           },
           "google_translate_element"
@@ -75,13 +75,7 @@ const GoogleTranslate: React.FC = () => {
         value={selectedLanguage}
         onChange={(e) => changeLanguage(e.target.value)}
       >
-        <option value="zh-CN">Chinese (Simplified)</option>
-        <option value="zh-TW">Chinese (Traditional)</option>
         <option value="fr">French</option>
-        <option value="de">German</option>
-        <option value="es">Spanish</option>
-        <option value="ar">Arabic</option>
-        <option value="hi">Hindi</option>
         <option value="en">English</option>
       </select>
     </div>
