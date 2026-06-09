@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useNavigate } from 'react-router-dom';
 import {
-  Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle, 
+  Users, FileText, Award, TrendingUp, Clock, DollarSign, CheckCircle,
   XCircle, Eye, Plus, LogOut, Search, ArrowRight, Image as ImageIcon, X, Edit,
-  View, Shield, Globe, Tag, Laptop, Factory, ShoppingCart, Send, Scale, Handshake, ShieldCheck, 
-  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle, UserCircle, Facebook, Twitter, Linkedin, BrandWhatsapp, Whatsapp ,
+  View, Shield, Globe, Tag, Laptop, Factory, ShoppingCart, Send, Scale, Handshake, ShieldCheck,
+  Zap, CircleDollarSign, Forklift, MapPin, Phone, Mail, MessageCircle, UserCircle, Facebook, Twitter, Linkedin,
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { i } from 'framer-motion/client';
@@ -152,35 +152,23 @@ const ToastContainer: React.FC<{ toasts: Toast[]; removeToast: (id: number) => v
 );
 
 // Testimonials Carousel Component
-const TestimonialsCarousel: React.FC = () => {
-  const testimonials = [
-    {
-      quote: "Ukanda has completely transformed how we source industrial equipment. We received 6 competitive quotes within 48 hours and saved 18% on our last procurement.",
-      name: "Sarah Chen",
-      role: "Procurement Director, Apex Manufacturing",
-      avatar: "/images/buyer.jpg"
-    },
-    {
-      quote: "As a supplier, this platform has been a game changer. The quality of RFQs is excellent and the ability to submit detailed quotations with images has helped us win more business.",
-      name: "Marcus Rivera",
-      role: "CEO, Rivera Precision Parts",
-      avatar: "/images/supplier.jpg"
-    },
-    {
-      quote: "The comparison tools and easy 'Accept' workflow have cut our decision time in half. Our team can now evaluate quotations side-by-side with all supporting visuals.",
-      name: "Elena Rodriguez",
-      role: "Head of Operations, Vertex Logistics",
-      avatar: "/images/supplier.jpg"
-    },
-    {
-      quote: "Managing the entire RFQ process from one dashboard is incredibly powerful. The platform gives us full visibility into supplier performance and quote history.",
-      name: "David Kim",
-      role: "VP Supply Chain, Horizon Industries",
-      avatar: "/images/admin.jpg"
-    }
-  ];
-
+const TestimonialsCarousel: React.FC<{ testimonials: Testimonial[] }> = ({ testimonials }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    if (testimonials.length === 0) {
+      setCurrentIndex(0);
+      return;
+    }
+
+    if (currentIndex >= testimonials.length) {
+      setCurrentIndex(0);
+    }
+  }, [testimonials, currentIndex]);
+
+  if (testimonials.length === 0) {
+    return null;
+  }
 
   const goToPrevious = () => {
     setCurrentIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
@@ -207,19 +195,19 @@ const TestimonialsCarousel: React.FC = () => {
             className="text-center"
           >
             <div className="w-full">
-              <img 
-                src={testimonials[currentIndex].avatar} 
-                alt="" 
+              <img
+                src={`https://admin.beltprocure.com${testimonials[currentIndex].avatar}`}
+                alt=""
                 className="w-full h-50 object-cover rounded-2xl mb-6 border-2 border-blue-700"
               />
             </div>
             <div className="max-w-3xl mx-auto p-5">
-              
-              
+
+
               <div className="text-2xl md:text-2xl font-medium leading-tight text-gray-800 tracking-tight mb-10">
                 “{testimonials[currentIndex].quote}”
               </div>
-              
+
               <div className="flex items-center justify-left gap-4 ">
                 {/* <img 
                   src={testimonials[currentIndex].avatar} 
@@ -238,7 +226,7 @@ const TestimonialsCarousel: React.FC = () => {
 
       {/* Navigation Controls */}
       <div className="flex items-center justify-center gap-4 mt-10">
-        <button 
+        <button
           onClick={goToPrevious}
           className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
           aria-label="Previous testimonial"
@@ -258,7 +246,7 @@ const TestimonialsCarousel: React.FC = () => {
           ))}
         </div>
 
-        <button 
+        <button
           onClick={goToNext}
           className="p-3 rounded-2xl border border-slate-700 hover:bg-slate-800 transition"
           aria-label="Next testimonial"
@@ -391,7 +379,7 @@ function RFQPlatform() {
   // Seed Demo Data. Disable for landing page Deco
   const seedDemoData = () => {
     const demoUsers: User[] = [
-      { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com' , phone: '123456789' , password: 'password', role: 'buyer', profileImage: undefined },
+      { id: 'u1', name: 'Sarah Chen', email: 'sarah@buyer.com', phone: '123456789', password: 'password', role: 'buyer', profileImage: undefined },
       { id: 'u2', name: 'Marcus Rivera', email: 'marcus@supplier.com', phone: '987654321', password: 'password', role: 'supplier', profileImage: undefined },
       { id: 'u3', name: 'Elena Rodriguez', email: 'elena@supplier.com', phone: '555555555', password: 'password', role: 'supplier', profileImage: undefined },
       { id: 'u4', name: 'David Kim', email: 'david@admin.com', phone: '111111111', password: 'password', role: 'admin', profileImage: undefined },
@@ -1177,7 +1165,7 @@ function RFQPlatform() {
         localStorage.setItem('token', data.token);
         console.log('Successfully logged in with Laravel token:', data.token);
         console.log('Logged in user:', foundUser); // to test if we got the user data right
-        
+
         setCurrentUser(foundUser);
         setShowSignIn(false);
         setSignInForm({ email: '', password: '' });
@@ -1250,10 +1238,10 @@ function RFQPlatform() {
                 <button onClick={handleLogout} className="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-gray-300 hover:bg-gray-200 transition"><LogOut size={15} /> Logout</button>
               </div>
             )}
-            
+
           </div>
 
-          
+
           {/* Mobile Hamburger */}
           {currentUser ? (
             <>
@@ -1266,10 +1254,10 @@ function RFQPlatform() {
               </button>
             </>
           ) : (
-            <UserCircle size={28} className="text-gray-300 md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}/>
+            <UserCircle size={28} className="text-gray-300 md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)} />
           )
-        }
-          
+          }
+
         </div>
 
         {/* Mobile Menu */}
@@ -1329,10 +1317,10 @@ function RFQPlatform() {
           {/* Hero Section */}
           <div className="relative h-[80vh] flex items-center justify-center bg-slate-900 overflow-hidden"> {/* justify-center */}
             {/* <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" /> */}
-              <img src="/images/cargo-trucks-shipping-containers-sunset-port.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
-            
+            <img src="/images/cargo-trucks-shipping-containers-sunset-port.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
 
-              <div className="h-20"></div>
+
+            <div className="h-20"></div>
             <div className="relative z-10 max-w-4xl px-6 mt-10 text-left">
               {/* <div className="inline-block px-4 py-1 rounded-full bg-blue-600/10 text-blue-400 text-xs font-semibold tracking-[3px] mb-4">PROFESSIONAL PROCUREMENT PLATFORM</div> */}
               {/* <h1 className="text-white text-5xl sm:text-6xl md:text-7xl font-black tracking-[-3.5px] md:tracking-[-4.2px] leading-none mb-4">Request.<br />Quote.<br />Connect.</h1>
@@ -1350,16 +1338,16 @@ function RFQPlatform() {
               <div className="flex flex-row items-center justify-left gap-3 sm:gap-4"> {/* justify-center  sm:flex-col*/}
                 {!currentUser ? (
                   <>
-                    <button onClick={() => {setSignUpForm({ ...signUpForm, role: 'buyer' }); setShowSignUp(true)}} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm">
+                    <button onClick={() => { setSignUpForm({ ...signUpForm, role: 'buyer' }); setShowSignUp(true) }} className="btn-primary group bg-green-400 hover:bg-belt-green-dark text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm">
                       <span>
                         <span className="block">Find what you need</span>
                         <span className="block text-xs font-normal opacity-80 uppercase ">(Buyer)</span>
                       </span>
                       <ArrowRight className="group-hover:translate-x-0.5 transition" />
                     </button>
-                    <button onClick={() => {setSignUpForm({ ...signUpForm, role: 'supplier' }); setShowSignUp(true)}} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm bg-white/5 backdrop-blur-sm">
+                    <button onClick={() => { setSignUpForm({ ...signUpForm, role: 'supplier' }); setShowSignUp(true) }} className="btn-outline border border-white/30 text-white font-semibold px-5 py-2 rounded-lg flex items-center justify-center gap-3 text-xs sm:text-sm bg-white/5 backdrop-blur-sm">
                       <span>
-                        <span className="block">Grow your business</span>  
+                        <span className="block">Grow your business</span>
                         <span className="block text-xs font-normal opacity-80 uppercase">(Supplier)</span>
                       </span>
                       <ArrowRight className="group-hover:translate-x-0.5 transition" />
@@ -1381,9 +1369,9 @@ function RFQPlatform() {
 
           {/* WHAT WE DO -> Demo RFQs */}
           <div className="max-w-7xl mx-auto px-8 py-5">
-           
+
             <div className="font-semibold text-2xl mb-5 px-1">Recently Posted:</div>
-               {/* Search & Filters */}
+            {/* Search & Filters */}
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 mb-8 ">
               <div className="relative flex-1">
                 <Search className="absolute left-5 top-4 text-slate-400" size={19} />
@@ -1400,9 +1388,9 @@ function RFQPlatform() {
               </select>
             </div>
 
-              {/* Available RFQs */}
+            {/* Available RFQs */}
             <div className="mb-12">
-              
+
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {filteredRFQs.map(rfq => (
                   <div key={rfq.id} className="rfq-card bg-white border border-gray-200 p-6 rounded-3xl flex flex-col">
@@ -1418,9 +1406,8 @@ function RFQPlatform() {
 
                     <div className="flex gap-2.5">
                       {/* <button onClick={currentUser? (currentUser.role === 'buyer'? setCurrentPage('buyer') : showToast(`You must have a buyer account to view details`)) : () => setShowSignIn(true) } className="flex-1 py-[13px] border border-slate-700 rounded-2xl hover:bg-slate-800 font-medium transition">View Details</button> */}
-                      <button className="flex-1 py-[13px] border border-gray-200 rounded-2xl hover:bg-gray-300 font-medium transition" onClick= {() => 
-                        {
-                        if(currentUser){
+                      <button className="flex-1 py-[13px] border border-gray-200 rounded-2xl hover:bg-gray-300 font-medium transition" onClick={() => {
+                        if (currentUser) {
                           if (currentUser.role === 'buyer') {
                             setCurrentPage('buyer');
                           } else {
@@ -1432,9 +1419,8 @@ function RFQPlatform() {
                       }
                       }
                       >View Details</button>
-                      <button className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition" onClick={() => 
-                        {
-                        if(currentUser){
+                      <button className="flex-1 py-[13px] bg-blue-600 rounded-2xl font-semibold active:bg-blue-700 transition" onClick={() => {
+                        if (currentUser) {
                           if (currentUser.role === 'supplier') {
                             setCurrentPage('supplier');
                           } else {
@@ -1505,9 +1491,9 @@ function RFQPlatform() {
                 {/* <div className="font-semibold text-2xl mb-5 px-1">Testimonials:</div> */}
               </div>
 
-              <TestimonialsCarousel />
+              <TestimonialsCarousel testimonials={testimonials} />
             </div>
-          </div>          
+          </div>
 
           {/* Features */}
           {/* <div className="max-w-7xl mx-auto px-8 py-20">
@@ -1920,12 +1906,12 @@ function RFQPlatform() {
       <footer className="border-t border-gray-200 py-9 text-sm text-center text-slate-500">
         {/* © 2026 <strong>belt</strong> RFQ Platform. All Rights Reserved. Built for seamless procurement. */}
         {/* <div className="flex items-center gap-2 text-sm text-slate-400"><Shield size={17} /> <div> <strong>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div> */}
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
-        <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-8">
-        
-        {/* <!-- Logo & Tagline --> */}
-        {/* <div className="flex items-center gap-6">
+          <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-8">
+
+            {/* <!-- Logo & Tagline --> */}
+            {/* <div className="flex items-center gap-6">
           <a href="#" className="flex items-center gap-2.5">
             <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-15 h-15" />
             <div className="leading-tight justify-left">
@@ -1936,11 +1922,11 @@ function RFQPlatform() {
           <div className="hidden sm:block w-px h-10 bg-gray-200"></div>
           <p className="hidden sm:block text-gray-500 text-sm">Connecting Businesses.<br/>Growing Africa.</p>
         </div> */}
-        
 
-        {/* <!-- Contact Info --> */}
-       <div className="flex flex-wrap gap-6 lg:gap-10">
-          {/* <div className="flex items-center gap-2.5 group cursor-pointer">
+
+            {/* <!-- Contact Info --> */}
+            <div className="flex flex-wrap gap-6 lg:gap-10">
+              {/* <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
               <MapPin size={17} color={'green'} />
             </div>
@@ -1960,34 +1946,34 @@ function RFQPlatform() {
             </div>
           </div> */}
 
-          {/* Whatsapp */}
-          <div className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
-              <a href="https://wa.me/243891018285" target="_blank" rel="noopener noreferrer">
-                <i className="fab fa-lg fa-whatsapp text-green-600 "></i>
-              </a>
-            </div>
-          </div>
+              {/* Whatsapp */}
+              <div className="flex items-center gap-2.5 group cursor-pointer">
+                <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+                  <a href="https://wa.me/243891018285" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-lg fa-whatsapp text-green-600 "></i>
+                  </a>
+                </div>
+              </div>
 
-          {/* Facebook */}
-          <div className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
-              <a href="https://www.facebook.com/beltintel" target="_blank" rel="noopener noreferrer">
-                <Facebook size={17} color={'green'} />
-              </a>
-            </div>
-          </div>
+              {/* Facebook */}
+              <div className="flex items-center gap-2.5 group cursor-pointer">
+                <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+                  <a href="https://www.facebook.com/beltintel" target="_blank" rel="noopener noreferrer">
+                    <Facebook size={17} color={'green'} />
+                  </a>
+                </div>
+              </div>
 
-          {/* LinkedIn */}
-          <div className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
-              <a href="https://www.linkedin.com/company/beltintel" target="_blank" rel="noopener noreferrer">
-                <Linkedin size={17} color={'green'} />
-              </a>
-            </div>
-          </div>
-          
-          {/* <div className="flex items-center gap-2.5 group cursor-pointer">
+              {/* LinkedIn */}
+              <div className="flex items-center gap-2.5 group cursor-pointer">
+                <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+                  <a href="https://www.linkedin.com/company/beltintel" target="_blank" rel="noopener noreferrer">
+                    <Linkedin size={17} color={'green'} />
+                  </a>
+                </div>
+              </div>
+
+              {/* <div className="flex items-center gap-2.5 group cursor-pointer">
             <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
               <Globe size={17} color={'green'} />
             </div>
@@ -1996,16 +1982,16 @@ function RFQPlatform() {
               <p className="text-sm font-medium text-belt-navy">www.belt.africa</p>
             </div>
           </div> */}
+            </div>
+
+          </div>
+
+          {/* <!-- Bottom Bar --> */}
+          <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <p className="text-xs text-gray-400"> © 2026 BELT. <button onClick={() => setShowTerms(true)} className="text-blue-600 hover:underline">Terms and conditions</button> apply</p>
+            {/* <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> */}
+          </div>
         </div>
-
-      </div>
-
-      {/* <!-- Bottom Bar --> */}
-      <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-xs text-gray-400"> © 2026 BELT. <button onClick={() => setShowTerms(true)} className="text-blue-600 hover:underline">Terms and conditions</button> apply</p>
-        {/* <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> */}
-      </div>
-    </div>
       </footer>
 
       {/* SIGN UP MODAL */}
@@ -2050,7 +2036,7 @@ function RFQPlatform() {
             <label className="block text-sm font-medium mb-1.5 text-gray-500">Password</label>
             <input type="password" value={signInForm.password} onChange={e => setSignInForm({ ...signInForm, password: e.target.value })} className="input-field w-full bg-gray-100 border border-gray-200 px-5 py-3.5 rounded-2xl" placeholder="" />
           </div>
-          <GoogleLogin 
+          <GoogleLogin
             text="signin_with"
             onSuccess={handleGoogleSuccess}
             onError={() => console.log("Google Login Failed")}
@@ -2058,49 +2044,49 @@ function RFQPlatform() {
           <button type="submit" className="mt-4 w-full py-4 bg-white text-slate-950 font-semibold rounded-2xl hover:bg-slate-100 transition">Sign In</button>
           <div className="text-center text-xs text-slate-500 pt-2">Don't have an account? <button onClick={() => { setShowSignIn(false); setShowSignUp(true); }} className="text-blue-500 hover:text-blue-400">Sign Up</button></div>
         </form>
-        
+
       </Modal>
 
       {/* TERMS OF SERVICE MODAL */}
       <Modal isOpen={showTerms} onClose={() => setShowTerms(false)} title="Terms of Service" size="lg">
         <div className="space-y-4">
-          
+
           <h2 className="text-lg font-semibold">Buyer Terms of Service</h2>
           <p>1. Purpose of the Platform
-          UKANDA facilitates sourcing, procurement, payment coordination, and logistics coordination between buyers and suppliers across East Africa.
-          2. Buyer Eligibility
-          Buyers must be at least 18 years old, provide accurate information, and have authority to make purchases.
-          3. Order Process
-          Buyers submit sourcing requests, receive quotations, select suppliers, and confirm orders through UKANDA.
-          4. Payments
-          UKANDA may collect and process payments on behalf of suppliers and logistics partners. Payments must be made through approved UKANDA channels.
-          5. Logistics and Delivery
-          UKANDA coordinates delivery through approved logistics partners. Delivery times are estimates and may be affected by external factors.
-          6. Product Information
-          Product descriptions and quotations are supplied by suppliers. Buyers are responsible for reviewing quotations before confirming purchases.
-          7. Inspection and Acceptance
-          Buyers must inspect products upon delivery and report any issues within 48 hours.
-          8. Returns and Disputes
-          UKANDA may assist in dispute resolution. Return eligibility depends on supplier policies and product categories.
+            UKANDA facilitates sourcing, procurement, payment coordination, and logistics coordination between buyers and suppliers across East Africa.
+            2. Buyer Eligibility
+            Buyers must be at least 18 years old, provide accurate information, and have authority to make purchases.
+            3. Order Process
+            Buyers submit sourcing requests, receive quotations, select suppliers, and confirm orders through UKANDA.
+            4. Payments
+            UKANDA may collect and process payments on behalf of suppliers and logistics partners. Payments must be made through approved UKANDA channels.
+            5. Logistics and Delivery
+            UKANDA coordinates delivery through approved logistics partners. Delivery times are estimates and may be affected by external factors.
+            6. Product Information
+            Product descriptions and quotations are supplied by suppliers. Buyers are responsible for reviewing quotations before confirming purchases.
+            7. Inspection and Acceptance
+            Buyers must inspect products upon delivery and report any issues within 48 hours.
+            8. Returns and Disputes
+            UKANDA may assist in dispute resolution. Return eligibility depends on supplier policies and product categories.
           </p>
 
           <br />
 
           <h2 className="text-lg font-semibold">Supplier Terms of Service</h2>
           <p>1. Purpose
-          UKANDA connects suppliers and manufacturers with buyers across East Africa and the DRC, and facilitates sourcing, payment coordination, and logistics coordination.
-          2. Supplier Eligibility
-          Suppliers must provide accurate company information and have legal authority to sell the products listed on the platform.
-          3. Supplier Responsibilities
-          Suppliers must provide accurate quotations, product specifications, pricing, stock availability, and delivery commitments.
-          4. Quotations
-          All quotations submitted through UKANDA must be genuine, competitive, and valid for the stated period.
-          5. Commission Structure
-          UKANDA charges a commission of seven percent (7%) of the total transaction value for every successful purchase completed through the platform. The commission may be deducted from payments processed through UKANDA or invoiced separately.
-          6. Payment Terms
-          Suppliers agree that payments related to transactions initiated through UKANDA may be coordinated through approved UKANDA payment channels. Suppliers must not request buyers to bypass UKANDA payment processes.
-          7. Non-Circumvention
-          Suppliers shall not attempt to bypass UKANDA by conducting direct transactions with buyers introduced through the platform. Transactions originating from UKANDA remain subject to the applicable commission structure.
+            UKANDA connects suppliers and manufacturers with buyers across East Africa and the DRC, and facilitates sourcing, payment coordination, and logistics coordination.
+            2. Supplier Eligibility
+            Suppliers must provide accurate company information and have legal authority to sell the products listed on the platform.
+            3. Supplier Responsibilities
+            Suppliers must provide accurate quotations, product specifications, pricing, stock availability, and delivery commitments.
+            4. Quotations
+            All quotations submitted through UKANDA must be genuine, competitive, and valid for the stated period.
+            5. Commission Structure
+            UKANDA charges a commission of seven percent (7%) of the total transaction value for every successful purchase completed through the platform. The commission may be deducted from payments processed through UKANDA or invoiced separately.
+            6. Payment Terms
+            Suppliers agree that payments related to transactions initiated through UKANDA may be coordinated through approved UKANDA payment channels. Suppliers must not request buyers to bypass UKANDA payment processes.
+            7. Non-Circumvention
+            Suppliers shall not attempt to bypass UKANDA by conducting direct transactions with buyers introduced through the platform. Transactions originating from UKANDA remain subject to the applicable commission structure.
           </p>
         </div>
       </Modal>
