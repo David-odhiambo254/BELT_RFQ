@@ -1184,7 +1184,9 @@ function RFQPlatform() {
       {/* Navbar */}
       <nav className="border-b border-gray-200 bg-gray-50/15 backdrop-blur-lg sticky top-0 z-40 h-0">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-10 py-0">
+        <div></div>
           <div className="mt-0"><GoogleTranslate /></div>
+          
           {/* <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-3xl font-black tracking-[-2.5px] text-white">
               <img src="/images/Belt_Logo_Fn-02.png" alt="Logo" className="w-20 h-20" />
@@ -1315,9 +1317,9 @@ function RFQPlatform() {
       {currentPage === 'home' && (
         <div>
           {/* Hero Section */}
-          <div className="relative h-[80vh] flex items-center justify-center bg-slate-900 overflow-hidden"> {/* justify-center */}
+          <div className="relative h-[80vh] flex items-center justify-center bg-gradient-to-r from-slate-950 to-slate-800 overflow-hidden"> {/* justify-center */}
             {/* <div className="absolute inset-0 bg-[radial-gradient(#334155_0.8px,transparent_1px)] bg-[length:4px_4px]" /> */}
-            <img src="/images/cargo-trucks-shipping-containers-sunset-port.jpg" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-35" />
+            <img src="/images/Hero2.JPG" alt="Business Professionals" className="absolute inset-0 w-full h-full object-cover opacity-25" />
 
 
             <div className="h-20"></div>
@@ -1908,7 +1910,7 @@ function RFQPlatform() {
         {/* <div className="flex items-center gap-2 text-sm text-slate-400"><Shield size={17} /> <div> <strong>VERIFIED SUPPLIERS</strong> <br /> <p>Trusted & reliable</p> </div> </div> */}
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
-          <div className="flex flex-col lg:flex-row items-center lg:items-end justify-between gap-8">
+          <div className="flex flex-col lg:flex-row items-center lg:items-end justify-center gap-8">
 
             {/* <!-- Logo & Tagline --> */}
             {/* <div className="flex items-center gap-6">
@@ -1927,24 +1929,24 @@ function RFQPlatform() {
             {/* <!-- Contact Info --> */}
             <div className="flex flex-wrap gap-6 lg:gap-10">
               {/* <div className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
-              <MapPin size={17} color={'green'} />
-            </div>
-            <div>
-              <p className="text-xs text-gray-400">East Africa Corridor</p>
-              <p className="text-sm font-medium text-belt-navy">DRC • Kenya • Uganda</p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-2.5 group cursor-pointer">
-            <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
-              <Phone size={17} color={'green'} />
-            </div>
-            <div>
-              <p className="text-xs text-gray-400">Call us</p>
-              <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
-            </div>
-          </div> */}
+                    <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+                      <MapPin size={17} color={'green'} />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400">East Africa Corridor</p>
+                      <p className="text-sm font-medium text-belt-navy">DRC • Kenya • Uganda</p>
+                    </div>
+                  </div>
+                  
+                  <div className="flex items-center gap-2.5 group cursor-pointer">
+                    <div className="w-9 h-9 rounded-full bg-belt-green/10 flex items-center justify-center group-hover:bg-belt-green/20 transition-colors">
+                      <Phone size={17} color={'green'} />
+                    </div>
+                    <div>
+                      <p className="text-xs text-gray-400">Call us</p>
+                      <p className="text-sm font-medium text-belt-navy">+243 000 000 000</p>
+                    </div>
+                  </div> */}
 
               {/* Whatsapp */}
               <div className="flex items-center gap-2.5 group cursor-pointer">
@@ -1987,7 +1989,7 @@ function RFQPlatform() {
           </div>
 
           {/* <!-- Bottom Bar --> */}
-          <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="mt-10 pt-6 border-t border-gray-100 flex flex-col sm:flex-row items-center justify-center gap-4">
             <p className="text-xs text-gray-400"> © 2026 BELT. <button onClick={() => setShowTerms(true)} className="text-blue-600 hover:underline">Terms and conditions</button> apply</p>
             {/* <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> <Globe size={17} color={'green'} /> */}
           </div>
