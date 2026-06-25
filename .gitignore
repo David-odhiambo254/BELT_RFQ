@@ -9,6 +9,7 @@ lerna-debug.log*
 
 node_modules
 dist
+public/images
 dist-ssr
 *.local
 
@@ -25,5 +26,3 @@ dist-ssr
 .vite-source-tags.js
 .vercel
 
-Video Project.mp4
-Lagos_Day.mp4
