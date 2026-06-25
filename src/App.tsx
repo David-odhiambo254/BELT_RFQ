@@ -468,7 +468,8 @@ function RFQPlatform() {
       // showToast(`Welcome to belt RFQ, ${newUser.name}!`, 'success');  
       showToast(`Registration successful! Please sign in`, 'success');
     } else {
-      showToast('Something went wrong', 'error');
+      const result = await responce.json();
+      showToast(result.message || 'Registration failed', 'error');
     }
 
     // Local signUp without API. Dissable when APIs are ready
@@ -1185,7 +1186,7 @@ function RFQPlatform() {
       <nav className="border-b border-gray-200 bg-gray-50/15 backdrop-blur-lg sticky top-0 z-40 h-0">
         <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between h-10 py-0">
         <div></div>
-          <div className="mt-0"><GoogleTranslate /></div>
+          {/* <div className="mt-0"><GoogleTranslate /></div> */}
           
           {/* <div className="flex items-center gap-3">
             <div className="flex items-center gap-1.5 text-3xl font-black tracking-[-2.5px] text-white">
